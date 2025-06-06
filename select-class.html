@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Class Selection</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  
+  <style>
+    *, *::before, *::after {
+  box-sizing: border-box;
+}
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: -1;
+  pointer-events: none;
+}
+
+
+    /* Loader overlay */
+    #loader {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: #111;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+    #loader div {
+      width: 50px;
+      height: 50px;
+      border: 5px solid #f3f3f3;
+      border-top: 5px solid #3498db;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% {transform: rotate(0);}
+      100% {transform: rotate(360deg);}
+    }
+
+    /* Navbar */
+   nav.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(0,0,0,0.6);
+    padding: 10px 20px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    backdrop-filter: blur(8px);
+  }
+  nav .logo {
+    font-weight: 700;
+    font-size: 1.8rem;
+    letter-spacing: 2px;
+    color: #fff;
+  }
+  nav ul.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+  }
+  nav ul.nav-links li a {
+    text-decoration: none;
+    color: #ddd;
+    font-weight: 600;
+    padding: 6px 10px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+  }
+  nav ul.nav-links li a:hover {
+    background-color: #3498db;
+    color: white;
+  }
+  /* Hamburger */
+  .hamburger {
+    display: none;
+    font-size: 2rem;
+    cursor: pointer;
+    color: #fff;
+  }
+
+  /* Responsive nav */
+  @media (max-width: 768px) {
+    nav ul.nav-links {
+      position: fixed;
+      top: 60px; right: 0;
+      background: rgba(0,0,0,0.85);
+      height: calc(100vh - 60px);
+      width: 200px;
+      flex-direction: column;
+      padding-top: 20px;
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+      gap: 15px;
+      z-index: 20;
+    }
+    nav ul.nav-links.open {
+      transform: translateX(0);
+    }
+    .hamburger {
+      display: block;
+    }
+  }
+
+    a.back-arrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin: 20px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      text-decoration: none;
+      color: #fff;
+      background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+      padding: 10px 18px;
+      border-radius: 40px;
+      box-shadow: 0 4px 10px rgba(37,117,252,0.6);
+      transition: all 0.3s ease;
+    }
+    a.back-arrow:hover {
+      background: linear-gradient(135deg, #2575fc 0%, #6a11cb 100%);
+      box-shadow: 0 6px 15px rgba(106,17,203,0.8);
+      transform: scale(1.05);
+      color: #fff;
+    }
+    a.back-arrow::before {
+      content: "←";
+      font-size: 1.3rem;
+    }
+
+    .container {
+      padding: 100px 20px 20px;
+      text-align: center;
+      color: white;
+    }
+
+    .class-card {
+      display: inline-block;
+      background-color: rgba(255,255,255,0.1);
+      margin: 15px;
+      padding: 20px 30px;
+      border-radius: 15px;
+      font-size: 1.2em;
+      cursor: pointer;
+      transition: transform 0.3s;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .class-card:hover {
+      transform: scale(1.05);
+      background-color: rgba(255,255,255,0.2);
+    }
+
+    .class-card:focus {
+      outline: 2px solid #3498db;
+    }
+    
+    .class-card i {
+  margin-right: 8px;
+  color: #fff;
+}
+
+
+   .confetti-piece {
+    position: fixed;
+    width: 8px;
+    height: 8px;
+    background-color: #fff;
+    opacity: 0.9;
+    pointer-events: none;
+    z-index: 9999;
+    will-change: transform, opacity;
+    border-radius: 2px;
+    animation: confetti-fall 3s forwards;
+  }
+  @keyframes confetti-fall {
+    to {
+      transform: translateY(300px) rotate(360deg);
+      opacity: 0;
+    }
+  }
+  
+  .confetti {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background-color: red;
+  opacity: 0.9;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: confetti-fall 1s ease-out forwards;
+}
+
+@keyframes confetti-fall {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100px) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+  </style>
+</head>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<body>
+
+<!-- Loader -->
+<div id="loader"></div>
+
+<!-- Particle Background -->
+<canvas id="particle-canvas">
+    
+    
+      <!-- footer.html -->
+
+</canvas>
+
+<!-- Navbar -->
+<nav class="navbar" role="navigation" aria-label="Main Navigation">
+  <div class="logo">Bijush Academy</div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger">&#9776;</div>
+</nav>
+
+<!-- Back Button -->
+<a href="index.html" class="back-arrow">Back to Home</a>
+
+<!-- Main Content -->
+<div class="container">
+  <h2>Select Class</h2>
+  
+ <div class="class-card" tabindex="0">
+<i class="fas fa-chalkboard"></i> Class 9
+</div>
+<div class="class-card" tabindex="0">
+  <i class="fas fa-chalkboard-user"></i>  Class 10
+</div>
+
+  
+</div>
+
+<script>
+  // Loader
+  window.addEventListener('load', () => {
+    document.getElementById('loader').style.display = 'none';
+  });
+
+
+const img = new Image();
+  img.src = "https://hitwebcounter.com/counter/counter.php?page=1234567&style=0006&nbdigits=5&type=ip&initCount=0";
+  img.onload = () => {
+    document.getElementById('visitor-count').textContent = "Visitor counted!";
+  };
+
+
+  // Navbar toggle
+  
+  const hamburger = document.getElementById('hamburger');
+  const navLinks = document.getElementById('navLinks');
+  
+  hamburger.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+  });
+
+// Close menu on outside click
+
+document.addEventListener('click', function (event) {
+  if (
+    navLinks.style.display === 'flex' &&
+    !navLinks.contains(event.target) &&
+    !hamburger.contains(event.target))
+   {
+    navLinks.classList.toggle('open');
+  }
+});
+
+
+
+
+  // Class card click or keypress
+  document.querySelectorAll('.class-card').forEach(card => {
+    card.addEventListener('click', handleClassSelect);
+    card.addEventListener('keypress', e => {
+      if (e.key === 'Enter') handleClassSelect.call(card);
+    });
+  });
+
+  function handleClassSelect() {
+    const selectedClass = this.textContent.trim();
+    if (selectedClass === 'Class 9') {
+      window.location.href = 'class9/index.html';
+    } else if (selectedClass === 'Class 10') {
+      window.location.href = 'math/class10-chapter.html';
+    }
+  }
+
+  // Particle background
+  const canvas = document.getElementById("particle-canvas");
+  const ctx = canvas.getContext("2d");
+  let particles = [], animationId;
+
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
+
+  class Particle {
+    constructor(x, y, size, speedX, speedY, color, shape) {
+      this.x = x; this.y = y;
+      this.size = size;
+      this.speedX = speedX;
+      this.speedY = speedY;
+      this.color = color;
+      this.shape = shape || 'circle';
+      this.opacity = 1;
+      this.angle = Math.random()*Math.PI*2;
+      this.angleSpeed = (Math.random() - 0.5) * 0.02;
+    }
+    update() {
+      this.x += this.speedX;
+      this.y += this.speedY;
+      this.angle += this.angleSpeed;
+      if (this.shape === 'leaf' || this.shape === 'petal') {
+        this.x += Math.sin(this.angle) * 0.5;
+      }
+      if (this.y > canvas.height + this.size) this.y = 0 - this.size;
+      if (this.x > canvas.width + this.size) this.x = 0 - this.size;
+      if (this.x < 0 - this.size) this.x = canvas.width + this.size;
+    }
+    draw() {
+      ctx.globalAlpha = this.opacity;
+      ctx.fillStyle = this.color;
+      ctx.save();
+      ctx.translate(this.x, this.y);
+      ctx.rotate(this.angle);
+      if (this.shape === 'circle') {
+        ctx.beginPath();
+        ctx.arc(0, 0, this.size, 0, Math.PI*2);
+        ctx.fill();
+      } else if (this.shape === 'leaf') {
+        ctx.beginPath();
+        ctx.ellipse(0, 0, this.size * 1.5, this.size, 0, 0, Math.PI*2);
+        ctx.fill();
+      } else if (this.shape === 'petal') {
+        ctx.beginPath();
+        ctx.ellipse(0, 0, this.size * 1.5, this.size * 0.7, 0, 0, Math.PI*2);
+        ctx.fill();
+      }
+      ctx.restore();
+      ctx.globalAlpha = 1;
+    }
+  }
+
+  function clearParticles() {
+    particles = [];
+    if (animationId) cancelAnimationFrame(animationId);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => {
+      p.update();
+      p.draw();
+    });
+    animationId = requestAnimationFrame(animate);
+  }
+
+  function initSnowParticles() {
+    clearParticles();
+    for(let i=0; i<150; i++) {
+      particles.push(new Particle(
+        Math.random()*canvas.width,
+        Math.random()*canvas.height,
+        Math.random()*3+1,
+        (Math.random()-0.5)*0.3,
+        Math.random()*1 + 0.5,
+        'rgba(255,255,255,0.8)',
+        'circle'
+      ));
+    }
+    animate();
+  }
+
+  function initPetalsParticles() {
+    clearParticles();
+    for(let i=0; i<100; i++) {
+      particles.push(new Particle(
+        Math.random()*canvas.width,
+        Math.random()*canvas.height,
+        Math.random()*7+3,
+        (Math.random()-0.3)*0.3,
+        Math.random()*1 + 0.5,
+        'rgba(255,182,193,0.8)',
+        'petal'
+      ));
+    }
+    animate();
+  }
+
+  function initLeavesParticles() {
+    clearParticles();
+    for(let i=0; i<120; i++) {
+      particles.push(new Particle(
+        Math.random()*canvas.width,
+        Math.random()*canvas.height,
+        Math.random()*6+3,
+        (Math.random()-0.3)*0.3,
+        Math.random()*1 + 0.3,
+        'rgba(165, 42, 42, 0.8)',
+        'leaf'
+      ));
+    }
+    animate();
+  }
+
+  function setBackgroundGradient(colors) {
+    document.body.style.background = `linear-gradient(135deg, ${colors.join(', ')})`;
+  }
+
+
+  function setSeasonalTheme() {
+    const now = new Date();
+    const month = now.getMonth() + 1;
+    if(month === 12 || month === 1 || month === 2) {
+      setBackgroundGradient(['#283E51', '#4B79A1']);
+      initSnowParticles();
+    } else if(month >= 3 && month <= 5) {
+      setBackgroundGradient(['#FFDEE9', '#B5FFFC']);
+      initPetalsParticles();
+    } else if(month >= 6 && month <= 8) {
+      clearParticles();
+      setBackgroundGradient(['#1E3C72', '#2A5298']);
+    } else if(month >= 9 && month <= 11) {
+      setBackgroundGradient(['#D38312', '#A83279']);
+      initLeavesParticles();
+    } else {
+      clearParticles();
+      setBackgroundGradient(['#000000', '#222222']);
+    }
+  }
+
+  setSeasonalTheme();
+  
+  // ===== Confetti Effect =====
+  function confettiEffect(x, y) {
+    const colors = ['#FFC107', '#FF5722', '#4CAF50', '#2196F3', '#E91E63', '#FFEB3B'];
+    for(let i=0; i<30; i++) {
+      const confetti = document.createElement('div');
+      confetti.classList.add('confetti-piece');
+      confetti.style.backgroundColor = colors[Math.floor(Math.random()*colors.length)];
+      confetti.style.left = `${x}px`;
+      confetti.style.top = `${y}px`;
+      confetti.style.width = confetti.style.height = `${Math.random()*8+4}px`;
+      confetti.style.opacity = 1;
+      confetti.style.transform = `rotate(${Math.random()*360}deg) translateX(${Math.random()*80-40}px) translateY(${Math.random()*80-40}px)`;
+      document.body.appendChild(confetti);
+
+      confetti.animate([
+        { transform: confetti.style.transform, opacity: 1 },
+        { transform: `translateY(300px) rotate(${Math.random()*720}deg)`, opacity: 0 }
+      ], {
+        duration: 2500 + Math.random()*500,
+        easing: 'ease-out',
+        fill: 'forwards'
+      });
+
+      setTimeout(() => {
+        confetti.remove();
+      }, 3000);
+    }
+  }
+  
+  function createConfetti(x, y) {
+  for (let i = 0; i < 20; i++) {
+    const confetti = document.createElement('div');
+    confetti.classList.add('confetti');
+    confetti.style.left = `${x}px`;
+    confetti.style.top = `${y}px`;
+    confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 60%)`;
+    confetti.style.transform = `translate(-50%, -50%) rotate(${Math.random() * 360}deg)`;
+    confetti.style.position = 'absolute';
+    confetti.style.zIndex = 1000;
+
+    document.body.appendChild(confetti);
+
+    // Animate random directions
+    confetti.animate([
+      { transform: `translate(${(Math.random() - 0.5) * 200}px, ${Math.random() * 200}px) rotate(${Math.random() * 720}deg)`, opacity: 1 },
+      { transform: `translate(${(Math.random() - 0.5) * 200}px, ${Math.random() * 400 + 200}px) rotate(${Math.random() * 1440}deg)`, opacity: 0 }
+    ], {
+      duration: 1000 + Math.random() * 500,
+      easing: 'ease-out',
+      fill: 'forwards'
+    });
+
+    // Remove after animation
+    setTimeout(() => confetti.remove(), 1500);
+  }
+}
+
+document.addEventListener('click', e => {
+  createConfetti(e.clientX, e.clientY);
+});
+
+</script>
+<footer style="background: rgba(0,0,0,0.6); color: white; text-align: center; padding: 15px 0; font-size: 0.9rem;">
+  &copy; 2025 Bijush Academy. All rights reserved.
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bijush's Academy - Responsive Site</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  
+  <!-- Confetti library -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+    /* Reset & base */
+    * {
+      box-sizing: border-box;
+      margin: 0; padding: 0;
+      font-family: 'Poppins', sans-serif;
+    }
+    body {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      min-height: 100vh;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 20px 40px;
+      overflow-x: hidden;
+    }
+
+    /* Navbar */
+    nav.navbar {
+      width: 100%;
+      max-width: 1100px;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.25);
+      border-radius: 12px;
+      margin-top: 20px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+      backdrop-filter: blur(10px);
+      position: sticky;
+      top: 10px;
+      z-index: 1000;
+    }
+
+    .navbar .logo {
+      font-weight: 700;
+      font-size: 1.8rem;
+      letter-spacing: 2px;
+      user-select: none;
+      color: #f0f0f0;
+      text-shadow: 0 0 10px rgba(255 255 255 / 0.4);
+    }
+
+    .navbar ul.nav-links {
+      list-style: none;
+      display: flex;
+      gap: 25px;
+    }
+    .navbar ul.nav-links li a {
+      color: #e0e0e0;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+      position: relative;
+      transition: color 0.3s ease;
+    }
+    .navbar ul.nav-links li a::after {
+      content: "";
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0%;
+      height: 2px;
+      background: #ffd700;
+      transition: width 0.3s ease;
+      border-radius: 2px;
+    }
+    .navbar ul.nav-links li a:hover,
+    .navbar ul.nav-links li a:focus {
+      color: #ffd700;
+    }
+    .navbar ul.nav-links li a:hover::after,
+    .navbar ul.nav-links li a:focus::after {
+      width: 100%;
+    }
+
+    .hamburger {
+      font-size: 2rem;
+      color: #fff;
+      cursor: pointer;
+      display: none;
+      user-select: none;
+    }
+
+    /* Carousel */
+    .carousel-container {
+      position: relative;
+      max-width: 900px;
+      width: 100%;
+      margin: 40px auto 60px;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+    }
+    .carousel {
+      display: flex;
+      transition: transform 0.6s ease;
+      will-change: transform;
+    }
+    .carousel img {
+      width: 100%;
+      border-radius: 15px;
+      flex-shrink: 0;
+      user-select: none;
+      pointer-events: none;
+    }
+    button.prev,
+    button.next {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.3);
+      border: none;
+      color: #333;
+      font-size: 2.5rem;
+      padding: 5px 14px;
+      cursor: pointer;
+      border-radius: 50%;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.2);
+      transition: background-color 0.3s ease, color 0.3s ease;
+      user-select: none;
+      z-index: 10;
+    }
+    button.prev:hover,
+    button.next:hover {
+      background: #ffd700;
+      color: #000;
+      box-shadow: 0 5px 18px #ffd700;
+    }
+    button.prev { left: 15px; }
+    button.next { right: 15px; }
+
+    /* Subjects Section */
+    .subjects {
+      max-width: 1100px;
+      width: 100%;
+      text-align: center;
+      margin-bottom: 30px;
+      user-select: none;
+    }
+    .subjects h2 {
+      font-size: 2.5rem;
+      margin-bottom: 30px;
+      text-shadow: 0 0 10px rgba(0 0 0 / 0.3);
+    }
+    .subject-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 25px;
+      padding: 0 10px;
+    }
+    .subject-card {
+      background: rgba(255 255 255 / 0.15);
+      padding: 20px 15px;
+      border-radius: 15px;
+      font-weight: 600;
+      font-size: 1.2rem;
+      color: #fff;
+      text-decoration: none;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      transition:
+        background-color 0.3s ease,
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+      user-select: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 110px;
+      border: 2px solid transparent;
+    }
+    .subject-card:hover,
+    .subject-card:focus {
+      background: #ffd700;
+      color: #000;
+      box-shadow: 0 15px 35px #ffd700;
+      border-color: #ffda3d;
+      transform: translateY(-7px) scale(1.05);
+      outline: none;
+      cursor: pointer;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .navbar ul.nav-links {
+        display: none;
+      }
+      .hamburger {
+        display: block;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="logo" tabindex="0">Bijush's Academy</div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#" tabindex="0">Home</a></li>
+      <li><a href="#" tabindex="0">About</a></li>
+      <li><a href="#" tabindex="0">Services</a></li>
+      <li><a href="#" tabindex="0">Contact</a></li>
+    </ul>
+    <div class="hamburger" id="hamburger" tabindex="0" aria-label="Toggle navigation menu">&#9776;</div>
+  </nav>
+
+  <!-- Carousel -->
+  <section class="carousel-container" aria-label="Image carousel">
+    <div class="carousel" id="carousel" role="list">
+      <img src="https://placehold.co/900x400?text=Slide+1" alt="Slide 1" role="listitem" />
+      <img src="https://placehold.co/900x400?text=Slide+2" alt="Slide 2" role="listitem" />
+      <img src="https://placehold.co/900x400?text=Slide+3" alt="Slide 3" role="listitem" />
+    </div>
+    <button class="prev" aria-label="Previous Slide">❮</button>
+    <button class="next" aria-label="Next Slide">❯</button>
+  </section>
+
+  <!-- Subjects Section -->
+  <section class="subjects" aria-label="Subjects We Offer">
+    <h2>Subjects We Offer</h2>
+    <div class="subject-grid">
+      <a href="select-class.html" class="subject-card" tabindex="0">Mathematics</a>
+      <a href="math/class10-chapter.html" class="subject-card" tabindex="0">Science</a>
+      <a href="select-class.html" class="subject-card" tabindex="0">English</a>
+      <a href="select-class.html" class="subject-card" tabindex="0">History</a>
+      <a href="select-class.html" class="subject-card" tabindex="0">QUIZ</a>
+    </div>
+<div id="visitor-count">Visitors: Loading...</div>
+
+  </section>
+
+  <script>
+    //Responsive Hamburger menu toggle
+
+  fetch('https://api.countapi.xyz/hit/bijush/home-page')
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById('visitor-count').textContent = "Visitors: " + data.value;
+    });
+
+
+
+
+    const hamburger = document.getElementById('hamburger');
+const navLinks = document.getElementById('navLinks');
+
+hamburger.addEventListener('click', (e) => {
+  e.stopPropagation(); // prevent event from bubbling to document
+  if (navLinks.style.display === 'flex') {
+    navLinks.style.display = 'none';
+  } else {
+    navLinks.style.display = 'flex';
+    navLinks.style.flexDirection = 'column';
+    navLinks.style.background = 'rgba(0,0,0,0.8)';
+    navLinks.style.position = 'absolute';
+    navLinks.style.top = '60px';
+    navLinks.style.right = '30px';
+    navLinks.style.borderRadius = '10px';
+    navLinks.style.padding = '15px';
+    navLinks.style.zIndex = '10000';
+    navLinks.style.width = '150px';
+    navLinks.style.boxShadow = '0 10px 30px rgba(0,0,0,0.5)';
+  }
+});
+
+// Close menu on outside click
+document.addEventListener('click', function (event) {
+  if (
+    navLinks.style.display === 'flex' &&
+    !navLinks.contains(event.target) &&
+    !hamburger.contains(event.target)
+  ) {
+    navLinks.style.display = 'none';
+  }
+});
+
+    // Carousel functionality
+    const carousel = document.getElementById('carousel');
+    const slides = carousel.querySelectorAll('img');
+    const prevBtn = document.querySelector('button.prev');
+    const nextBtn = document.querySelector('button.next');
+    let currentIndex = 0;
+
+    function updateCarousel() {
+      carousel.style.transform = `translateX(-${currentIndex * 100}%)`;
+    }
+
+    prevBtn.addEventListener('click', () => {
+      currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+      updateCarousel();
+    });
+
+    nextBtn.addEventListener('click', () => {
+      currentIndex = (currentIndex + 1) % slides.length;
+      updateCarousel();
+    });
+
+    updateCarousel();
+
+    // Confetti effect on clicks of clickable elements
+    function confettiEffect(x, y) {
+      confetti({
+        particleCount: 30,
+        spread: 80,
+        origin: { x: x / window.innerWidth, y: y / window.innerHeight },
+        gravity: 0.6,
+        scalar: 1.1,
+        colors: ['#ffd700', '#ff6f61', '#6a11cb', '#2575fc']
+      });
+    }
+
+    document.body.addEventListener('click', (event) => {
+      const clickableSelectors = [
+        'a',
+        'button',
+        '.subject-card',
+        '.nav-links a',
+        '.hamburger',
+        '.prev',
+        '.next',
+        '.logo'
+      ];
+
+      let el = event.target;
+      while (el && el !== document.body) {
+        if (clickableSelectors.some(sel => el.matches(sel))) {
+          confettiEffect(event.clientX, event.clientY);
+          break;
+        }
+        el = el.parentElement;
+      }
+    });
+  </script>
+<!-- footer.html -->
+<footer>
+  <p>&copy; 2025 Bijush Academy. All rights reserved.</p>
+</footer>
+
+</body>
+</html>
