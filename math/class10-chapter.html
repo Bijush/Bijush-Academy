@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Class 10 Subjects - Bijush Academy</title>
+
+<style>
+  /* Reset and base styles */
+  * {
+    box-sizing: border-box;
+  }
+  body, html {
+    margin: 0; padding: 0; height: 100%;
+    overflow-x: hidden;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    transition: background 1.5s ease;
+    color: #fff;
+  }
+
+  /* Loader overlay */
+  #loader {
+    position: fixed;
+    top:0; left:0; width: 100vw; height: 100vh;
+    background: #111;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+  }
+  #loader div {
+    width: 50px; height: 50px;
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+  @keyframes spin {
+    0% {transform: rotate(0);}
+    100% {transform: rotate(360deg);}
+  }
+
+  /* Navbar */
+  nav.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(0,0,0,0.6);
+    padding: 10px 20px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    backdrop-filter: blur(8px);
+  }
+  nav .logo {
+    font-weight: 700;
+    font-size: 1.8rem;
+    letter-spacing: 2px;
+    color: #fff;
+  }
+  nav ul.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+  }
+  nav ul.nav-links li a {
+    text-decoration: none;
+    color: #ddd;
+    font-weight: 600;
+    padding: 6px 10px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+  }
+  nav ul.nav-links li a:hover {
+    background-color: #3498db;
+    color: white;
+  }
+  /* Hamburger */
+  .hamburger {
+    display: none;
+    font-size: 2rem;
+    cursor: pointer;
+    color: #fff;
+  }
+
+  /* Responsive nav */
+  @media (max-width: 768px) {
+    nav ul.nav-links {
+      position: fixed;
+      top: 60px; right: 0;
+      background: rgba(0,0,0,0.85);
+      height: calc(100vh - 60px);
+      width: 200px;
+      flex-direction: column;
+      padding-top: 20px;
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+      gap: 15px;
+      z-index: 20;
+    }
+    nav ul.nav-links.open {
+      transform: translateX(0);
+    }
+    .hamburger {
+      display: block;
+    }
+  }
+
+  /* Back Button */
+  a.back-arrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 20px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    text-decoration: none;
+    color: #fff;
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    padding: 10px 18px;
+    border-radius: 40px;
+    box-shadow: 0 4px 10px rgba(37,117,252,0.6);
+    transition: all 0.3s ease;
+  }
+  a.back-arrow:hover {
+    background: linear-gradient(135deg, #2575fc 0%, #6a11cb 100%);
+    box-shadow: 0 6px 15px rgba(106,17,203,0.8);
+    transform: scale(1.05);
+    color: #fff;
+  }
+
+  a.back-arrow::before {
+    content: "←";
+    font-size: 1.3rem;
+  }
+
+  /* Tabs Section */
+  section.tabs-section {
+    max-width: 960px;
+    margin: 0 auto 40px;
+    padding: 0 20px;
+    z-index: 5;
+    position: relative;
+  }
+
+  section.tabs-section h2 {
+    text-align: center;
+    font-weight: 700;
+    margin-bottom: 25px;
+    text-shadow: 0 0 6px rgba(0,0,0,0.3);
+  }
+
+  .tabs {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+  }
+  .tab {
+    background: rgba(0,0,0,0.4);
+    border: none;
+    color: #eee;
+    padding: 10px 22px;
+    font-size: 1.1rem;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+  }
+  .tab:hover {
+    background: #2575fc;
+    color: #fff;
+    box-shadow: 0 6px 15px rgba(37,117,252,0.6);
+  }
+  .tab.active {
+    background: #6a11cb;
+    color: white;
+    box-shadow: 0 8px 20px rgba(106,17,203,0.8);
+  }
+
+  /* Chapters cards */
+  .chapters {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 25px;
+  }
+  .chapter-card {
+    background: rgba(0,0,0,0.35);
+    padding: 15px;
+    border-radius: 20px;
+    width: 140px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    text-align: center;
+    color: #fff;
+  }
+  .chapter-card img {
+    width: 100px;
+    height: 100px;
+    border-radius: 15px;
+    margin-bottom: 10px;
+    object-fit: cover;
+  }
+  .chapter-card p {
+    font-weight: 600;
+    font-size: 1rem;
+    line-height: 1.2;
+  }
+  .chapter-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 25px rgba(37,117,252,0.7);
+  }
+
+  /* Particle Canvas */
+  #particle-canvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* Confetti styles */
+  .confetti-piece {
+    position: fixed;
+    width: 8px;
+    height: 8px;
+    background-color: #fff;
+    opacity: 0.9;
+    pointer-events: none;
+    z-index: 9999;
+    will-change: transform, opacity;
+    border-radius: 2px;
+    animation: confetti-fall 3s forwards;
+  }
+  @keyframes confetti-fall {
+    to {
+      transform: translateY(300px) rotate(360deg);
+      opacity: 0;
+    }
+  }
+
+</style>
+ <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+
+<!-- Loader -->
+<div id="loader"><div></div></div>
+
+<!-- Particle Canvas -->
+<canvas id="particle-canvas"></canvas>
+
+<!-- Navbar -->
+<nav class="navbar" role="navigation" aria-label="Main Navigation">
+  <div class="logo">Bijush Academy</div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger">&#9776;</div>
+</nav>
+
+<!-- Back Button -->
+<a href="../select-class.html" class="back-arrow" id="backBtn">Back to Classes</a>
+
+<!-- Subjects Tabs Section -->
+<section class="tabs-section" aria-label="Subjects and Chapters">
+  <h2>Class 10 Subjects</h2>
+
+  <!-- Tabs -->
+  <div class="tabs" role="tablist">
+    <button class="tab active" role="tab" aria-selected="true" aria-controls="math" id="tab-math" onclick="showTab('math')">Math</button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="science" id="tab-science" onclick="showTab('science')">Science</button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="english" id="tab-english" onclick="showTab('english')">English</button>
+  </div>
+
+  <!-- Tab Contents -->
+  <div id="math" class="tab-content active" role="tabpanel" aria-labelledby="tab-math">
+    <div class="chapters">
+      <div class="chapter-card" data-chap="revision" tabindex="0" role="button" aria-pressed="false">
+        <img src="https://placehold.co/100x100?text=Revision" alt="Math Revision chapter" />
+        <p>Chapter: Revision</p>
+      </div>
+      <div class="chapter-card" data-chap="class10-chapter-1" tabindex="0" role="button" aria-pressed="false">
+        <img src="https://placehold.co/100x100?text=Ch1" alt="Math Chapter 1" />
+        <p>Chapter 1: বাস্তব সংখ্যা (MCQ)</p>
+      </div>
+
+      <div class="chapter-card" data-chap="two-chapter" tabindex="0" role="button" aria-pressed="false">
+        <img src="https://placehold.co/100x100?text=Ch2" alt="Math Chapter 2" />
+        <p>Chapter 2: বহুপদ রাশি</p>
+      </div>
+
+<div class="chapter-card" data-chap="three-chapter" tabindex="0" role="button" aria-pressed="false">
+        <img src="https://placehold.co/100x100?text=Ch3" alt="Math Chapter 2" />
+        <p>Chapter 3: জোড়া রৈখিক সমীকরণ</p>
+      </div>
+
+
+
+    </div>
+  </div>
+
+  <div id="science" class="tab-content" role="tabpanel" aria-labelledby="tab-science" hidden>
+    <div class="chapters">
+      <div class="chapter-card" data-chap="science-1" tabindex="0" role="button" aria-pressed="false">
+        <img src="https://placehold.co/100x100?text=Ch1" alt="Science Chapter 1" />
+        <p>Chapter 1: Crop Production</p>
+      </div>
+      <div class="chapter-card" data-chap="science-2" tabindex="0" role="button" aria-pressed="false">
+        <img src="https://placehold.co/100x100?text=Ch2" alt="Science Chapter 2" />
+        <p>Chapter 2: Microorganisms</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="english" class="tab-content" role="tabpanel" aria-labelledby="tab-english" hidden>
+    <div class="chapters">
+      <div class="chapter-card" data-chap="english-1" tabindex="0" role="button" aria-pressed="false">
+        <img src="https://placehold.co/100x100?text=Poem" alt="English Poem" />
+        <p>Poem: The Ant and the Cricket</p>
+      </div>
+      <div class="chapter-card" data-chap="english-2" tabindex="0" role="button" aria-pressed="false">
+        <img src="https://placehold.co/100x100?text=Prose" alt="English Prose" />
+        <p>Prose: The Best Christmas Present</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Page loader hide after content loaded
+  window.addEventListener('load', () => {
+    document.getElementById('loader').style.display = 'none';
+  });
+
+  // Navbar hamburger toggle
+  const hamburger = document.getElementById('hamburger');
+  const navLinks = document.getElementById('navLinks');
+  hamburger.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+  });
+
+
+document.body.addEventListener('click', (e) => {
+  // Check if the clicked element or any parent is clickable
+  const clickableSelectors = [
+    'button',
+    'a',
+    '[role="tab"]',
+    '.chapter-card',
+    '.back-button',
+    '.menu-toggle',
+    '.nav-links a'
+  ];
+
+  function isClickable(el) {
+    if (!el) return false;
+    return clickableSelectors.some(sel => el.matches(sel));
+  }
+
+  // Find closest clickable ancestor including self
+  let el = e.target;
+  while (el && el !== document.body) {
+    if (isClickable(el)) {
+      confettiEffect(e.clientX, e.clientY);
+      break;
+    }
+    el = el.parentElement;
+  }
+});
+
+
+
+  // Tabs
+  function showTab(tabId) {
+    const tabs = document.querySelectorAll('.tab');
+    const contents = document.querySelectorAll('.tab-content');
+    tabs.forEach(tab => {
+      tab.classList.remove('active');
+      tab.setAttribute('aria-selected', 'false');
+    });
+    contents.forEach(content => {
+      content.classList.remove('active');
+      content.setAttribute('hidden', true);
+    });
+
+    const activeTab = document.querySelector(`.tab[onclick="showTab('${tabId}')"]`);
+    activeTab.classList.add('active');
+    activeTab.setAttribute('aria-selected', 'true');
+
+    const activeContent = document.getElementById(tabId);
+    activeContent.classList.add('active');
+    activeContent.removeAttribute('hidden');
+  }
+
+  // Chapter cards click navigate and confetti trigger
+  document.querySelectorAll('.chapter-card').forEach(card => {
+    card.addEventListener('click', (e) => {
+      confettiEffect(e.pageX, e.pageY);
+      const chapterId = card.dataset.chap;
+      setTimeout(() => {
+        window.location.href = `${chapterId}.html`;
+      }, 600);
+    });
+    // keyboard accessible: Enter and Space
+    card.addEventListener('keydown', e => {
+      if(e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        card.click();
+      }
+    });
+  });
+
+  // Back button confetti effect + normal click
+  const backBtn = document.getElementById('backBtn');
+  backBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    confettiEffect(e.pageX, e.pageY);
+    setTimeout(() => {
+      window.location.href = backBtn.href;
+    }, 600);
+  });
+
+  // ===== Seasonal Theming and particles =====
+  const canvas = document.getElementById('particle-canvas');
+  const ctx = canvas.getContext('2d');
+  let particles = [];
+  let animationId;
+
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
+
+  class Particle {
+    constructor(x, y, size, speedX, speedY, color, shape) {
+      this.x = x;
+      this.y = y;
+      this.size = size;
+      this.speedX = speedX;
+      this.speedY = speedY;
+      this.color = color;
+      this.shape = shape || 'circle';
+      this.opacity = 1;
+      this.angle = Math.random()*Math.PI*2;
+      this.angleSpeed = (Math.random() - 0.5) * 0.02;
+    }
+    update() {
+      this.x += this.speedX;
+      this.y += this.speedY;
+      this.angle += this.angleSpeed;
+      if(this.shape === 'leaf' || this.shape === 'petal') {
+        this.x += Math.sin(this.angle) * 0.5;
+      }
+      if (this.y > canvas.height + this.size) this.y = 0 - this.size;
+      if (this.x > canvas.width + this.size) this.x = 0 - this.size;
+      if (this.x < 0 - this.size) this.x = canvas.width + this.size;
+    }
+    draw() {
+      ctx.globalAlpha = this.opacity;
+      ctx.fillStyle = this.color;
+      ctx.save();
+      ctx.translate(this.x, this.y);
+      ctx.rotate(this.angle);
+      if (this.shape === 'circle') {
+        ctx.beginPath();
+        ctx.arc(0, 0, this.size, 0, Math.PI*2);
+        ctx.fill();
+      } else if (this.shape === 'leaf') {
+        ctx.beginPath();
+        ctx.ellipse(0, 0, this.size * 1.5, this.size, 0, 0, Math.PI*2);
+        ctx.fill();
+      } else if (this.shape === 'petal') {
+        ctx.beginPath();
+        ctx.ellipse(0, 0, this.size * 1.5, this.size * 0.7, 0, 0, Math.PI*2);
+        ctx.fill();
+      }
+      ctx.restore();
+      ctx.globalAlpha = 1;
+    }
+  }
+
+  function clearParticles() {
+    particles = [];
+    if(animationId) cancelAnimationFrame(animationId);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => {
+      p.update();
+      p.draw();
+    });
+    animationId = requestAnimationFrame(animate);
+  }
+
+  // Seasonal particle init functions
+  function initSnowParticles() {
+    clearParticles();
+    for(let i=0; i<150; i++) {
+      particles.push(new Particle(
+        Math.random()*canvas.width,
+        Math.random()*canvas.height,
+        Math.random()*3+1,
+        (Math.random()-0.5)*0.3,
+        Math.random()*1 + 0.5,
+        'rgba(255,255,255,0.8)',
+        'circle'
+      ));
+    }
+    animate();
+  }
+
+  function initPetalsParticles() {
+    clearParticles();
+    for(let i=0; i<100; i++) {
+      particles.push(new Particle(
+        Math.random()*canvas.width,
+        Math.random()*canvas.height,
+        Math.random()*7+3,
+        (Math.random()-0.3)*0.3,
+        Math.random()*1 + 0.5,
+        'rgba(255,182,193,0.8)',
+        'petal'
+      ));
+    }
+    animate();
+  }
+
+  function initLeavesParticles() {
+    clearParticles();
+    for(let i=0; i<120; i++) {
+      particles.push(new Particle(
+        Math.random()*canvas.width,
+        Math.random()*canvas.height,
+        Math.random()*6+3,
+        (Math.random()-0.3)*0.3,
+        Math.random()*1 + 0.3,
+        'rgba(165, 42, 42, 0.8)',
+        'leaf'
+      ));
+    }
+    animate();
+  }
+
+  function setBackgroundGradient(colors) {
+    document.body.style.background = `linear-gradient(135deg, ${colors.join(', ')})`;
+  }
+
+  function setSeasonalTheme() {
+    const now = new Date();
+    const month = now.getMonth() + 1; // 1-12
+    if(month === 12 || month === 1 || month === 2) {
+      // Winter: Snow
+      setBackgroundGradient(['#283E51', '#4B79A1']);
+      initSnowParticles();
+    } else if(month >= 3 && month <= 5) {
+      // Spring: Pink petals
+      setBackgroundGradient(['#FFDEE9', '#B5FFFC']);
+      initPetalsParticles();
+    } else if(month >= 6 && month <= 8) {
+      // Summer: Clear blue sky no particles
+      clearParticles();
+      setBackgroundGradient(['#1E3C72', '#2A5298']);
+    } else if(month >= 9 && month <= 11) {
+      // Autumn: Brown leaves
+      setBackgroundGradient(['#D38312', '#A83279']);
+      initLeavesParticles();
+    } else {
+      clearParticles();
+      setBackgroundGradient(['#000000', '#222222']);
+    }
+  }
+
+  setSeasonalTheme();
+
+  // ===== Confetti Effect =====
+  function confettiEffect(x, y) {
+    const colors = ['#FFC107', '#FF5722', '#4CAF50', '#2196F3', '#E91E63', '#FFEB3B'];
+    for(let i=0; i<30; i++) {
+      const confetti = document.createElement('div');
+      confetti.classList.add('confetti-piece');
+      confetti.style.backgroundColor = colors[Math.floor(Math.random()*colors.length)];
+      confetti.style.left = `${x}px`;
+      confetti.style.top = `${y}px`;
+      confetti.style.width = confetti.style.height = `${Math.random()*8+4}px`;
+      confetti.style.opacity = 1;
+      confetti.style.transform = `rotate(${Math.random()*360}deg) translateX(${Math.random()*80-40}px) translateY(${Math.random()*80-40}px)`;
+      document.body.appendChild(confetti);
+
+      confetti.animate([
+        { transform: confetti.style.transform, opacity: 1 },
+        { transform: `translateY(300px) rotate(${Math.random()*720}deg)`, opacity: 0 }
+      ], {
+        duration: 2500 + Math.random()*500,
+        easing: 'ease-out',
+        fill: 'forwards'
+      });
+
+      setTimeout(() => {
+        confetti.remove();
+      }, 3000);
+    }
+  }
+</script>
+
+</body>
+</html>
