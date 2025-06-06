@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> MCQ</title>
+<link rel="manifest" href="../manifest.json">
+<link rel="icon" href="../icons/icon-192.png">
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('../sw.js');
+  }
+</script>
+
+
+  <!--
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
+  
+  -->
+  <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css'>    
+            
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"/>
+
+<!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  
+  <!-- Confetti library -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<link rel="stylesheet" href="../style.css">
+
+
+
+<style type="text/css">
+
+/* Reset & base */
+    
+    
+
+
+  
+  html {
+            user-select: none;
+        }
+  
+  #index{
+  box-shadow:10px 10px 15px 10px grey;
+    padding:8px;
+    width:100%;
+     }
+  
+  
+  
+  #ar{color:red;}
+  
+  
+  table,th,td{
+   border :2px solid blue;}
+  table{
+    height:100%;
+  }
+  td,th{
+    height:20px;
+    width:70px;
+    text-align:center;
+  }
+  th{
+    background:white;
+  }
+  sub{
+    color:blue;
+  }
+  
+  .custom-back-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 999;
+  display: none;
+  font-size: 2.5rem;
+  color: #0d6efd;
+  background-color: white;
+  border-radius: 50%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  padding: 10px;
+  transition: all 0.3s ease;
+  text-align: center;
+  text-decoration: none;
+}
+
+.custom-back-to-top:hover {
+  color: white;
+  background-color: #0d6efd;
+  transform: scale(1.1);
+}
+  
+.stylish-back-btn {
+  background: linear-gradient(135deg, #6f42c1, #6610f2);
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-weight: 600;
+  font-size: 16px;
+  border-radius: 30px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.stylish-back-btn:hover {
+  background: linear-gradient(135deg, #5a32a3, #520dc2);
+  transform: translateY(-2px);
+  color: #ffffff;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+}
+
+.stylish-back-btn i {
+  font-size: 1.2rem;
+}
+
+  
+  
+  .btn{
+	position: relative;
+	top: -6px;
+	border: 0;
+	transition: all 40ms linear;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-left: 2px;
+	margin-right: 2px;
+}
+
+.btn:active:focus,
+.btn:focus:hover,
+.btn:focus {
+	-moz-outline-style: none;
+	outline: medium none;
+}
+
+.btn:active,
+.btn.active {
+	top: 2px;
+}
+
+.btn-primary {
+	box-shadow: 0 0 0 1px #417fbd inset, 0 0 0 2px rgba(255, 255, 255, 0.15) inset, 0 8px 0 0 #4D5BBE, 0 8px 8px 1px rgba(0, 0, 0, 0.5);
+	background-color: #4274D7;
+}
+
+.btn-primary:active,
+.btn3d.btn-primary.active {
+	box-shadow: 0 0 0 1px #417fbd inset, 0 0 0 1px rgba(255, 255, 255, 0.15) inset, 0 1px 3px 1px rgba(0, 0, 0, 0.3);
+	background-color: #4274D7;
+}
+  h5{
+color:#fffff;
+	box-shadow: 0 0 0 1px #9a00cd inset, 0 0 0 2px rgba(255, 255, 255, 0) inset, 0 8px 0 0 #9823d5, 0 8px 8px 1px rgba(0.5, 0, 0, 0.5);
+  }
+  #ans1,#ans2,#ans3,#ans4,#ans5,#ans6,#ans7,
+  
+  #ans8,#ans9,#ans10,#ans11,#ans12,#ans13,#ans14,#ans15,#ans16,
+  #ans17, #ans18,#ans19,#ans20,#ans21,
+  #ans22,#ans23,#ans24,#ans25,#ans26,#ans27,#ans28,#ans29,
+  #ans30,#ans31,#ans32,#ans33,#ans34,#ans35,#ans36,#ans37,#ans38,#ans39,
+  #ans40,#ans41,#ans42,#ans43,#ans44,#ans45,#ans46,#ans47,#ans48,#ans49,#ans50
+  
+  {
+    display:none;   
+  }
+  .clr{
+    color:blue;
+  }
+  
+  h6{
+    font-size:8px;
+    }
+  </style>
+
+<!--jQuery--> 
+
+
+  <!-- above script is used for inline-->
+<!--
+ <script src="https://polyfill.io/v3/polyfill.min.js?features=es6">
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js" >
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.min.js">
+  
+</script>
+-->
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+ 
+
+<!--jQuery--> 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"> 
+</script>
+
+
+<script>
+
+$(document).ready(function () {
+  // For all #btnX and #ansX (1 to 51)
+  for (let i = 1; i <= 51; i++) {
+    $(`#btn${i}`).click(function () {
+      $(`#ans${i}`).slideToggle();
+
+      // Confetti effect
+      confetti({
+        particleCount: 80,
+        spread: 70,
+        origin: { y: 0.6 }
+      });
+    });
+  }
+
+  // Option color marking
+  $('#op2,#op3,#op4').click(function () {
+    $(this).css("background-color", "red");
+    $('#op1').css("background-color", "green").css("color", "white");
+  });
+
+  $('#2op2,#2op1,#2op4').click(function () {
+    $(this).css("background-color", "red");
+    $('#2op3').css("background-color", "green").css("color", "white");
+  });
+
+
+ window.addEventListener("scroll", function () {
+    const btn = document.getElementById("back-to-top");
+    btn.style.display = window.scrollY > 150 ? "block" : "none";
+  });
+
+  document.getElementById("back-to-top").addEventListener("click", function (e) {
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+
+
+  $('#ar').click(function () {
+			
+window.location.href="https://bijush1.blogspot.com/p/select-chapter-mcq.html"
+});
+  }) ;
+
+</script>
+
+ 
+</head>
+<body>
+   <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Bijush Academy</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navLinks">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navLinks">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+<a href="class10-chapter.html" class="btn stylish-back-btn">
+  <i class="bi bi-arrow-left-circle-fill me-2"></i> Back to Classes
+</a>
+
+
+
+  <hr>
+ <h5 class ="alert alert-success"> <span style="color:red">
+Q.1 : বৃত্তের কালি A = \(\pi r^2\) <br>
+   যদি A বাড়ে তবে r____ । যদি r কমে তবে A____ ।
+   <!--
+  <p class="clr" style="text-align:right"><marquee behavior="alternate"width="200" height="30" text-align="right">
+  H.S.L.C - 2021</marquee></p>
+  -->
+</span>
+   <br><br>
+
+  
+  <h5 class="alert alert-primary" id="op1"> 
+    (A)  বাড়ে , কমে </h5>
+   <h5 class="alert alert-primary" id="op2"> 
+  (B) কমে , বাড়ে </h5>
+   <h5 class="alert alert-primary" id="op3"> 
+  (C) বাড়ে , সমান </h5>
+   <h5 class="alert alert-primary" id="op4"> 
+  (D) সমান , কমে</h5>
+<h5 class ="btn btn-primary" id="btn1"> উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans1">Ans:(a)</h5>
+</h5>
+
+<h5 class ="alert alert-success"> 
+<span style="color:red">
+  
+(2) \(n^2\) এবং \((n + 1)^2\) মধ্যে থাকা স্বাভাবিক সংখ্যার সংখ্যা হল -
+</span><br><br>
+  <h5 class="alert alert-primary" id="2op1"> 
+  
+(A) \(n^3\)</h5>
+  <h5 class="alert alert-primary" id="2op2"> 
+  (B) \(n^2\) </h5>
+  <h5 class="alert alert-primary" id="2op3"> 
+  (C) 2n</h5>
+  <h5 class="alert alert-primary" id="2op4"> 
+  (D) n + 1
+</h5>
+<h5 class ="btn btn-primary" id="btn2">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans2">Ans: (C)</h5>
+</h5>
+  
+
+<h5 class ="alert alert-success"> <span style="color:red">
+(3) যদি x , y এ প্রত্যক্ষ সমানুপাতিক । এটাকে বুঝানো হয় --
+  <!--
+  <p class="clr" style="text-align:right"><marquee behavior="alternate"width="200" height="30" text-align="right">
+  H.S.L.C - 2019</marquee></p>-->
+</span><br><br>
+  
+(A) \( x \propto y\)<br><br>(B) \(y \propto x\)<br><br>(C) \(x \propto\frac{1}{y}\)<br><br> (D) \(\frac{1}{x}\propto y\)<br>
+  
+  
+<br><h5 class ="btn btn-primary" id="btn3">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans3">Ans: (a) </h5>
+
+</h5>
+
+<h5 class ="alert alert-success">
+ <span style="color:red">
+(4) যদি x, y এ ব্যস্তানুপাতিক । এটিকে লিখা হয় -- 
+ </span> 
+  <br><br>
+  
+(A) \( x \propto y\)<br><br>(B) \(y \propto x\)<br><br>(C) \(x \propto\frac{1}{y}\)<br><br> (D) \(\frac{1}{x}\propto y\)<br>
+  
+<br><h5 class ="btn btn-primary" id="btn4">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans4">Ans: (c) </h5>
+
+</h5>
+
+<h5 class ="alert alert-success"> 
+<span style="color:red">
+(5) একটি স্বাভাবিক সংখ্যা m কে \(n^2\) হিসাবে প্রকাশ করতে পারিলে । এখানে n ও একটি স্বাভাবিক সংখ্যা । <br>তবে  m = ?
+  </span><br><br>
+(A) মৌলিক সংখ্যা <br><br> (B) যুগ্ম সংখ্যা <br><br>(C) অযুগ্ম সংখ্যা <br><br> (D) বর্গ সংখ্যা<br>
+
+<br><h5 class ="btn btn-primary" id="btn5">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans5">Ans: (D)</h5>
+</h5>
+
+
+
+<h5 class ="alert alert-success">
+  <span style="color:red">
+    
+    (6) যদি a, b, c এবং d ক্রমে সমানুপাত হয়। তবে
+    <br><br> </span>
+(A) a : b = c : d<br><br> (B) \( \frac{a}{b} = \frac{c}{d} \)<br><br>(C) ad = bc<br><br>(D)  উপরের সব ভাবে লেখা হয়<br>
+<br><h5 class ="btn btn-primary" id="btn6">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans6">Ans:(d) </h5>
+</h5>
+
+</h5>
+
+<h5 class ="alert alert-success">
+ <span style="color:red">
+   
+ (7) যদি কোনো একটি সংখ্যার মৌলিক উৎপাদক বিশ্লেষণে প্রতিটি উৎপাদক তিনবার করে থাকে, তবে সংখ্যাটি একটি ---
+   
+   <br><br>
+</span>
+  
+(A)  পূর্ণবর্গ<br><br>(B) পূর্ণঘন <br></br>(C) ঘনমূল</br><br>(D) বর্গমূল<br>
+<br>
+
+<h5 class ="btn btn-primary" id="btn7">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans7">Ans: (b) </h5>
+
+
+
+<h5 class ="alert alert-success">
+ <span style="color:red">(8) যদি \(b^3\) = a হইলে \(\sqrt[3]{a}\) = ?
+   
+   
+   <br></span><span><br>
+(a) a <br>
+<br>
+(b) \(\sqrt[3]{b} = a\)<br><br>
+(c) b <br>
+<br>
+(d) \(\sqrt[3]{a × b}\)
+<br>
+<br><h5 class ="btn btn-primary" id="btn8">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans8">Ans: (c)</h5>
+</h5>
+<h5 class ="alert alert-success">
+ <span style="color:red">
+   
+   (9) যদি কোন সংখ্যার প্রামানিক বা মান্য রূপ হলো K × \(10^m\) এখানে 
+ </span><span>
+<br><br> (a) 1 \(\le{K}\lt{10}\) <br><br>
+ (b) 1 \(\ge{K}\lt{10}\) <br><br>
+ (c) 1 \(\le{10}\lt{K}\) <br><br>
+ (d) 1 \(\ge{10}\lt{K}\) <br>
+ <br><h5 class ="btn btn-primary" id="btn9">
+ উত্তর দেখুন </h5>
+ <h5 class="alert alert-primary" id="ans9">Ans: (a)</h5>
+ </span>
+ </h5>
+</h5>
+<h5 class ="alert alert-success">
+ <span style="color:red">
+   (10) যদি \(\sqrt{3025}\) = 55 হয় তবে \(\sqrt{30.25}\) = ?
+   
+ </span><br><span>
+<br>(a) 0.55<br><br>
+(b) 55  <br><br>
+(c) 0.055<br><br>
+(d) 5.5<br>
+
+<br><h5 class ="btn btn-primary" id="btn10">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans10">Ans: (d)</h5>
+</span>
+</h5>
+
+<h5 class ="alert alert-success">
+ <span style="color:red">
+(11) সবচেয়ে বড় সংখ্যা হলো ---
+   
+ </span><br>
+<br><span>(a) \(2^8\)<br><br>
+(b) \(8^2\) <br><br>
+(c) 2.7 × \(10^{12}\)<br><br>
+(d) 1.5 × \(10^8\)<br><br>
+<br><h5 class ="btn btn-primary" id="btn11">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans11">Ans: (c)</h5>
+</span>
+</h5>
+
+<h5 class ="alert alert-success">
+ <span style="color:red">
+(12) নিচের কোন সংখ্যাকে 61 দ্বারা পূরণ করিলে একটি পূর্ণবর্গ সংখ্যা হবে --
+   
+<br><br>  
+ </span><span>
+(a) 1525<br><br>
+(b) 1008<br><br>
+(c) 2028<br><br>
+(d) 768<br>
+<br><h5 class ="btn btn-primary" id="btn12">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans12">Ans: (a)</h5>
+</span>
+</h5>
+
+<h5 class ="alert alert-success">
+ <span style="color:red">
+(13) যদি  \(\sqrt[3]{m}\) = 15 , এখানে m = ?</span><br>
+<br><span>
+(a) 3375<br><br>
+(b) 4913<br><br>
+(c) 13824<br><br>
+(d) 9261<br>
+<br><h5 class ="btn btn-primary" id="btn13">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans13">Ans: (a)</h5>
+</span>
+</h5>
+
+<h5 class ="alert alert-success">
+ <span style="color:red">
+   (14) নিচের কোন সংখ্যাকে 3 দ্বারা ভাগ করিলে একটি পূর্ণবর্গ সংখ্যা হবে --
+   
+ </span>
+<br><br><span>
+(a) 10368 <br><br>
+(b) 2187 <br><br>
+(c) 5000<br><br>
+(d) 8192 <br><br>
+<br><h5 class ="btn btn-primary" id="btn14">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans14">Ans: (b)</h5>
+</span>
+</h5>
+
+
+<h5 class ="alert alert-success">
+ <span style="color:red">
+   (15) যদি m এর মৌলিক উৎপাদক<br>m = a × a × a লিখা হয়, তবে m একটি 
+   
+ </span><br>
+<br><span>
+   
+(A)  পূর্ণবর্গ<br><br>(B) পূর্ণঘন <br></br>(C) ঘনমূল</br><br>(D) বর্গমূল<br>
+<br>
+  
+  <h5 class ="btn btn-primary" id="btn15">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans15">Ans: (b)</h5>
+</span>
+</h5>
+
+
+<h5 class ="alert alert-success">
+ <span style="color:red">
+(16) 
+   4, 9 এবং 10 দ্বারা বিভাজ্য ক্ষুদ্রতম ছোট পূর্ণবর্গ সংখ্যাটি ---
+   
+ </span><br>
+<br><span>
+(a) 180<br><br>
+(b) 750<br><br>
+(c) 800<br><br>
+(d) 900<br>
+<br><h5 class ="btn btn-primary" id="btn16">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans16">Ans: (d)</h5>
+</span>
+</h5>
+
+
+<h5 class ="alert alert-success">
+ <span style="color:red">
+   (17) 4, 6 এবং 8 দ্বারা বিভাজ্য ক্ষুদ্রতম ছোট পূর্ণঘন সংখ্যাটি ---
+   
+   
+ </span><br>
+<br><span>
+(a) 210<br><br>
+(b) 216<br><br>
+(c) 206<br><br>
+(d) 190 <br>
+<br><h5 class ="btn btn-primary" id="btn17">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans17">Ans: (b)</h5>
+</span>
+</h5>
+
+<h5 class ="alert alert-success">
+ <span style="color:red">
+   (18) \(100^2\) এবং \(101^2\) এর মধ্যে থাকা স্বাভাবিক সংখ্যার সংখ্যা হল---
+ </span><br>
+<br><span>
+(a) 200 <br><br>
+(b) 300<br><br>
+(c) 100<br><br>
+(d) 101 <br>
+<br><h5 class ="btn btn-primary" id="btn18">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans18">Ans: (a)</h5>
+</span>
+</h5>
+
+<h5 class ="alert alert-success">
+ <span style="color:red">
+   (19) 3.02 × \(10^{-6}\) এর সাধারণ রূপ হল---
+ </span><br>
+<br><span>
+(a) 0.0000302<br><br>
+(b) 0.000302<br><br>
+(c) 0.000000302<br><br>
+(d) 0.00000302<br>
+<br><h5 class ="btn btn-primary" id="btn19">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans19">Ans: (d)</h5>
+</span>
+</h5>
+
+<h5 class ="alert alert-success">
+ <span style="color:red">
+(20) যদি \((-3)^{k +1}\)  ×  \((-3)^5\) = \((-3)^7\) হয়। তবে k = ?
+ </span></br></br>
+
+<span>
+(a)   2<br><br>
+(b)  3 <br><br>
+(c) -1 <br><br>
+(d)  1<br>
+<br><h5 class ="btn btn-primary" id="btn20">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans20">Ans: (d)</h5>
+
+</h5>
+
+<h5 class ="alert alert-success">
+ <span style="color:red">
+   (21) নিম্নের কোন সংখ্যাটি অযুগ্ম সংখ্যার বর্গ ?
+   <!--
+  <p class="clr" style="text-align:right"><marquee behavior="alternate"width="200" height="30" text-align="right">
+  H.S.L.C - 2023</marquee></p>-->
+ </span><br><br><span>
+(a) 2116
+<br><br>
+(b) 4761
+<br><br>
+(c) 576
+ 
+<br><br>
+(d) 6084
+ 
+<br>
+<br><h5 class ="btn btn-primary" id="btn21">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans21">Ans: (b)</h5>
+
+</h5>
+<h5 class ="alert alert-success">
+ <span style="color:red">
+(22) নিম্নের সংখ্যাগুলো কোনটি পূর্ণবর্গ  সংখ্যা ?
+</span><br><br><span>
+(a) 1057
+<br><br>
+(b) 7928
+<br><br>
+(c) 9216
+ 
+<br><br>
+(d) 640
+ 
+<br>
+<br><h5 class ="btn btn-primary" id="btn22">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans22">Ans: (c)</h5>
+
+</h5>
+
+<h5 class ="alert alert-success">
+ <span style="color:red">
+(23) \((\frac{1}{2})^{-5}\)এর মান হবে --
+   <br> </span><br><span>
+(a) 64
+<br><br>
+(b) 26
+<br><br>
+(c) 32
+ 
+<br><br>
+(d) 30
+ 
+<br>
+<br><h5 class ="btn btn-primary" id="btn23">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans23">Ans: (c)</h5>
+
+</h5>
+  
+  <h5 class ="alert alert-success">
+ <span style="color:red">
+(24) x, y প্রত্যক্ষ সমানুপাতিক হইলে -- <br>
+ </span><br><span>  
+(a) x বাড়িলে y কমে 
+<br><br>
+(b) x কমিলে y বাড়ে 
+<br><br>
+(c) x কমিলে y কমে 
+<br><br>
+(d) উপরের কোনটাই না
+<br>
+<br><h5 class ="btn btn-primary" id="btn24">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans24">Ans: (c)</h5>
+</h5>
+  
+<h5 class ="alert alert-success">
+ <span style="color:red">
+(25)
+x, y পরোক্ষ সমানুপাতিক হইলে -- <br>
+ </span><br><span>  
+(a) x বাড়িলে y বাড়ে 
+<br><br>
+(b) x কমিলে y কমে
+<br><br>
+(c) x কমিলে y বাড়ে
+<br><br>
+(d) উপরের কোনটাই না
+<br>
+   
+   <br><h5 class ="btn btn-primary" id="btn25">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans25">Ans: (c)</h5>
+</span>
+</h5>
+
+    <h5 class ="alert alert-success">
+ <span style="color:red">
+   
+(26) নিচের তালিকায় X এবং Y এর মান দেওয়া আছে। <br>
+   X \(\propto {Y}\) হইলে <br>
+   <hr>
+ <table>
+         <tr>
+            <th>X</th>
+            <td>x<sub>1</sub></td>
+           <td>x<sub>2</sub></td>
+           <td>x<sub>3</sub></td>
+         </tr>
+         <tr>
+            <th>Y</th>
+            <td>y<sub>1</sub></td>
+           <td>y<sub>2</sub></td>
+           <td>y<sub>3</sub></td>
+         </tr>
+         
+         
+      </table>
+   <hr>
+ </span><span>  
+(a) x<sub>1</sub>y<sub>1</sub> = x<sub>2</sub>y<sub>2</sub>
+
+   <br><br>
+(b) x<sub>1</sub>y<sub>2</sub> = x<sub>2</sub>y<sub>1</sub>
+
+<br><br>
+(c) x<sub>2</sub>y<sub>1</sub> = y<sub>2</sub>x<sub>1</sub>
+
+<br><br>
+(d) y<sub>1</sub>x<sub>2</sub> = y<sub>2</sub>x<sub>2</sub>
+
+   <br>
+<br><h5 class ="btn btn-primary" id="btn26">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans26">Ans: (b)</h5>
+</h5>
+      
+    <h5 class ="alert alert-success">
+ <span style="color:red">
+(27) নিচের তালিকায় X এবং Y এর মান দেওয়া আছে। <br>
+   X \(\propto \frac{1}{Y}\) হইলে 
+   <hr>
+ <table>
+         <tr>
+            <th>X</th>
+            <td>x<sub>1</sub></td>
+           <td>x<sub>2</sub></td>
+           <td>x<sub>3</sub></td>
+         </tr>
+         <tr>
+            <th>Y</th>
+            <td>y<sub>1</sub></td>
+           <td>y<sub>2</sub></td>
+           <td>y<sub>3</sub></td>
+         </tr>  
+      </table>
+   
+ </span>
+      <hr>
+      <span>  
+(a) x<sub>1</sub>y<sub>1</sub> = x<sub>2</sub>y<sub>2</sub>
+
+   <br><br>
+(b) x<sub>1</sub>y<sub>2</sub> = x<sub>2</sub>y<sub>1</sub>
+
+<br><br>
+(c) x<sub>2</sub>y<sub>1</sub> = y<sub>2</sub>x<sub>1</sub>
+
+<br><br>
+(d) y<sub>1</sub>x<sub>2</sub> = y<sub>2</sub>x<sub>2</sub>
+
+  
+ </span><br><span>  
+
+<br><h5 class ="btn btn-primary" id="btn27">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans27">Ans: (a)</h5>
+ </h5>
+      
+   <h5 class ="alert alert-success">
+ <span style="color:red">
+(28) একটি উদ্ভিদ কোষের ব্যাস 0.00001275 মিটার । ইহার মান্য রূপ হল --
+ </span><br><br><span>  
+   
+(a) 0.1275 × \(10^{-4}\) m
+   
+<br><br>
+(b)  1.275 × \(10^{-5}\) m
+   
+<br><br>
+(c) 12.75 × \(10^{-6}\) m
+   
+<br><br>
+(d)  127.5 × \(10^{-7}\) m
+   
+<br>
+<br><h5 class ="btn btn-primary" id="btn28">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans28">Ans: (b)</h5>
+ </h5>
+     
+     
+    <h5 class ="alert alert-success">
+ <span style="color:red">
+   
+(29) \((-1)^n\) = -1 হইলে n একটি ?     
+ </span><br><br><span>  
+(a) যুগ্ম সংখ্যা
+<br><br>
+(b) অযুগ্ম সংখ্যা
+<br><br>
+(c) যুগ্ম এবং অযুগ্ম উভয়
+<br><br>
+(d) উপরের কোনটা না 
+   
+<br>
+<br><h5 class ="btn btn-primary" id="btn29">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans29">Ans: (b)</h5>
+ </h5>
+      
+         <h5 class ="alert alert-success">
+ <span style="color:red">
+(30) 
+      \((-1)^n\) = 1 হইলে n একটি ?     
+ </span><br><br><span>  
+(a) যুগ্ম সংখ্যা
+<br><br>
+(b) অযুগ্ম সংখ্যা
+<br><br>
+(c) যুগ্ম এবং অযুগ্ম উভয়
+<br><br>
+(d) উপরের কোনটা না <br>
+
+<br><h5 class ="btn btn-primary" id="btn30">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans30">Ans: (a)</h5>
+         </span>
+ </h5>
+
+<h5 class ="alert alert-success">
+ <span style="color:red">
+(31) যদি a, m, n অশূন্য সংখ্যা হইলে \( a^m × a^n \) = ?
+   
+   <br> <br><span>(a) \(a^{m-n}\)<br><br>
+(b) \(a^{m+n}\) <br><br>
+(c) ) \(a^{mn}\)<br><br>
+(d) \(a\)<br>
+<br><h5 class ="btn btn-primary" id="btn31">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans31">Ans: (b)</h5>
+</span>
+</h5>
+           
+<h5 class ="alert alert-success">
+ <span style="color:red">
+(32) \(\sqrt[3]{1^3}\) + \(\sqrt[3]{2^3}\) + \(\sqrt[3]{3^3}\) = ?
+   <br><br></span><span>(a) 40 <br><br>
+(b) 6 <br><br>
+(c) 25<br><br>
+(d) 26<br>
+<br><h5 class ="btn btn-primary" id="btn32">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans32">Ans: (b)</h5>
+</span>
+</h5>
+           
+           
+
+<h5 class ="alert alert-success">
+ <span style="color:red">
+(33) x, y এর ঘনমূল হলে y এর মান হবে ---       
+ </span><br> 
+<br><span>(a) \(\sqrt[3]{x}\)<br><br>
+(b) \(\sqrt{x}\)<br><br>
+(c) \(x^3\)<br><br>
+(d) \(\sqrt{x^2}\)<br>
+<br><h5 class ="btn btn-primary" id="btn33">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans33">Ans: (c)</h5>
+</span>
+</h5>
+               
+<h5 class ="alert alert-success">
+ <span style="color:red">
+(34) \(p \propto{\frac{1}{q}}\) এবং p = 10 হলে q = 2,এখন p = 20 তবে q = ?
+           <br></span><br><span>(a) 2<br><br>
+(b) 1 <br><br>
+(c) 10<br><br>
+(d) 20<br>
+<br><h5 class ="btn btn-primary" id="btn34">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans34">Ans: (b)</h5>
+</span>
+</h5>
+                  
+<h5 class ="alert alert-success">
+ <span style="color:red">
+(35) একটি ঘনকের দৈর্ঘ্য 1.2 সে.মি.। ঘনটির আয়তন ---
+   
+ </span><span><br><br>(a) 1.728 সে.মি.<sup>3</sup>
+   
+   <br><br>
+(b) 2.728 সে.মি.<sup>3</sup>
+   <br><br>
+(c) 1.028 সে.মি.<sup>3</sup>
+   <br><br>
+(d) 1.828 সে.মি.<sup>3</sup>
+   <br><br>
+<h5 class ="btn btn-primary" id="btn35">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans35">Ans: (a)</h5>
+</span>
+</h5>
+  
+  <h5 class ="alert alert-success">
+ <span style="color:red">
+(36) একটি ঘনকাকৃতির বাক্সের আয়তন 6859 সে.মি.<sup>3</sup>  হলে বাক্সটির উচ্চতা হবে---
+ </span><span><br><br>(a) 13<br><br>
+(b) 17<br><br>
+(c) 23<br><br>
+(d) 19<br><br>
+<h5 class ="btn btn-primary" id="btn36">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans36">Ans: (d)</h5>
+</span>
+</h5>
+     
+<h5 class ="alert alert-success">
+ <span style="color:red">
+(37) একটি তাকে 20 মিঃমিঃ পুরু 5 টি বই এবং 0.016 মি.মি. পুরু 5 টি কাগজ আছে, তাকটির মোট পুরু হবে ---?
+   
+ </span><br><br><span>(a) 10.8 সে.মি. <br><br>
+(b) 25 সে.মি<br><br>
+(c) 10.08 সে.মি<br><br>
+(d) 102 সে.মি<br><br>
+<h5 class ="btn btn-primary" id="btn37">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans37">Ans: (C)</h5>
+</span>
+</h5>
+  
+  
+<h5 class ="alert alert-success">
+ <span style="color:red">
+(38) 
+   একটি গাড়ীর ভ্রমনের সময় (t) এবং দূরত্ব (d) সম্পর্কটি নিম্নে দেওয়া হলো-
+   <table>
+         <tr>
+            <th>t</th>
+            <td>1</td>
+           <td>2</td>
+           <td>3</td>
+           <td>4</td>
+         </tr>
+         <tr>
+            <th>d</th>
+            <td>4</td>
+           <td>8</td>
+           <td>12</td>
+           <td>--</td>
+         </tr>   
+      </table>
+   <br>
+   t = 4 হলে d = ?<br>
+   <hr>
+ </span><span>(a) 16<br><br>
+(b) 8<br><br>
+(c) 12<br><br>
+(d) 20<br><br>
+<h5 class ="btn btn-primary" id="btn38">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans38">Ans: (a)</h5>
+</span>
+</h5>
+              
+      
+<h5 class ="alert alert-success">
+ <span style="color:red">
+(39) \(m^2 + (a + b)m + ab\) এর উৎপাদক হল ---<br><br>
+   <!--
+  <p class="clr" style="text-align:right"><marquee behavior="alternate"width="200" height="30" text-align="right">
+  H.S.L.C - 2020</marquee></p>-->
+   <span>
+           (a) (m +a)(m - b)
+           <br><br>
+(b) (m + a)(b + m)<br><br>
+(c) (m + a)(m + b)<br><br>
+(d) \((m + a)^2\)<br>
+<br><h5 class ="btn btn-primary" id="btn39">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans39">Ans: (c)</h5>
+</span>
+</h5>
+           
+               
+<h5 class ="alert alert-success">
+ <span style="color:red">
+(40) যুগ্ম সংখ্যা M এর বর্গ ----<br><br><span>
+(a) যুগ্ম<br><br>
+(b) অযুগ্ম <br><br>
+(c) যুগ্ম অথবা অযুগ্ম <br><br>
+(d) মৌলিক <br><br>
+<br><h5 class ="btn btn-primary" id="btn40">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans40">Ans: (a)</h5>
+</span>
+</h5>
+  
+<h5 class ="alert alert-success">
+ <span style="color:red">
+(41) অযুগ্ম সংখ্যা M এর বর্গ ----<br><br><span>
+(a) যুগ্ম<br><br>
+(b) অযুগ্ম <br><br>
+(c) যুগ্ম অথবা অযুগ্ম <br><br>
+(d) মৌলিক <br><br>
+<br><h5 class ="btn btn-primary" id="btn41">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans41">Ans: (b)</h5>
+</span>
+</h5>
+  
+  <h5 class ="alert alert-success">
+ <span style="color:red">
+(42) \({4a}^2 + {8a}^3 = \) ?
+   
+   <br><br><span>
+(a) \(2 × 2a^2(1 + 2a)\)
+     
+     <br><br>
+(b) \(2 × 2a(1 + 2a)\) <br><br>
+(c) \(2 × a^2(1 + 4a)\) <br><br>
+(d) \(a^2(4 + 8a)\) <br><br>
+<br><h5 class ="btn btn-primary" id="btn42">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans42">Ans: (a)</h5>
+</span>
+</h5>
+    
+    <h5 class ="alert alert-success">
+ <span style="color:red">
+(43)
+   xy + x + y + 1 = ?<br><br><span>
+(a) (x + 1)(y + 1)<br><br>
+(b) (x + y)(x - y)<br><br>
+(c) (x - 1)(y - 1)<br><br>
+(d) 2xy<br><br>
+     
+<br><h5 class ="btn btn-primary" id="btn43">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans43">Ans: (a)</h5>
+</span>
+</h5>
+      
+      <h5 class ="alert alert-success">
+ <span style="color:red">
+(44) \(121b^2 -88bc + {16a}^2 = \) ?
+   
+   <br><br><span>
+(a) \((11b + 4a)(11b + 4a)\)
+     
+     <br><br>
+(b) \((11b + 4a)(11b - 4a)\) <br><br>
+(c) \((11b^2 + 4a^2)(11b^2 - 4a^2)\) <br><br>
+(d) \((121b + 16a)(121b-16a)\) <br>
+<br><h5 class ="btn btn-primary" id="btn44">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans44">Ans: (a)</h5>
+</span>
+</h5>
+    
+    <h5 class ="alert alert-success">
+ <span style="color:red">
+(45) \((l + m)^2 - (l - m)^2 = \ ?\)<br><br><span>
+(a) \(4\ l^2m^2\)<br><br>
+(b) \( l^2m^2\)<br><br>
+(c) (l + m)(l - m)<br><br>
+(d) 4 lm<br><br>
+<br><h5 class ="btn btn-primary" id="btn45">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans45">Ans: (d)</h5>
+</span>
+</h5>
+      
+      
+
+
+<h5 class ="alert alert-success">
+ <span style="color:red">
+(46)
+  z - 7 + 7xy -xyz = ?<br><br><span>
+(a) (7 - z)(xy - 1)<br><br>
+(b) (7 + y)(xy - 7)<br><br>
+(c) (7 - z)(xy + 1)<br><br>
+(d) (7 - z)(y + 1)<br><br>
+     
+     <h5 class ="btn btn-primary" id="btn46">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans46">Ans: (a)</h5>
+</span>
+</h5>
+    
+    <h5 class ="alert alert-success">
+ 
+(47)\(20(y + 4)(y^2 + 5y + 3 )÷5(y + 4) = ?\)<br><br>
+(a) \(y + 5y + 3)\)<br><br>
+(b) \(4(y^2 + 5y + 3)\)<br><br>
+
+(c) \(4(y+ 5y + 3)\)<br><br>
+(d) \(20(y^2 + 5y + 3)\)<br><br>
+<h5 class ="btn btn-primary" id="btn47">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans47">Ans: (b)</h5>
+</span>
+</h5>
+      
+  <h5 class ="alert alert-success">
+ <span style="color:red">
+(48) \((3y^8 - 4y^6 + 5y^4 )÷ \ y^4 = \ ?\)<br><br><span>
+(a) \(3y^4 - 4y^2 +  \ 5\)<br><br>
+(b) \(3y^2 + 5y^{-1} \ \ + 5\)<br><br>
+
+(c) \(4(y+ 5y + 3)\)<br><br>
+(d) \(20(y^2 + 5y + 3)\)<br><br>
+<h5 class ="btn btn-primary" id="btn48">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans48">Ans: (a)</h5>
+</span>
+</h5>
+      
+      
+  <h5 class ="alert alert-success">
+ <span style="color:red">
+(49) \(a^2bc + ab^2c + abc^2 = \ ?\)<br><br><span>
+(a) \(a^2bc(a + b + c)\)<br><br>
+(b) \(abc(a + b + c)\)<br><br>
+
+(c) \(abc(a^2+ b^2 + c^2)\)<br><br>
+(d) 0 <br><br>
+<h5 class ="btn btn-primary" id="btn49">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans49">Ans: (b)</h5>
+</span>
+</h5>
+      
+      
+
+  <h5 class ="alert alert-success">
+ <span style="color:red">
+(50) 20pq , 30qr , 40rp এর সাধারণ উৎপাদক --- ?<br><br><span>
+(a) 10 pqr<br><br>
+(b) 20<br><br>
+
+(c) p<br><br>
+(d) 10<br><br>
+<h5 class ="btn btn-primary" id="btn50">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans50">Ans: (d)</h5>
+</span>
+</h5>
+    <!--
+      
+  <h5 class ="alert alert-success">
+ <span style="color:red">
+(47)\(20(y + 4)(y^2 + 5y + 3 )÷5(y + 4) = ?\)<br><br><span>
+(a) \(y + 5y + 3)\)<br><br>
+(b) \(4(y^2 + 5y + 3)\)<br><br>
+
+(c) \(4(y+ 5y + 3)\)<br><br>
+(d) \(20(y^2 + 5y + 3)\)<br><br>
+<h5 class ="btn btn-primary" id="btn47">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans47">Ans: (b)</h5>
+</span>
+</h5>
+   -->   
+      
+
+<br>
+<!-- Back to Top Button -->
+<a id="back-to-top" href="#" class="custom-back-to-top" title="Back to top">
+  <i class="bi bi-arrow-up-circle-fill"></i>
+</a>
+
+
+<br>
+   <ul class="list-group  border border-primary list-group-numbered" id="index" >
+      
+   <span style="text-align:center; color:indigo"> <h4>Chapter
+        
+   </h4></span>
+  <li class="list-group-item d-flex justify-content-between align-items-center active">
+    <a href="https://bijush1.blogspot.com/p/blog-page_18.html" > পুণরলোচনা </a>
+    <span class="badge bg-primary rounded-pill">50</span>
+    
+  </li>
+    
+  <li class="list-group-item d-flex justify-content-between align-items-center">
+    <a href="https://bijush1.blogspot.com/p/class-10-math-mcq.html">
+Chapter 1- বাস্তব সংখ্যা</a>
+    <span class="badge bg-primary rounded-pill">39</span>
+    
+  </li>
+      
+  <li class="list-group-item d-flex justify-content-between align-items-center">  
+    <a href="https://bijush1.blogspot.com/p/chapter-2.html">Chapter 2:
+বহুপদ রাশি</a>
+    <span class="badge bg-primary rounded-pill">27</span>   
+  </li>
+    
+     
+     <li class="list-group-item d-flex justify-content-between align-items-center">  
+    <a href="https://bijush1.blogspot.com/p/chapter-3.html">
+Chapter-3: রৈখিক সমীকরণ</a>
+    <span class="badge bg-primary rounded-pill">10</span>   
+  </li>
+    
+     <li class="list-group-item d-flex justify-content-between align-items-center" active>  
+    <a href="https://bijush1.blogspot.com/p/chapter-4_24.html">
+Chapter-4: দ্বিঘাত সমীকরণ</a>
+    <span class="badge bg-primary rounded-pill">10</span>   
+  </li>
+    
+      <li class="list-group-item d-flex justify-content-between align-items-center">  
+    <a href="https://bijush1.blogspot.com/p/chapter-4.html">
+Chapter-5: সমান্তর প্রগতি</a>
+    <span class="badge bg-primary rounded-pill">19</span>   
+  </li>
+     
+     <li class="list-group-item d-flex justify-content-between align-items-center ">  
+    <a href="https://bijush1.blogspot.com/p/chapter-6.html">
+Chapter-6: ত্রিভুজ</a>
+    <span class="badge bg-primary rounded-pill">18</span>   
+  </li>
+      
+      <li class="list-group-item d-flex justify-content-between align-items-center">  
+    <a href="https://bijush1.blogspot.com/p/chapter-7.html">
+Chapter-7: স্থানাঙ্ক জ্যামিতি</a>
+    <span class="badge bg-primary rounded-pill">20</span>   
+  </li>
+     
+     
+</ul>
+  
+    <br>
+<i class='bi bi-arrow-90deg-up 
+' id="ar">Back</i>
+</body>
+</html>

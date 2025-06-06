@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 1</title>
+
+<link rel="manifest" href="../manifest.json">
+<link rel="icon" href="../icons/icon-192.png">
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('../sw.js');
+  }
+</script>
+
+
+ 
+<link rel="stylesheet" href="../style.css">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"/>
+
+ <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<style type="text/css">
+  <!--
+  html {
+            user-select: none;
+        }
+  -->
+  body{
+  font-size:20px; 
+  color:blue;
+  }
+  
+  #index{
+  box-shadow:10px 10px 15px 10px grey;
+    padding:8px;
+    width:100%;
+     }
+  
+  
+  .btn{
+	position: relative;
+	top: -6px;
+	border: 0;
+	transition: all 40ms linear;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-left: 2px;
+	margin-right: 2px;
+}
+
+.btn:active:focus,
+.btn:focus:hover,
+.btn:focus {
+	-moz-outline-style: none;
+	outline: medium none;
+}
+
+.btn:active,
+.btn.active {
+	top: 2px;
+}
+
+.btn-primary {
+	box-shadow: 0 0 0 1px #417fbd inset, 0 0 0 2px rgba(255, 255, 255, 0.15) inset, 0 8px 0 0 #4D5BBE, 0 8px 8px 1px rgba(0, 0, 0, 0.5);
+	background-color: #4274D7;
+}
+
+.btn-primary:active,
+.btn3d.btn-primary.active {
+	box-shadow: 0 0 0 1px #417fbd inset, 0 0 0 1px rgba(255, 255, 255, 0.15) inset, 0 1px 3px 1px rgba(0, 0, 0, 0.3);
+	background-color: #4274D7;
+}
+  #ans1,#ans2,#ans3,#ans4,#ans5,#ans6,#ans7,
+  
+  #ans8,#ans9,#ans10,#ans11,#ans12,#ans13,#ans14,#ans15,#ans16,
+  #ans17, #ans18,#ans19,#ans20,#ans21,
+  #ans22,#ans23,#ans24,#ans25,#ans26,#ans27,#ans28,#ans29,
+  #ans30,#ans31,#ans32,#ans33,#ans34,#ans35,#ans36,#ans37,#ans38,#ans39
+  {
+    display:none;   
+  }
+  .clr{
+    color:blue;
+  }
+  
+  h5{
+color:#fffff;
+	box-shadow: 0 0 0 1px #9a00cd inset, 0 0 0 2px rgba(255, 255, 255, 0) inset, 0 8px 0 0 #9823d5, 0 8px 8px 1px rgba(0.5, 0, 0, 0.5);
+  }
+  </style>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.min.js" 
+  >
+</script>
+
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+ 
+
+<!--jQuery--> 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"> 
+</script>
+<script>
+$(document).ready(function(){
+  /*
+  $('#btn1').click(function(){
+  $('#ans1').slideToggle();
+  });
+  
+  $('#btn2').click(function(){
+  $('#ans2').slideToggle();
+  });
+  
+  $('#btn3').click(function(){
+  $('#ans3').slideToggle();
+  });
+  $('#btn4').click(function(){
+  $('#ans4').slideToggle();
+  });
+  
+  $('#btn5').click(function(){
+  $('#ans5').slideToggle();
+  });
+  $('#btn6').click(function(){
+  $('#ans6').slideToggle();
+  });
+  
+$('#btn7').click(function(){
+  $('#ans7').slideToggle();
+  });
+  $('#btn8').click(function(){
+  $('#ans8').slideToggle();
+  });
+ 
+  $('#btn9').click(function(){
+  $('#ans9').slideToggle();
+  });
+  
+  $('#btn10').click(function(){
+  $('#ans10').slideToggle();
+  });
+  
+  $('#btn11').click(function(){
+  $('#ans11').slideToggle();
+  });
+  $('#btn12').click(function(){
+  $('#ans12').slideToggle();
+  });
+  
+  $('#btn13').click(function(){
+  $('#ans13').slideToggle();
+  });
+  $('#btn14').click(function(){
+  $('#ans14').slideToggle();
+  });
+  
+  $('#btn15').click(function(){
+  $('#ans15').slideToggle();
+  });
+  $('#btn16').click(function(){
+  $('#ans16').slideToggle();
+  });
+  
+  $('#btn17').click(function(){
+  $('#ans17').slideToggle();
+  });
+  
+  $('#btn18').click(function(){
+  $('#ans18').slideToggle();
+  });
+  
+  $('#btn19').click(function(){
+  $('#ans19').slideToggle();
+  });
+  $('#btn20').click(function(){
+  $('#ans20').slideToggle();
+  });
+  
+  $('#btn21').click(function(){
+  $('#ans21').slideToggle();
+  });
+  $('#btn22').click(function(){
+  $('#ans22').slideToggle();
+  });
+  
+  $('#btn23').click(function(){
+  $('#ans23').slideToggle();
+  });
+  $('#btn24').click(function(){
+  $('#ans24').slideToggle();
+  });
+  
+  $('#btn25').click(function(){
+  $('#ans25').slideToggle();
+  });
+  $('#btn26').click(function(){
+  $('#ans26').slideToggle();
+  });
+  
+  $('#btn27').click(function(){
+  $('#ans27').slideToggle();
+  });
+  
+  $('#btn28').click(function(){
+  $('#ans28').slideToggle();
+  });
+  
+  $('#btn29').click(function(){
+  $('#ans29').slideToggle();
+  });
+  $('#btn30').click(function(){
+  $('#ans30').slideToggle();
+  });
+  
+  $('#btn31').click(function(){
+  $('#ans31').slideToggle();
+  });
+  $('#btn32').click(function(){
+  $('#ans32').slideToggle();
+  });
+  
+  $('#btn33').click(function(){
+  $('#ans33').slideToggle();
+  });
+  $('#btn34').click(function(){
+  $('#ans34').slideToggle();
+  });
+  
+  
+  $('#btn35').click(function(){
+  $('#ans35').slideToggle();
+  });
+  $('#btn36').click(function(){
+  $('#ans36').slideToggle();
+  });
+   
+  $('#btn37').click(function(){
+  $('#ans37').slideToggle();
+  });
+  
+  $('#btn38').click(function(){
+  $('#ans38').slideToggle();
+  });
+  $('#btn39').click(function(){
+  $('#ans39').slideToggle();
+  });
+ 
+ 
+*/
+// For all #btnX and #ansX (1 to 51)
+  for (let i = 1; i <= 51; i++) {
+    $(`#btn${i}`).click(function () {
+      $(`#ans${i}`).slideToggle();
+
+      // Confetti effect
+      confetti({
+        particleCount: 80,
+        spread: 70,
+        origin: { y: 0.6 }
+      });
+    });
+  }
+
+  // Option color marking
+  $('#op2,#op3,#op4').click(function () {
+    $(this).css("background-color", "red");
+    $('#op1').css("background-color", "green").css("color", "white");
+  });
+
+  $('#2op2,#2op1,#2op4').click(function () {
+    $(this).css("background-color", "red");
+    $('#2op3').css("background-color", "green").css("color", "white");
+  });
+});
+
+</script>
+
+</head>
+<body>
+  <nav class="navbar">
+    <div class="logo">Bijush Academy</div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+    <div class="hamburger" id="hamburger">&#9776;</div>
+  </nav>
+
+  <section>
+    <a href="class10-chapter.html" class="back-arrow">
+      <svg fill="none" stroke="currentColor" stroke-width="4" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg>
+      Back to Class Selection
+    </a>
+
+
+
+
+
+    <h2>Chapter 1 -বাস্তব সংখ্যা ( MCQ)</h2>
+    
+
+
+ <h5 class ="ale alert-success"> <span style="color:red">
+Q.1 : 125 এবং 225 এর গ.সা.গু হল -
+   
+  <p class="clr" style="text-align:right"><marquee behavior="alternate"width="200" height="30" text-align="right">
+  H.S.L.C - 2021</marquee></p>
+  
+</span>
+<span style="color:green"> (A) 224<br>(B) 9325 <br> (C) 25 <br> (D) 625<br><br>
+<h5 class ="btn btn-primary" id="btn1"> উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans1">Ans: (c)</h5>
+</span></h5>
+
+<h5 class ="alert alert-success"> 
+<span style="color:red">
+(2) একটি ঘণ্টা 18 সেকেন্ড এবং অন্য একটি ঘণ্টা 60 সেকেন্ড অন্তরালে বাজে। কোন এক  সময় উভয় ঘণ্টা এক সংগে বাজিলে। কত সেকেন্ড 
+পরে ঘণ্টা দুটি পুনরায় এক সংগে 
+বাজিবে ?</span><br><br><span>
+(A) 30 সেকেন্ড </br>(B) 60   সেকেন্ড  </br>(C) 90 সেকেন্ড</br>(D) 180 সেকেন্ড
+
+<br><h5 class ="btn btn-primary" id="btn2">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans2">Ans: 180 সেকেন্ড </h5>
+</h5>
+
+<h5 class ="alert alert-success"> <span style="color:red">
+(3) নীচের কোনটি অসীমিত পৌনঃপুনিক দশমিক সংখ্যা 
+  
+  <p class="clr" style="text-align:right"><marquee behavior="alternate"width="200" height="30" text-align="right">
+  H.S.L.C - 2019</marquee></p>
+</span><span>
+(A) \(\frac{3}{8}\)<br><br>(B) \(\frac{7}{80}\)<br><br>(C) \(\frac{64}{455}\)<br><br> (D) \(\frac{124}{625}\)<br>
+<br><h5 class ="btn btn-primary" id="btn3">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans3">Ans: (C) </h5>
+</span>
+</h5>
+
+<h5 class ="alert alert-success">
+ <span style="color:red">
+(4) পরিণয় সংখ্যা 
+
+ \(\frac{14588}{625}\) এর দশমিক প্রসারণ নীচের কোনটি স্থানে
+  সমাপ্ত হবে -</span> 
+  <p class="clr" style="text-align:right;"><marquee behavior="alternate" width="200" height="30" text-align="right">
+  H.S.L.C - 2018</marquee></p>
+  <span>(A) 3 <br>(B) 4 </br>(C) 2</br>
+  (D) 5  <br>
+
+<br><h5 class ="btn btn-primary" id="btn4">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans4">Ans: (B) </h5>
+</span>
+</h5>
+
+<h5 class ="alert alert-success"> 
+<span style="color:red">
+(5) নীচের কোনটি পরিময়  সংখ্যা <br>
+   <p class="clr" style="text-align:right"><marquee behavior="alternate"width="200" height="30" text-align="right">
+  H.S.L.C - 2018</marquee></p>
+  
+  <br></span>
+<span>(A) \(\frac{ \sqrt{3}}{\sqrt{2}}\) <br><br> (B) \(\frac{\sqrt{2}}{\pi}\)<br><br>(C) \(\frac{\sqrt{5}}{\sqrt{6}}\)<br><br> (D) \(\frac{\sqrt{27}}{\sqrt{3}}\)<br>
+
+<br><h5 class ="btn btn-primary" id="btn5">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans5">Ans: (D)</h5>
+</h5>
+</span>
+</h5>
+
+<h5 class ="alert alert-success"> <span style="color:red">(6) সবচেয়ে ছোট কোন  সংখ্যা দ্বারা \(\sqrt{27}\) কে পূরণ করিলে একটি পরিময় সংখ্যা পাওয়া যায় <br><br>
+</span><span>
+(A) \(\sqrt{27}\)<br><br> (B) \(3\sqrt{3} \)<br><br>(C) \(\sqrt{3}\)<br><br>(D) 3<br>
+<br><h5 class ="btn btn-primary" id="btn6">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans6">Ans:(C) </h5>
+</h5>
+</span>
+</h5>
+
+<h5 class ="alert alert-success">
+ <span style="color:red">
+ (7) \(\frac{23}{2^3 × 5^3}\) পরিমেয় সংখ্যা এর দশমিক প্রসারণের দশমিক স্থানের পরিসমাপ্তি হওয়া স্থানের সংখ্যা হলো । <br><br>
+</span><span>
+(A) 3<br><br>(B) 4 <br></br>(C) 5</br><br>(D) 1 <br>
+<br><h5 class ="btn btn-primary" id="btn7">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans7">Ans: (A) </h5>
+</h5></span>
+</h5>
+
+<h5 class ="alert alert-success">
+ <span style="color:red">(8) যদি p এবং q পূর্ণসংখ্যা হয় এবং \(\frac{p}{q}\) আকারে  লিখা হয়, তাহলে 
+ এটি একটি:<br></span><span><br>
+(a) পূর্ণ সংখ্যা<br>
+<br>
+(b) অপরিমেয় সংখ্যা<br><br>
+(c) স্বাভাবিক সংখ্যা<br>
+<br>
+(d) পরিমেয় সংখ্যা
+<br>
+<br><h5 class ="btn btn-primary" id="btn8">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans8">Ans: (d)</h5>
+</h5>
+<h5 class ="alert alert-success">
+ <span style="color:red">
+(9) যদি 65 এবং 117-এর গ. সা. গু (65m – 117) আকারে লেখা হয়, তাহলে m-এর মান হবে-</span><span>
+<br><br> (a) 4 <br><br>
+ (b) 2<br><br>
+ (c) 1<br><br>
+ (d) 3<br>
+ <br><h5 class ="btn btn-primary" id="btn9">
+ উত্তর দেখুন </h5>
+ <h5 class="alert alert-primary" id="ans9">Ans: (b)</h5>
+ </span>
+ </h5>
+</h5>
+<h5 class ="alert alert-success">
+ <span style="color:red">
+(10) যদি a এবং b দুটি ধনাত্মক অখণ্ড পূর্ণসংখ্যা   এবং  HCF(a, b) × LCM (a, b) = ?</span><br><span>
+<br>(a) 1<br><br>
+(b) \(\frac{(a × b)}{2}\) <br><br>
+(c) ) \(\frac{(a)}{b}\)<br><br>
+(d) a × b<br>
+
+<br><h5 class ="btn btn-primary" id="btn10">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans10">Ans: (d)</h5>
+</span>
+</h5>
+
+<h5 class ="alert alert-success">
+ <span style="color:red">
+(11) যদি দুটি ধনাত্মক পূর্ণসংখ্যা p এবং q কে <br>\( p = ab ^2\)  এবং <br>\(q = a^3b\)  হিসাবে প্রকাশ করা হয় ;  এখানে a, b মৌলিক সংখ্যা, তাহলে ল.সা.গু (p, q)  = ?</span><br>
+<br><span>(a) ab<br><br>
+(b) \(a^2b^2\) <br><br>
+(c) ) \(a^3b^2\)<br><br>
+(d) \(a^3b^3\)<br><br>
+<br><h5 class ="btn btn-primary" id="btn11">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans11">Ans: (c)</h5>
+</span>
+</h5>
+
+<h5 class ="alert alert-success">
+ <span style="color:red">
+(12) যদি \((n^2 - 1)\) সংখ্যাটি  8 দ্বারা বিভাজ্য হয় । তাহলে n এর মান হবে -
+<br><br></span><span>
+(a) 2<br><br>
+(b) 4<br><br>
+(c) 5<br><br>
+(d) 6<br>
+<br><h5 class ="btn btn-primary" id="btn12">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans12">Ans: (c)</h5>
+</span>
+</h5>
+
+<h5 class ="alert alert-success">
+ <span style="color:red">
+(13)\(\sqrt{7}\) একটি : </span><br>
+<br><span>
+(a) পরিময় সংখ্যা<br><br>
+(b) অপরিমেয় সংখ্যা<br><br>
+(c) মৌলিক সংখ্যা<br><br>
+(d) অখন্ড সংখ্যা<br>
+<br><h5 class ="btn btn-primary" id="btn13">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans13">Ans: (b)</h5>
+</span>
+</h5>
+
+<h5 class ="alert alert-success">
+ <span style="color:red">
+(14) নিচের কোনটি পরিমেয় সংখ্যা -</span>
+<br><br><span>
+(a) \((2 - \sqrt{3})^2\) <br><br>
+(b) \((2 + \sqrt{3})^2\) <br><br>
+(c) \((2 - \sqrt{3}(2 + \sqrt{3})\) <br><br>
+(d) \(\frac{2\sqrt{2}}{7}\) <br><br>
+<br><h5 class ="btn btn-primary" id="btn14">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans14">Ans: (c)</h5>
+</span>
+</h5>
+
+
+<h5 class ="alert alert-success">
+ <span style="color:red">
+(15) পরিমেয় এবং অপরিমেয় সংখ্যার যোগফল সর্বদা একটি -</span><br>
+<br><span>
+(a) পরিময় সংখ্যা<br><br>
+(b) অপরিমেয় সংখ্যা <br><br>
+(c) (a) পরিময় সংখ্যা এবং (b) অপরিমেয় সংখ্যা<br><br>
+(d) উপরের কোনটাই না <br>
+<br><h5 class ="btn btn-primary" id="btn15">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans15">Ans: (b)</h5>
+</span>
+</h5>
+
+
+<h5 class ="alert alert-success">
+ <span style="color:red">
+(16) যদি গ.সা.গু(16,y)= 8 এবং ল.সা.গু(16,y)= 48 , তাহলে y এর মান হবে - </span><br>
+<br><span>
+(a) 16<br><br>
+(b) 128<br><br>
+(c) 24<br><br>
+(d) 16 <br>
+<br><h5 class ="btn btn-primary" id="btn16">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans16">Ans: (c)</h5>
+</span>
+</h5>
+
+
+<h5 class ="alert alert-success">
+ <span style="color:red">
+(17) একটি অখণ্ড সংখ্যা m এর ক্ষেত্রে প্রতিটি যুগ্ম অখণ্ড সংখ্যার আকার হল -</span><br>
+<br><span>
+(a) 2m + 1 <br><br>
+(b) 2m<br><br>
+(c) m + 1<br><br>
+(d) m <br>
+<br><h5 class ="btn btn-primary" id="btn17">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans17">Ans: (b)</h5>
+</span>
+</h5>
+
+<h5 class ="alert alert-success">
+ <span style="color:red">
+(18) একটি অখণ্ড সংখ্যা m এর ক্ষেত্রে প্রতিটি অযুগ্ম অখণ্ড সংখ্যার আকার হল -</span><br>
+<br><span>
+(a) 2m + 1 <br><br>
+(b) 2m<br><br>
+(c) m + 1<br><br>
+(d) m <br>
+<br><h5 class ="btn btn-primary" id="btn18">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans18">Ans: (a)</h5>
+</span>
+</h5>
+
+<h5 class ="alert alert-success">
+ <span style="color:red">
+(19) তিনটি ক্রমিক ধনাত্মক অখণ্ড সংখ্যার পূরণফল বিভাজ্য হবে -</span><br>
+<br><span>
+(a) 4<br><br>
+(b) 5<br><br>
+(c) 3<br><br>
+(d) 2<br>
+<br><h5 class ="btn btn-primary" id="btn19">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans19">Ans: (c)</h5>
+</span>
+</h5>
+
+<h5 class ="alert alert-success">
+ <span style="color:red">
+(20) 327.7081 সংখ্যাটিকে\(\frac{p}{q}\) আকারে প্রকাশ করলে q-এর মৌলিক উৎপাদকগুলি হবে ?</span></br></br>
+
+<span>
+(a) 2 এবং 3<br><br>
+(b) 2 , 3 এবং 5<br><br>
+(c) 3 এবং 5 <br><br>
+(d) 2 এবং 5<br>
+<br><h5 class ="btn btn-primary" id="btn20">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans20">Ans: (d)</h5>
+
+</h5>
+
+<h5 class ="alert alert-success">
+ <span style="color:red">
+   (21) যেকোনো ধনাত্মক অখণ্ড সংখ্যা a এবং b, এর ক্ষেত্রে অদ্বিতীয় অখণ্ড সংখ্যা q এবং r পাওয়া যাবে । <br>যখন
+   
+  <p class="clr" style="text-align:right"><marquee behavior="alternate"width="200" height="30" text-align="right">
+  H.S.L.C - 2023</marquee></p>
+ </span><br><br><span>
+(a) a = bq + r, 0 ≤ r < b
+<br><br>
+(b) a = bq + r, 0 ≤ b < r 
+<br><br>
+(c) a = bq + r, b ≤ r < 0
+ 
+<br><br>
+(d) a = bq + r, 0 < r ≤b
+ 
+<br>
+<br><h5 class ="btn btn-primary" id="btn21">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans21">Ans: (a)</h5>
+
+</h5>
+<h5 class ="alert alert-success">
+ <span style="color:red">
+(22) একটি খেলার মাঠের চারিদিকে বৃত্তাকার পথ আছে। সেনিয়ার মাঠটিতে একবার গাড়ি চালিয়ে ঘুরে আসতে 18 মিনিট সময় লাগে। পরন্তু একই পথ রবির লাগে 12 মিনিট। ধর তারা উভয়েই একই বিন্দু থেকে একই সময়ে একই দিকে যাত্রা শুরু করে। কত মিনিট
+পর তারা আবার যাত্রা করা বিন্দুটিতে মিলিত হবে ?
+</span><br><br><span>
+(a) 18 মিনিট
+<br><br>
+(b) 30 মিনিট
+<br><br>
+(c) 36 মিনিট
+ 
+<br><br>
+(d) 45 মিনিট
+ 
+<br>
+<br><h5 class ="btn btn-primary" id="btn22">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans22">Ans: (c)</h5>
+
+</h5>
+
+<h5 class ="alert alert-success">
+ <span style="color:red">
+(23) যদি n একটি পরিমেয় সংখ্যা হয়, তাহলে \(5^{2n} − 2^{2n}\) বিভাজ্য হয় - <br>
+
+ </span><br><span>
+(a) 3 দ্বারা
+<br><br>
+(b) 7 দ্বারা
+<br><br>
+(c) উভয় 3 এবং 7 দ্বারা
+ 
+<br><br>
+(d) উপরের কোনোটা না
+ 
+<br>
+<br><h5 class ="btn btn-primary" id="btn23">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans23">Ans: (c)</h5>
+
+</h5>
+  
+  <h5 class ="alert alert-success">
+ <span style="color:red">
+(24) নিম্নের পরিমেয় সংখ্যাগুলোর কোন সংখ্যার দশমিক প্রসারণ সীমিত <br>
+ </span><br><span>  
+(a) \(\frac{64}{455}\)
+<br><br>
+(b) \(\frac{17}{8}\)
+<br><br>
+(c) \(\frac{29}{343}\) 
+<br><br>
+(d) \(\frac{64}{455}\) 
+<br>
+<br><h5 class ="btn btn-primary" id="btn24">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans24">Ans: (c)</h5>
+</h5>
+  
+<h5 class ="alert alert-success">
+ <span style="color:red">
+(25) \(\pi\) একটি : </span><br>
+<br><span>
+(a) পরিময় সংখ্যা<br><br>
+(b) অপরিমেয় সংখ্যা<br><br>
+(c) মৌলিক সংখ্যা<br><br>
+(d) অখন্ড সংখ্যা<br>
+<br><h5 class ="btn btn-primary" id="btn25">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans25">Ans: (b)</h5>
+</span>
+</h5>
+
+    <h5 class ="alert alert-success">
+ <span style="color:red">
+(26) নিম্নের পরিমেয় সংখ্যাগুলোর কোন সংখ্যার দশমিক প্রসারণ অসীমিত পৌনঃপুনিক<br>
+ </span><br><span>  
+(a) \(\frac{5 × 7}{5^2 × 2}\)
+<br><br>
+(b) \(\frac{7 × 11 }{3 × 7 × 2 × 5}\)
+<br><br>
+(c) \(\frac{13}{5^5 × 2^0}\) 
+<br><br>
+(d) \(\frac{3 × 5}{ 2^6 × 5^2}\) 
+<br>
+<br><h5 class ="btn btn-primary" id="btn26">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans26">Ans: (b)</h5>
+</h5>
+      
+    <h5 class ="alert alert-success">
+ <span style="color:red">
+(27) দেওয়া আছে গ.সা.গু. ( 306, 657) = 9; ল.সা.গু. ( 306, 657) = ?     
+ </span><br><br><span>  
+(a) 22338
+<br><br>
+(b) 20833
+<br><br>
+(c) 21233
+<br><br>
+(d) 23450
+<br>
+<br><h5 class ="btn btn-primary" id="btn27">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans27">Ans: (a)</h5>
+ </h5>
+      
+   <h5 class ="alert alert-success">
+ <span style="color:red">
+(28) নিচের যৌগিক সংখ্যা হল -     
+ </span><br><br><span>  
+(a) 7 × 5 × 3 × 2 + 1
+<br><br>
+(b) 7 × 6 × 5 × 4 × 3 × 2 × 1 + 5
+<br><br>
+(c) 1 × 2 × 3 × 4 + 5
+<br><br>
+(d) 11 × 12 × 13 × 14 + 3
+<br>
+<br><h5 class ="btn btn-primary" id="btn28">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans28">Ans: (b)</h5>
+ </h5>
+     
+     
+    <h5 class ="alert alert-success">
+ <span style="color:red">
+(29) ল.সা.গু (96 , 404 ) = ?     
+ </span><br><br><span>  
+(a) 404
+<br><br>
+(b) 96
+<br><br>
+(c) 9696
+<br><br>
+(d) উপরের কোনটা না 
+<br>
+<br><h5 class ="btn btn-primary" id="btn29">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans29">Ans: (c)</h5>
+ </h5>
+      
+         <h5 class ="alert alert-success">
+ <span style="color:red">
+(30) 
+       p একটি মৌলিক সংখ্যা  এবং a একটি ধনাত্মক অখণ্ড সংখ্যা।
+      যদি \(a^2\), p দ্বারা বিভাজ্য তাহলে -     
+ </span><br><br><span>  
+(a) a, p দ্বারা বিভাজ্য 
+<br><br>
+(b) \(p^2\), a দ্বারা বিভাজ্য
+<br><br>
+(c) উভয়  (a) এবং (b) 
+<br><br>
+(d) উপরের কোনটা না 
+<br>
+<br><h5 class ="btn btn-primary" id="btn30">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans30">Ans: (c)</h5>
+   
+ </h5>
+
+<h5 class ="alert alert-success">
+ <span style="color:red">
+(31) যদি দুটি ধনাত্মক পূর্ণসংখ্যা p এবং q কে <br>\( p = ab ^2\)  এবং <br>\(q = a^3b\)  হিসাবে প্রকাশ করা হয় ;  এখানে a, b মৌলিক সংখ্যা, তাহলে গ.সা.গু (p, q) = ?</span><br>
+<br><span>(a) ab<br><br>
+(b) \(a^2b^2\) <br><br>
+(c) ) \(a^3b^2\)<br><br>
+(d) \(a^3b^3\)<br>
+<br><h5 class ="btn btn-primary" id="btn31">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans31">Ans: (a)</h5>
+</span>
+</h5>
+           
+<h5 class ="alert alert-success">
+ <span style="color:red">
+(32) একটি সৈন্যদলে থাকা সৈন্যদের 15, 20 বা 25 জন করে কয়েকটি সারিতে দাঁড় করানো যায় । সৈন্যদলে অতি কমেও কতজন সৈন্য আছে ?
+           
+   <br><br></span><span>(a) 300 <br><br>
+(b) 200 <br><br>
+(c) 25<br><br>
+(d) 150<br>
+<br><h5 class ="btn btn-primary" id="btn32">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans32">Ans: (a)</h5>
+</span>
+</h5>
+           
+           
+
+<h5 class ="alert alert-success">
+ <span style="color:red">
+(33) একটি বেতারকেন্দ্রে প্রতি দুইদিন অন্তরালে “অসম সঙ্গীত” বাজায় । অপর একটি বেতারকেন্দ্রে প্রতি তিনদিন অন্তরালে বাজায় । 30 দিনে বেতার কেন্দ্র দুইটিতে একই সঙ্গীত মোট কতবার একসাথে বেজে উঠবে?
+                        
+ </span><br> 
+<br><span>(a) 10 বার<br><br>
+(b) 6 বার<br><br>
+(c) 5 বার <br><br>
+(d) 10 অথবা 15 বার<br>
+<br><h5 class ="btn btn-primary" id="btn33">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans33">Ans: (c)</h5>
+</span>
+</h5>
+               
+<h5 class ="alert alert-success">
+ <span style="color:red">
+(34) 156 এর মৌলিক উৎপাদকের পূরণফল হবে -
+           <br></span><br><span>(a) 13 × 12 × 2<br><br>
+(b) \(3 × 2^2 × 13\) <br><br>
+(c) ) \(3^3 × 2^2\)<br><br>
+(d) \(2^3 × 3^3\)<br>
+<br><h5 class ="btn btn-primary" id="btn34">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans34">Ans: (b)</h5>
+</span>
+</h5>
+                  
+<h5 class ="alert alert-success">
+ <span style="color:red">
+(35) যিকোনো ধনাত্মক  অযুগ্ম অখণ্ড সংখার আকার 6q + 1 । যেখানে q এটা অখণ্ড সংখ্যা হইলে b এর মান হবে - 
+ </span><span><br><br>(a) 6q<br><br>
+(b) 6r<br><br>
+(c) ) \(q^2 \)<br><br>
+(d) 6<br><br>
+<h5 class ="btn btn-primary" id="btn35">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans35">Ans: (d)</h5>
+</span>
+</h5>
+  
+  <h5 class ="alert alert-success">
+ <span style="color:red">
+(36) যিকোনো ধনাত্মক  অযুগ্ম অখণ্ড সংখার আকার 6q + 1 । যেখানে q এটা অখণ্ড সংখ্যা হইলে r এর মান হবে - 
+ </span><span><br><br>(a) 2<br><br>
+(b) 0<br><br>
+(c) 3<br><br>
+(d) 1<br><br>
+<h5 class ="btn btn-primary" id="btn36">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans36">Ans: (d)</h5>
+</span>
+</h5>
+     
+<h5 class ="alert alert-success">
+ <span style="color:red">
+(37) দেওয়া আছে ল.সা.গু (91,96) = 182 এবং গ.সা.গু (91,96) = ?
+ </span><br><br><span>(a) 25<br><br>
+(b) 7 <br><br>
+(c) 13<br><br>
+(d) 17<br><br>
+<h5 class ="btn btn-primary" id="btn37">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans37">Ans: (C)</h5>
+</span>
+</h5>
+  
+  
+<h5 class ="alert alert-success">
+ <span style="color:red">
+(38) দেওয়া আছে গ.সা.গু (8,9,25) = 1 এবং ল.সা.গু (8,9,25) = ?
+ </span><br><br><span>(a) 1800<br><br>
+(b) 2000<br><br>
+(c) 1560<br><br>
+(d) 560<br><br>
+<h5 class ="btn btn-primary" id="btn38">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans38">Ans: (a)</h5>
+</span>
+</h5>
+                     
+      
+<h5 class ="alert alert-success">
+ 
+(39) নিম্নোক্ত কোন সংখ্যাটি অপরিমেয় ?
+    
+  <p class="clr" style="text-align:right"><marquee behavior="alternate"width="200" height="30" text-align="right">
+  H.S.L.C - 2020</marquee></p>
+   
+           (a) 0.142857142857142857......
+           <br><br>
+(b) \(\frac{22}{7}\) <br><br>
+(c) \(\pi\)<br><br>
+(d) \(\frac{\sqrt{4}}{11}\)<br>
+<br><h5 class ="btn btn-primary" id="btn39">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans39">Ans: (c)</h5>
+
+</h5>
+           <br>
+           
+           <ul class="list-group  border border-primary list-group-numbered" id="index" >
+      
+   <span style="text-align:center; color:indigo"> <h4>Chapter
+        
+   </h4></span>
+  <li class="list-group-item d-flex justify-content-between align-items-center">
+    <a href="https://bijush1.blogspot.com/p/blog-page_18.html" > পুণরলোচনা </a>
+    <span class="badge bg-primary rounded-pill">50</span>
+    
+  </li>
+    
+  <li class="list-group-item d-flex justify-content-between align-items-center active">
+ 
+    <a href="https://bijush1.blogspot.com/p/class-10-math-mcq.html" >
+Chapter 1- বাস্তব সংখ্যা</a>
+    <span class="badge bg-primary rounded-pill">39</span>
+    
+  </li>
+    
+  <li class="list-group-item d-flex justify-content-between align-items-center">  
+    <a href="https://bijush1.blogspot.com/p/chapter-2.html">Chapter 2:
+বহুপদ রাশি</a>
+    <span class="badge bg-primary rounded-pill">27</span>   
+  </li>
+    
+     
+     <li class="list-group-item d-flex justify-content-between align-items-center">  
+    <a href="https://bijush1.blogspot.com/p/chapter-3.html">
+Chapter-3: রৈখিক সমীকরণ</a>
+    <span class="badge bg-primary rounded-pill">10</span>   
+  </li>
+    
+     <li class="list-group-item d-flex justify-content-between align-items-center" active>  
+    <a href="https://bijush1.blogspot.com/p/chapter-4_24.html">
+Chapter-4: দ্বিঘাত সমীকরণ</a>
+    <span class="badge bg-primary rounded-pill">10</span>   
+  </li>
+    
+      <li class="list-group-item d-flex justify-content-between align-items-center">  
+    <a href="https://bijush1.blogspot.com/p/chapter-4.html">
+Chapter-5: সমান্তর প্রগতি</a>
+    <span class="badge bg-primary rounded-pill">19</span>   
+  </li>
+     
+     <li class="list-group-item d-flex justify-content-between align-items-center ">  
+    <a href="https://bijush1.blogspot.com/p/chapter-6.html">
+Chapter-6: ত্রিভুজ</a>
+    <span class="badge bg-primary rounded-pill">18</span>   
+  </li>
+      
+      <li class="list-group-item d-flex justify-content-between align-items-center">  
+    <a href="https://bijush1.blogspot.com/p/chapter-7.html">
+Chapter-7: স্থানাঙ্ক জ্যামিতি</a>
+    <span class="badge bg-primary rounded-pill">20</span>   
+  </li>
+</ul>
+           
+             <!--   
+<h5 class ="alert alert-success">
+ <span style="color:red">
+(40) 135 এবং 225 এর গ.সা.গু. হলো
+             
+           <br><span>(a) 30375<br><br>
+(b) 945 <br><br>
+(c) 15<br><br>
+(d) 45<br><br>
+<br><h5 class ="btn btn-primary" id="btn40">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans40">Ans: (d)</h5>
+</span>
+</h5>
+           
+-->
+
+
+
+  </section>
+
+
+
+  <script src="script.js">
+</script>
+</body>
+</html>
