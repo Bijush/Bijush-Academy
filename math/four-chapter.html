@@ -1,0 +1,2626 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> MCQ</title>
+<link rel="manifest" href="../manifest.json">
+<link rel="icon" href="../icons/icon-192.png">
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('../sw.js');
+  }
+</script>
+  <title> Chapter 4 - দ্বিঘাত সমীকরণ </title>
+  <!--
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
+  
+  -->
+  <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css'>    
+  
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+            
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"/>
+<style type="text/css">
+  
+   html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  padding-top:30px;
+}
+    nav.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(0,0,0,0.6);
+    padding: 10px 20px;
+    position:fixed;
+    top: 0;
+    z-index: 10;
+    left:0;
+    width:100%;
+    backdrop-filter: blur(8px);
+  }
+  nav .logo {
+    font-weight: 700;
+    font-size: 1.8rem;
+    letter-spacing: 2px;
+    color: #fff;
+  }
+  nav ul.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+  }
+  nav ul.nav-links li a {
+    text-decoration: none;
+    color: #ddd;
+    font-weight: 600;
+    padding: 6px 10px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+  }
+  nav ul.nav-links li a:hover {
+    background-color: #3498db;
+    color: white;
+  }
+  /* Hamburger */
+  .hamburger {
+    display: none;
+    font-size: 2rem;
+    cursor: pointer;
+    color: #fff;
+  }
+
+  /* Responsive nav */
+  @media (max-width: 768px) {
+    nav ul.nav-links {
+      position: fixed;
+      top: 60px; right: 0;
+      background: rgba(0,0,0,0.85);
+      height: calc(100vh - 60px);
+      width: 200px;
+      flex-direction: column;
+      padding-top: 20px;
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+      gap: 15px;
+      z-index: 20;
+    }
+    nav ul.nav-links.open {
+      transform: translateX(0);
+    }
+    .hamburger {
+      display: block;
+    }
+  }
+
+
+  /* Back Button */
+  a.back-arrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 20px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    text-decoration: none;
+    color: #fff;
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    padding: 10px 18px;
+    border-radius: 40px;
+    box-shadow: 0 4px 10px rgba(37,117,252,0.6);
+    transition: all 0.3s ease;
+  }
+  a.back-arrow:hover {
+    background: linear-gradient(135deg, #2575fc 0%, #6a11cb 100%);
+    box-shadow: 0 6px 15px rgba(106,17,203,0.8);
+    transform: scale(1.05);
+    color: #fff;
+  }
+
+  a.back-arrow::before {
+    content: "←";
+    font-size: 1.3rem;
+  }
+
+.custom-back-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 999;
+  display: none;
+  font-size: 2.5rem;
+  color: #0d6efd;
+  background-color: white;
+  border-radius: 50%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  padding: 10px;
+  transition: all 0.3s ease;
+  text-align: center;
+  text-decoration: none;
+}
+
+.custom-back-to-top:hover {
+  color: white;
+  background-color: #0d6efd;
+  transform: scale(1.1);
+}
+  
+.stylish-back-btn {
+  background: linear-gradient(135deg, #6f42c1, #6610f2);
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-weight: 600;
+  font-size: 16px;
+  border-radius: 30px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.stylish-back-btn:hover {
+  background: linear-gradient(135deg, #5a32a3, #520dc2);
+  transform: translateY(-2px);
+  color: #ffffff;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+}
+
+.stylish-back-btn i {
+  font-size: 1.2rem;
+}
+
+  
+  
+  .exam{
+  float:right;
+    color:indigo;
+    font-size:16px;
+  }
+  
+   #index{
+  box-shadow:10px 10px 15px 10px grey;
+    padding:8px;
+    width:100%;
+     }
+  
+  
+  #ar{color:red;
+    
+  }
+  .answer{
+    display:none;
+  }
+  
+  table,th,td{
+   border :2px solid blue;}
+  table{
+    height:100%;
+  }
+ .clrop{
+    
+    background-color:red;
+    color: yellow;
+  
+   
+  }
+  .ansop{
+    background-color:green;
+    color:white;
+  }
+  td,th{
+    height:20px;
+    width:70px;
+    text-align:center;
+  }
+  th{
+    background:white;
+  }
+  sub{
+    color:blue;
+  }
+  
+  .back-to-top {
+    position: fixed;
+    bottom: 25px;
+    left: 25px;
+    display: none;
+}
+  
+ .back-to-top {
+    position: fixed;
+    bottom: 25px;
+    left: 25px;
+    display: none;
+}
+  
+  
+  
+  .btn{
+	position: relative;
+	top: -6px;
+	border: 0;
+	transition: all 40ms linear;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-left: 2px;
+	margin-right: 2px;
+}
+
+.btn:active:focus,
+.btn:focus:hover,
+.btn:focus {
+	-moz-outline-style: none;
+	outline: medium none;
+}
+
+.btn:active,
+.btn.active {
+	top: 2px;
+}
+
+.btn-primary {
+	box-shadow: 0 0 0 1px #417fbd inset, 0 0 0 2px rgba(255, 255, 255, 0.15) inset, 0 8px 0 0 #4D5BBE, 0 3px 3px 1px rgba(0, 0, 0, 0.5);
+	background-color: #4274D7;
+}
+
+.btn-primary:active,
+.btn3d.btn-primary.active {
+	box-shadow: 0 0 0 1px #417fbd inset, 0 0 0 1px rgba(255, 255, 255, 0.15) inset, 0 1px 3px 1px rgba(0, 0, 0, 0.3);
+	background-color: #4274D7;
+}
+  h5{
+color:#fffff;
+	box-shadow: 0 0 0 1px #9a00cd inset, 0 0 0 2px rgba(255, 255, 255, 0) inset, 0 8px 0 0 #9823d5, 0 3px 3px 1px rgba(0.5, 0, 0, 0.5);
+  }
+  #ans1,#ans2,#ans3,#ans4,#ans5,#ans6,#ans7,
+  
+  #ans8,#ans9,#ans10,#ans11,#ans12,#ans13,#ans14,#ans15,#ans16,
+  #ans17, #ans18,#ans19,#ans20,#ans21,
+  #ans22,#ans23,#ans24,#ans25,#ans26,#ans27,#ans28,#ans29,
+  #ans30,#ans31,#ans32,#ans33,#ans34,#ans35,#ans36,#ans37,#ans38,#ans39,
+  #ans40,#ans41,#ans42,#ans43,#ans44,#ans45,#ans46,#ans47,#ans48,#ans49,#ans50
+  
+  {
+    display:none;  
+    
+      
+    
+  }
+  .clr{
+    color:blue;
+  }
+  
+  h6{
+    font-size:8px;
+    }
+  </style>
+
+<!--jQuery--> 
+
+
+  <!-- above script is used for inline-->
+<!--
+ <script src="https://polyfill.io/v3/polyfill.min.js?features=es6">
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js" >
+</script>-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.min.js" 
+  >
+</script>
+
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+ 
+
+<!--jQuery--> 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"> 
+</script>
+<script>
+$(document).ready(function(){
+  /*
+  $('#btn1').click(function(){
+  $('#ans1').slideToggle();
+  });
+  
+  $('#btn2').click(function(){
+  $('#ans2').slideToggle();
+  });
+  
+  $('#btn3').click(function(){
+  $('#ans3').slideToggle();
+  });
+  $('#btn4').click(function(){
+  $('#ans4').slideToggle();
+  });
+  
+  $('#btn5').click(function(){
+  $('#ans5').slideToggle();
+  });
+  $('#btn6').click(function(){
+  $('#ans6').slideToggle();
+  });
+  
+$('#btn7').click(function(){
+  $('#ans7').slideToggle();
+  });
+  $('#btn8').click(function(){
+  $('#ans8').slideToggle();
+  });
+ 
+  $('#btn9').click(function(){
+  $('#ans9').slideToggle();
+  });
+  
+  $('#btn10').click(function(){
+  $('#ans10').slideToggle();
+  });
+  
+  $('#btn11').click(function(){
+  $('#ans11').slideToggle();
+  });
+  $('#btn12').click(function(){
+  $('#ans12').slideToggle();
+  });
+  
+  $('#btn13').click(function(){
+  $('#ans13').slideToggle();
+  });
+  $('#btn14').click(function(){
+  $('#ans14').slideToggle();
+  });
+  
+  $('#btn15').click(function(){
+  $('#ans15').slideToggle();
+  });
+  $('#btn16').click(function(){
+  $('#ans16').slideToggle();
+  });
+  
+  $('#btn17').click(function(){
+  $('#ans17').slideToggle();
+  });
+  
+  $('#btn18').click(function(){
+  $('#ans18').slideToggle();
+  });
+  
+  $('#btn19').click(function(){
+  $('#ans19').slideToggle();
+  });
+  $('#btn20').click(function(){
+  $('#ans20').slideToggle();
+  });
+  
+  $('#btn21').click(function(){
+  $('#ans21').slideToggle();
+  });
+  $('#btn22').click(function(){
+  $('#ans22').slideToggle();
+  });
+  
+  $('#btn23').click(function(){
+  $('#ans23').slideToggle();
+  });
+  $('#btn24').click(function(){
+  $('#ans24').slideToggle();
+  });
+  
+  $('#btn25').click(function(){
+  $('#ans25').slideToggle();
+  });
+  $('#btn26').click(function(){
+  $('#ans26').slideToggle();
+  });
+  
+  $('#btn27').click(function(){
+  $('#ans27').slideToggle();
+  });
+  
+  $('#btn28').click(function(){
+  $('#ans28').slideToggle();
+  });
+  
+  $('#btn29').click(function(){
+  $('#ans29').slideToggle();
+  });
+  $('#btn30').click(function(){
+  $('#ans30').slideToggle();
+  });
+  
+  $('#btn31').click(function(){
+  $('#ans31').slideToggle();
+  });
+  $('#btn32').click(function(){
+  $('#ans32').slideToggle();
+  });
+  
+  $('#btn33').click(function(){
+  $('#ans33').slideToggle();
+  });
+  $('#btn34').click(function(){
+  $('#ans34').slideToggle();
+  });
+  
+  
+  $('#btn35').click(function(){
+  $('#ans35').slideToggle();
+  });
+  $('#btn36').click(function(){
+  $('#ans36').slideToggle();
+  });
+   
+  $('#btn37').click(function(){
+  $('#ans37').slideToggle();
+  });
+  
+  $('#btn38').click(function(){
+  $('#ans38').slideToggle();
+  });
+  $('#btn39').click(function(){
+  $('#ans39').slideToggle();
+  });
+ 
+  $('#btn40').click(function(){
+  $('#ans40').slideToggle();
+  });
+  
+  $('#btn41').click(function(){
+  $('#ans41').slideToggle();
+  });
+  $('#btn42').click(function(){
+  $('#ans42').slideToggle();
+  });
+  
+  $('#btn43').click(function(){
+  $('#ans43').slideToggle();
+  });
+  $('#btn44').click(function(){
+  $('#ans44').slideToggle();
+  });
+  
+  $('#btn45').click(function(){
+  $('#ans45').slideToggle();
+  });
+  $('#btn46').click(function(){
+  $('#ans46').slideToggle();
+  });
+  
+  
+  $('#btn47').click(function(){
+  $('#ans47').slideToggle();
+  });
+  $('#btn48').click(function(){
+  $('#ans48').slideToggle();
+  });
+   
+  $('#btn49').click(function(){
+  $('#ans49').slideToggle();
+  });
+  
+  $('#btn50').click(function(){
+  $('#ans50').slideToggle();
+  });
+  
+  $('#btn51').click(function(){
+  $('#ans51').slideToggle();
+  });
+  
+  $('#1op1,#1op4,#1op3').click(function(){
+  $(this).addClass("clrop");
+     $('#1op2').addClass("ansop");
+    $('#btn1').removeClass("answer"); 
+     $('#btn1').html("Hide");
+     $('#btn1').css("width","50%");
+   $('#ans1').show();
+  });
+  $('#1op2').click(function(){
+  $(this).addClass("ansop");
+    
+        
+    
+    $('#btn1').removeClass("answer");
+    
+    $('#btn1').html("Hide");
+     $('#btn1').css("width","50%");
+    
+    $('#ans1').show();
+  });
+  
+  
+  
+  $('#2op1,#2op4,#2op3').click(function(){
+  $(this).addClass("clrop");
+     $('#2op2').addClass("ansop");
+    $('#btn2').removeClass("answer"); 
+    $('#btn2').html("Hide");
+     $('#btn2').css("width","50%");
+    
+    
+       $('#ans2').show();
+    
+    
+  });
+  $('#2op2').click(function(){
+  $(this).addClass("ansop");  
+    $('#btn2').removeClass("answer");
+    
+    $('#btn2').html("Hide");
+     $('#btn2').css("width","50%");
+    
+
+      $('#ans2').show();
+  });
+  
+  
+  $('#3op1,#3op4,#3op2').click(function(){
+  $(this).addClass("clrop");
+     $('#3op3').addClass("ansop");
+    $('#btn3').removeClass("answer");
+    
+    $('#btn3').html("Hide");
+     $('#btn3').css("width","50%");
+    
+    $('#ans3').show();
+  });
+  
+  $('#3op3').click(function(){
+  $(this).addClass("ansop");
+     $('#btn3').removeClass("answer"); 
+    
+    $('#btn3').html("Hide");
+     $('#btn3').css("width","50%");
+    
+    $('#ans3').show();
+    
+  });
+  
+  $('#4op1,#4op4,#4op3').click(function(){
+  $(this).addClass("clrop");
+     $('#4op2').addClass("ansop");
+    $('#btn4').removeClass("answer"); 
+    
+    $('#btn4').html("Hide");
+     $('#btn4').css("width","50%");
+    
+    $('#ans4').show();
+    
+    
+  });
+  
+  $('#4op2').click(function(){
+  $(this).addClass("ansop");
+     $('#btn4').removeClass("answer"); 
+    
+    $('#btn4').html("Hide");
+     $('#btn4').css("width","50%");
+    
+    $('#ans4').show();
+  });
+  
+  $('#5op1,#5op3,#5op2').click(function(){
+  $(this).addClass("clrop");
+     $('#5op4').addClass("ansop");
+    $('#btn5').removeClass("answer");
+    
+    $('#btn5').html("Hide");
+     $('#btn5').css("width","50%");
+    
+    $('#ans5').show();
+    
+  });
+  
+  $('#5op4').click(function(){
+  $(this).addClass("ansop");
+     $('#btn5').removeClass("answer"); 
+    
+    $('#btn5').html("Hide");
+     $('#btn5').css("width","50%");
+    
+    $('#ans5').show();
+  });
+  
+  $('#6op1,#6op3,#6op2').click(function(){
+  $(this).addClass("clrop");
+     $('#6op4').addClass("ansop");
+    $('#btn6').removeClass("answer"); 
+    
+    $('#btn6').html("Hide");
+     $('#btn6').css("width","50%");
+    
+    $('#ans6').show();
+    
+  });
+  
+  
+  $('#6op4').click(function(){
+  $(this).addClass("ansop");
+     $('#btn6').removeClass("answer"); 
+    $('#btn6').html("Hide");
+     $('#btn6').css("width","50%");
+    
+    $('#ans6').show();
+    
+  });
+  
+  $('#7op1,#7op3,#7op2').click(function(){
+  $(this).addClass("clrop");
+     $('#7op4').addClass("ansop");
+    $('#btn7').removeClass("answer"); 
+    $('#btn7').html("Hide");
+     $('#btn7').css("width","50%");
+    
+    $('#ans7').show();
+    
+    
+    
+  });
+  $('#7op4').click(function(){
+  $(this).addClass("ansop");
+     $('#btn7').removeClass("answer"); 
+    
+    $('#btn7').html("Hide");
+     $('#btn7').css("width","50%");
+    
+    $('#ans7').show();
+    
+  });
+  
+  
+  $('#8op1,#8op4,#8op2').click(function(){
+  $(this).addClass("clrop");
+     $('#8op3').addClass("ansop");
+    $('#btn8').removeClass("answer");
+    $('#btn8').html("Hide");
+     $('#btn8').css("width","50%");
+    
+    $('#ans8').show();
+    
+    
+  });
+  
+  $('#8op3').click(function(){
+  $(this).addClass("ansop");
+     $('#btn8').removeClass("answer");
+    $('#btn8').html("Hide");
+     $('#btn8').css("width","50%");
+    
+    $('#ans8').show();
+    
+  });
+  
+  $('#9op4,#9op3,#9op2').click(function(){
+  $(this).addClass("clrop");
+     $('#9op1').addClass("ansop");
+    $('#btn9').removeClass("answer");
+    $('#btn9').html("Hide");
+     $('#btn9').css("width","50%");
+    
+    $('#ans9').show();
+    
+  });
+  
+  $('#9op1').click(function(){
+  $(this).addClass("ansop");
+     $('#btn9').removeClass("answer");
+    
+    $('#btn9').html("Hide");
+     $('#btn9').css("width","50%");
+    
+    $('#ans9').show();
+    
+  });
+  
+  $('#10op1,#10op3,#10op2').click(function(){
+  $(this).addClass("clrop");
+     $('#10op4').addClass("ansop");
+    $('#btn10').removeClass("answer");
+    
+    $('#btn10').html("Hide");
+     $('#btn10').css("width","50%");
+    
+    $('#ans10').show();
+    
+    
+  });
+  
+  $('#10op4').click(function(){
+  $(this).addClass("ansop");
+     $('#btn10').removeClass("answer");
+    
+    $('#btn10').html("Hide");
+     $('#btn10').css("width","50%");
+    
+    $('#ans10').show();
+    
+  });
+  
+  $('#11op1,#11op3,#11op2').click(function(){
+  $(this).addClass("clrop");
+     $('#11op4').addClass("ansop");
+    $('#btn11').removeClass("answer");
+    
+    $('#btn11').html("Hide");
+     $('#btn11').css("width","50%");
+    
+    $('#ans11').show();
+    
+  });
+  
+  $('#11op4').click(function(){
+  $(this).addClass("ansop");
+     $('#btn11').removeClass("answer"); 
+    
+    $('#btn11').html("Hide");
+     $('#btn11').css("width","50%");
+    
+    $('#ans11').show();
+    
+  });
+  
+  $('#12op1,#12op3,#12op2').click(function(){
+  $(this).addClass("clrop");
+     $('#12op4').addClass("ansop");
+    $('#btn12').removeClass("answer"); 
+    
+    $('#btn12').html("Hide");
+     $('#btn12').css("width","50%");
+    
+    $('#ans12').show();
+    
+  });
+  
+  $('#12op4').click(function(){
+  $(this).addClass("ansop");
+     $('#btn12').removeClass("answer");
+    
+    $('#btn12').html("Hide");
+     $('#btn12').css("width","50%");
+    
+    $('#ans12').show();
+    
+    
+  });
+  
+  $('#13op1,#13op3,#13op2').click(function(){
+  $(this).addClass("clrop");
+     $('#13op4').addClass("ansop");
+    $('#btn13').removeClass("answer"); 
+    
+    $('#btn13').html("Hide");
+     $('#btn13').css("width","50%");
+    
+    $('#ans13').show();
+    
+  });
+  
+  $('#13op4').click(function(){
+  $(this).addClass("ansop");
+     $('#btn13').removeClass("answer"); 
+    
+    $('#btn13').html("Hide");
+     $('#btn13').css("width","50%");
+    
+    $('#ans13').show();
+    
+  });
+  
+  $('#14op1,#14op4,#14op2').click(function(){
+  $(this).addClass("clrop");
+     $('#14op3').addClass("ansop");
+    $('#btn14').removeClass("answer");
+    
+    $('#btn14').html("Hide");
+     $('#btn14').css("width","50%");
+    
+    $('#ans14').show();
+    
+  });
+  
+  $('#14op3').click(function(){
+  $(this).addClass("ansop");
+     $('#btn14').removeClass("answer"); 
+    $('#btn14').html("Hide");
+     $('#btn14').css("width","50%");
+    
+    $('#ans14').show();
+    
+  });
+  
+  $('#15op1,#15op3,#15op2').click(function(){
+  $(this).addClass("clrop");
+     $('#15op4').addClass("ansop");
+    $('#btn15').removeClass("answer"); 
+    
+    $('#btn15').html("Hide");
+     $('#btn15').css("width","50%");
+    
+    $('#ans15').show();
+    
+    
+  });
+  
+  $('#15op4').click(function(){
+  $(this).addClass("ansop");
+     $('#btn15').removeClass("answer");
+    
+    $('#btn15').html("Hide");
+     $('#btn15').css("width","50%");
+    
+    $('#ans15').show();
+    
+  });
+  
+  $('#16op1,#16op3,#16op4').click(function(){
+  $(this).addClass("clrop");
+     $('#16op2').addClass("ansop");
+    $('#btn16').removeClass("answer"); 
+  });
+  
+  $('#16op4').click(function(){
+  $(this).addClass("ansop");
+     $('#btn16').removeClass("answer"); 
+  });
+  
+  $('#17op1,#17op3,#17op4').click(function(){
+  $(this).addClass("clrop");
+     $('#17op2').addClass("ansop");
+    $('#btn17').removeClass("answer"); 
+  });
+  
+  $('#17op2').click(function(){
+  $(this).addClass("ansop");
+     $('#btn17').removeClass("answer"); 
+  });
+  
+  $('#18op1,#18op4,#18op2').click(function(){
+  $(this).addClass("clrop");
+     $('#18op3').addClass("ansop");
+    $('#btn18').removeClass("answer"); 
+  });
+  
+  $('#18op3').click(function(){
+  $(this).addClass("ansop");
+     $('#btn18').removeClass("answer"); 
+  });
+  
+  $('#19op1,#19op3,#19op2').click(function(){
+  $(this).addClass("clrop");
+     $('#19op4').addClass("ansop");
+    $('#btn19').removeClass("answer"); 
+  });
+  
+  $('#19op4').click(function(){
+  $(this).addClass("ansop");
+     $('#btn19').removeClass("answer"); 
+  });
+  
+   $('#20op1,#20op3,#20op2').click(function(){
+  $(this).addClass("clrop");
+     $('#20op4').addClass("ansop");
+    $('#btn20').removeClass("answer"); 
+  });
+  
+  $('#20op4').click(function(){
+  $(this).addClass("ansop");
+     $('#btn20').removeClass("answer"); 
+  });
+  
+   $('#21op1,#21op3,#21op4').click(function(){
+  $(this).addClass("clrop");
+     $('#21op2').addClass("ansop");
+    $('#btn21').removeClass("answer"); 
+  });
+  
+  $('#21op2').click(function(){
+  $(this).addClass("ansop");
+     $('#btn21').removeClass("answer"); 
+  });
+  
+   $('#22op1,#22op3,#22op2').click(function(){
+  $(this).addClass("clrop");
+     $('#22op4').addClass("ansop");
+    $('#btn22').removeClass("answer"); 
+  });
+  
+  $('#22op4').click(function(){
+  $(this).addClass("ansop");
+     $('#btn22').removeClass("answer"); 
+  });
+  
+  $('#23op1,#23op3,#23op4').click(function(){
+  $(this).addClass("clrop");
+     $('#23op2').addClass("ansop");
+    $('#btn23').removeClass("answer"); 
+  });
+  
+  $('#23op2').click(function(){
+  $(this).addClass("ansop");
+     $('#btn23').removeClass("answer"); 
+  });
+  
+  $('#24op1,#24op4,#24op2').click(function(){
+  $(this).addClass("clrop");
+     $('#24op3').addClass("ansop");
+    $('#btn24').removeClass("answer"); 
+  });
+  
+  $('#24op3').click(function(){
+  $(this).addClass("ansop");
+     $('#btn24').removeClass("answer"); 
+  });
+  
+  $('#25op1,#25op4,#25op2').click(function(){
+  $(this).addClass("clrop");
+     $('#25op3').addClass("ansop");
+    $('#btn25').removeClass("answer"); 
+  });
+  
+  $('#25op3').click(function(){
+  $(this).addClass("ansop");
+     $('#btn25').removeClass("answer"); 
+  });
+  
+  
+  $('#26op1,#26op3,#26op4').click(function(){
+  $(this).addClass("clrop");
+     $('#26op2').addClass("ansop");
+    $('#btn26').removeClass("answer"); 
+  });
+  
+  $('#26op2').click(function(){
+  $(this).addClass("ansop");
+     $('#btn26').removeClass("answer"); 
+  });
+  
+  $('#27op1,#27op3,#27op4').click(function(){
+  $(this).addClass("clrop");
+     $('#27op2').addClass("ansop");
+    $('#btn27').removeClass("answer"); 
+  });
+  
+  $('#27op2').click(function(){
+  $(this).addClass("ansop");
+     $('#btn27').removeClass("answer"); 
+  });
+  
+  $('#28op1,#28op3,#28op2').click(function(){
+  $(this).addClass("clrop");
+     $('#28op4').addClass("ansop");
+    $('#btn28').removeClass("answer"); 
+  });
+  
+  $('#28op4').click(function(){
+  $(this).addClass("ansop");
+     $('#btn28').removeClass("answer"); 
+  });
+  
+  */
+  
+  const confettiDone = new Set();
+
+const correctAnswers = {
+  1: 2, 2: 2, 3: 3, 4: 2, 5: 4,
+  6: 4, 7: 4, 8: 3, 9: 1, 10: 4,
+  11: 4, 12: 4, 13: 4, 14: 3, 15: 4,
+  16: 4, 17: 2, 18: 3, 19: 4, 20: 4,
+  21: 2, 22: 4, 23: 2, 24: 3, 25: 3,
+  26: 2, 27: 2, 28: 4, 29: 3, 30: 2,
+  31: 1, 32: 4, 33: 1, 34: 2, 35: 3,
+  36: 4, 37: 2, 38: 1, 39: 3, 40: 4,
+  41: 1, 42: 2, 43: 3, 44: 1, 45: 4,
+  46: 2, 47: 3, 48: 4, 49: 1, 50: 2,
+  51: 3
+};
+  
+  const correctColors = ['#00ff00', '#00ffff', '#00cc66', '#99ff33'];
+    const wrongColors = ['#888888', '#ff4444', '#999999', '#cc3333'];
+
+    for (let i = 1; i <= 51; i++) {
+  for (let j = 1; j <= 4; j++) {
+    const optionSelector = `#${i}op${j}`;
+    $(optionSelector).click(function () {
+      if (confettiDone.has(i)) return;
+
+      confettiDone.add(i);
+      const isCorrect = (j === correctAnswers[i]);
+
+      // Mark all options
+      for (let k = 1; k <= 4; k++) {
+        const op = $(`#${i}op${k}`);
+        op.css("pointer-events", "none");
+        op.off("click");
+
+        if (k === correctAnswers[i]) {
+          op.css({
+            "background-color": "green"
+            
+          });
+        } else {
+          op.css({
+            "background-color": "red"
+            
+          });
+        }
+      }
+
+      // Mark selected
+      $(this).addClass("ansop");
+      $(`#btn${i}`).removeClass("answer");
+
+      // Confetti
+      confetti({
+        particleCount: 100,
+        spread: 80,
+        origin: { y: 0.6 },
+        colors: isCorrect ? correctColors : wrongColors
+      });
+// Slide toggle the answer container for this question
+
+      $(`#ans${i}`).slideToggle(400);
+    });
+  }
+}
+
+  
+  
+  
+  // Up page code
+  
+  $(window).scroll(function () {
+			if ($(this).scrollTop() >20) {
+				$('#back-to-top').fadeIn();
+			} else {
+				$('#back-to-top').fadeOut();
+			}
+		});
+		// scroll body to 0px on click
+		$('#back-to-top').click(function () {
+			$('body,html').animate({
+				scrollTop: 0
+			}, 400);
+			return false;
+		});
+  $('#ar').click(function () {
+			
+window.location.href="https://bijush1.blogspot.com/p/select-chapter-mcq.html"
+});
+
+
+const hamburger = document.getElementById('hamburger');
+  const navLinks = document.getElementById('navLinks');
+  hamburger.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+  });
+
+  }) ;
+
+</script>
+
+  
+  
+</head>
+<body style="font-family:monospace;" >
+      
+       <!-- Navbar -->
+  <nav class="navbar" role="navigation" aria-label="Main Navigation">
+  <div class="logo">Bijush Academy</div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger">&#9776;</div>
+</nav>
+
+<!-- Back Button -->
+<a href="class10-chapter.html" class="back-arrow" id="backBtn">Back to Classes</a>
+
+  
+      
+      
+      
+  <ul class="list-group  border border-primary list-group-numbered">
+      <span style="text-align:center; color:indigo"> <h4>Chapter 4 - দ্বিঘাত সমীকরণ  <br>Class: 10
+        <!--
+    <span class="glyphicon glyphicon-arrow-down"></span>--> </h4></span>
+    <!--
+  <li class="list-group-item d-flex justify-content-between align-items-center">
+    <a href="#short"> সংক্ষেপ্ত উত্তরধর্মী প্রশ্নোত্তর </a>
+    <span class="badge bg-primary rounded-pill">18</span>
+    
+  </li>
+    
+  <li class="list-group-item d-flex justify-content-between align-items-center">
+    <a href="#long">
+দীর্ঘ উত্তরধর্মী প্রশ্নোত্তর</a>
+    <span class="badge bg-primary rounded-pill">1</span>
+    
+  </li>
+      
+  <li class="list-group-item d-flex justify-content-between align-items-center">  
+    <a href="#bka">
+সপ্রসঙ্গ ব্যাখ্যা করো</a>
+    <span class="badge bg-primary rounded-pill">2</span>   
+  </li>
+    -->
+</ul>
+  
+  <h6 class="alert alert-warning">
+      নিচে SEBA,ASSAM , দশম শ্রেণীর ছাত্র-ছাত্রীদের জন্য গণিতের কিছু গুরুত্বপূর্ণ MCQ ( Multiple choice Questions) দেওয়া হয়েছে। <br><br>
+        এই MCQ গুলো প্রদান করার মুখ্য উদ্দেশ্য হচ্ছে যাহাতে HSLC পরীক্ষায় ছাত্র-ছাত্রীগণ ভালো result করতে পারেন। <br><br>
+      নিচে দেওয়া unit গুলোতে click করে আপনার 
+      <span style="color: red; font-size:16px">
+        প্রশ্ন </span>
+      দেখতে পারেন এবং<span style="color: red; font-size:16px">
+        উত্তর দেখুন </span>এ click করে উক্ত প্রশ্নের উত্তর দেখতে পারবেন। <br>
+      
+    </h6>
+  <hr>
+  <h5 class ="alert alert-success">
+Q.1 :\( x^2 + px + q= 0\) সমীকরণটির মূল দুটি বাস্তব এবং অসমান হওয়ার শতটি কী ?
+    <br>
+    <span class="exam">HSLC 2023</span>
+   
+
+   <br>
+
+  <h5 class ="alert alert-primary" id="1op1">
+  (A)  \(b^2 - 4ac\lt 0 \)</h5>
+  <h5 class ="alert alert-primary" id="1op2">
+  
+  (B) 
+  \(b^2 - 4ac\gt 0 \) </h5>
+  <h5 class ="alert alert-primary" id="1op3">
+  
+  (C)\(b^2 - 4ac\le 0 \) </h5>
+  <h5 class ="alert alert-primary" id="1op4">
+  
+  (D)\(b^2 - 4ac = 0 \)</h5>
+  
+<h5 class ="btn btn-primary answer" id="btn1"> Explanation</h5>
+<h5 class="alert alert-primary" id="ans1"> Correct Ans:(b):\(b^2 - 4ac\gt 0 \) </h5>
+</h5>
+
+<h5 class ="alert alert-success"> 
+
+(2) \( ax^2 + bx + q= 0\)  সমীকরণটির মূল দুটি সমান হলে c এর মান কত হবে ?
+<br><span class="exam">HSLC 2023</span>
+  <br>
+  
+  <h5 class ="alert alert-primary" id="2op1">
+  
+(A) \(\frac{b}{4a}\)</h5>
+  <h5 class ="alert alert-primary" id="2op2">
+  
+  (B) \(\frac{b^2}{4a}\)</h5>
+  <h5 class ="alert alert-primary" id="2op3">
+  
+  (C) \(-\frac{b^2}{4a}\)</h5>
+  <h5 class ="alert alert-primary" id="2op4">
+  
+  (D) \(\frac{4a}{b^2}\)
+</h5>
+<h5 class ="btn btn-primary answer" id="btn2">
+ Explanation </h5>
+<h5 class="alert alert-primary" id="ans2">Correct Ans: (B):
+  
+    $$
+  \def\bijusH#1{\require{cancel}{\cancel{#1}}}
+  
+    \require{enclose}
+\begin{aligned}
+    b^2 - 4ac &= 0\\
+  \Rightarrow -4ac &=-b^2 \\
+
+  
+  
+ \Rightarrow c &=\frac{\bijusH{-}b^2}{\bijusH{-}4a}\\
+  \therefore c=\frac{b^2}{4a}
+  \end{aligned}
+  $$
+  
+  
+  </h5>
+</h5>
+
+<h5 class ="alert alert-success">
+(3) \( (x+1)^2 -x^2 =0 \) সমীকরণে  প্রকৃত মূলের সংখ্যা হল 
+  <!--
+  <p class="clr" style="text-align:right"><marquee behavior="alternate"width="200" height="30" text-align="right">
+  H.S.L.C - 2019</marquee></p>-->
+<br>
+  <h5 class ="alert alert-primary" id="3op1">
+  
+(A) 4</h5>
+  
+  <h5 class ="alert alert-primary" id="3op2">
+  
+  (B) \(2\)</h5>
+  <h5 class ="alert alert-primary" id="3op3">
+  
+  (C) 
+1 </h5>
+  <h5 class ="alert alert-primary" id="3op4">
+  
+  (D) 0</h5>
+  
+  
+<h5 class ="btn btn-primary answer" id="btn3">
+ Explanation </h5>
+<h5 class="alert alert-primary" id="ans3">Ans: (C)<br>
+  
+  Explanation:<br>
+  
+  
+      $$
+  \def\bijusH#1{\require{cancel}{\cancel{#1}}}
+  
+    \require{enclose}
+\begin{aligned}
+  
+    (x+1)^2 -x^2 &=0 \\
+  \Rightarrow \bijusH{x^2} + 2x +1-\bijusH{x^2} &=0 \\
+
+  \Rightarrow 2x+1&=0 \\
+
+
+\Rightarrow x &=-\frac{1}{2}\\
+  \therefore Correct \ Ans: \ (c)\\
+  
+  
+  \end{aligned}
+  $$
+  
+  </h5>
+
+</h5>
+  
+
+<h5 class ="alert alert-success">
+ 
+   
+(4)  \( 5x^2 + 10x + p= 0\) এর শূন্য দুইটি একটি অপরটির  অন্যান্যক হলে p = ?
+   
+
+  <br><br>
+  
+    <h5 class ="alert alert-primary" id="4op1">
+  
+    
+(A) \(\frac{3}{2}\)</h5>
+    
+      <h5 class ="alert alert-primary" id="4op2">
+  
+      (B) \(5 \)</h5>
+    
+    <h5 class ="alert alert-primary" id="4op3">
+  
+        (C) \( - \frac{2}{3} \)</h5> 
+    
+      <h5 class ="alert alert-primary" id="4op4">
+  
+      (D) \(\frac{3}{4}\)</h5>
+  
+<h5 class ="btn btn-primary answer" id="btn4">
+ Explanation </h5>
+<h5 class="alert alert-primary" id="ans4">Ans: (B) </h5>
+
+</h5>
+  
+  
+<h5 class ="alert alert-success"> 
+
+(5) \( ax^2 + bx + c= 0\) এর শূন্য দুইটি একটি অপরটির  অন্যান্যক হবে যদি -
+   
+  
+<br><br>
+
+  <h5 class ="alert alert-primary" id="5op1">
+  
+  (A) \(a =0\)</h5>
+  
+    <h5 class ="alert alert-primary" id="5op2">
+  
+    (B) \(a>0\) </h5>
+  
+      <h5 class ="alert alert-primary" id="5op3">
+  
+      (C) \(\frac{b}{a}\)</h5> 
+  
+        <h5 class ="alert alert-primary" id="5op4">
+  
+        (D) \(a = c\)</h5>
+
+<h5 class ="btn btn-primary answer" id="btn5">
+ Explanation </h5>
+<h5 class="alert alert-primary" id="ans5">Ans: (D)</h5>
+
+
+</h5>
+
+<h5 class ="alert alert-success">
+  
+    
+    (6) যদি \( ax^2 +bx+c=0\) এর মূলদ্বয় 
+    \(\frac{-b+ \sqrt{b^2-4ac}}{2a}\) এবং 
+    \(\frac{-b- \sqrt{b^2-4ac}}{2a}\)
+    
+    হবে যদি
+   
+    <br><br> 
+      
+      <h5 class ="alert alert-primary" id="6op1">
+  
+(A) \(b^2 -4ac \lt 0\)</h5>
+      
+        <h5 class ="alert alert-primary" id="6op2">
+  
+        (B) \(b^2 -4ac = 0\)</h5>
+      
+      <h5 class ="alert alert-primary" id="6op3">
+  
+          
+          (C) \(b^2 -4ac \le 0\)</h5>
+      
+        <h5 class ="alert alert-primary" id="6op4">
+  
+        (D) \(b^2 -4ac \ge 0\) </h5>
+<h5 class ="btn btn-primary answer" id="btn6">
+ Explanation </h5>
+<h5 class="alert alert-primary" id="ans6">Ans:(d) </h5>
+
+
+</h5>
+  
+
+<h5 class ="alert alert-success">
+ 
+   
+ (7) \( ax^2 + bx + c= 0 \; (a \ne 0)\) ক্ষেত্রে কোনটি সঠিক 
+   
+   <br><br>
+
+ 
+  <h5 class ="alert alert-primary" id="7op1">
+  
+(A)  \(\frac{-b \ \mp \sqrt{b^2-4ac}}{a}\)
+    </h5>
+    <h5 class ="alert alert-primary" id="7op2">
+  
+    (B) \(\frac{-b \ \pm \sqrt{b^2-4ac}}{a}\)
+     </h5>
+    
+    <h5 class ="alert alert-primary" id="7op3">
+  
+    (C) \(\frac{-b \ \mp \sqrt{b^2-4ac}}{2a}\)
+    </h5>
+    <h5 class ="alert alert-primary" id="7op4">
+  
+    (D) \(\frac{-b \ \pm \sqrt{b^2-4ac}}{2a}\)
+    </h5>
+
+<h5 class ="btn btn-primary answer" id="btn7">
+ Explanation </h5>
+<h5 class="alert alert-primary" id="ans7">Ans: (d) </h5>
+
+</h5>
+
+<h5 class ="alert alert-success">
+ 
+   (8) নিচের কোনটি দ্বিঘাত সমীকরণ না 
+   
+   
+   <br><br>
+     
+     <h5 class ="alert alert-primary" id="8op1">
+  
+(a) \(x^3+4x^2=  x^2(x+2) \)  </h5>
+     
+<h5 class ="alert alert-primary" id="8op2">
+  
+(b) \((x+2)^3  =  x^3+ 2x^2 \)</h5>
+     <h5 class ="alert alert-primary" id="8op3">
+  
+(c) \((x+2)^3  =  -x^2(x+2) \) </h5>
+
+     <h5 class ="alert alert-primary" id="8op4">
+  
+(d) \((x+2)^3  =  x(x+2)(x+1) \)
+</h5>
+<h5 class ="btn btn-primary answer" id="btn8">
+ Explanation </h5>
+<h5 class="alert alert-primary" id="ans8">Ans: (c):\((x+2)^3  =  -x^2(x+2) \) </h5>
+</h5>
+  
+
+  <h5 class ="alert alert-success">
+ 
+   
+   (9) \( ax^2 + bx + c= 0\)  সমীকরণটির মূল দুটি সমান হলে a এর মান কত হবে ?
+   
+ 
+<br><br> 
+   <h5 class ="alert alert-primary" id="9op1">
+  
+   (a) \(\frac{b^2}{4c}\) </h5>
+   
+   <h5 class ="alert alert-primary" id="9op2">
+  
+ (b)\(-\frac{a}{4b}\) </h5>
+     
+     <h5 class ="alert alert-primary" id="9op3">
+  
+ (c) \(\frac{c}{a}\) </h5>
+       
+       <h5 class ="alert alert-primary" id="9op4">
+  
+ (d) \(-\frac{4a}{c}\) </h5>
+ <h5 class ="btn btn-primary answer" id="btn9">
+ Explanation </h5>
+ <h5 class="alert alert-primary" id="ans9">Ans: (a): \(\frac{b^2}{4c}\) </h5>
+
+
+</h5>
+  
+  
+<h5 class ="alert alert-success">
+ 
+   (10) \( ax^2 + bx + c= 0\)  সমীকরণটির মূল দুটি সমান হলে c এর মান কত হবে ?
+ <br>
+<br>
+   <h5 class ="alert alert-primary" id="10op1">
+  
+   (a) \(\frac{b^2}{2c}\) </h5>
+     
+     
+     <h5 class ="alert alert-primary" id="10op2">
+  
+(b) \(\frac{b^2}{c}\) </h5>
+       
+       <h5 class ="alert alert-primary" id="10op3">
+  
+(c) \(\frac{b^2}{4c}\) </h5>
+         
+         <h5 class ="alert alert-primary" id="10op4">
+  
+(d) \(\frac{b^2}{4a}\) </h5>
+
+<h5 class ="btn btn-primary answer" id="btn10">
+ Explanation </h5>
+<h5 class="alert alert-primary" id="ans10">Ans: (d):\(\frac{b^2}{4a}\)  </h5>
+
+</h5>
+
+
+<h5 class ="alert alert-success">
+ 
+(11) \( px^2 -2\sqrt 6 + 2 = 0\)  সমীকরণটির মূল দুটি সমান হলে p এর মান কত হবে ?
+   
+ <br>
+<br>
+  <h5 class ="alert alert-primary" id="11op1">
+  
+  (a)\(-1\)</h5>
+    
+    <h5 class ="alert alert-primary" id="11op2">
+  
+(b) \(-3\) </h5>
+      
+      <h5 class ="alert alert-primary" id="11op3">
+  
+(c) \(4\)</h5>
+        <h5 class ="alert alert-primary" id="11op4">
+  
+(d) \(3\)</h5>
+          
+<h5 class ="btn btn-primary answer" id="btn11">
+ Explanation </h5>
+<h5 class="alert alert-primary" id="ans11">Ans: (d)</h5>
+
+</h5>
+
+<h5 class ="alert alert-success">
+ 
+(12) \( 2x^2 -px+ 1 = 0\)  সমীকরণটির মূল দুটি সমান হলে p এর মান কত হবে ?
+   
+<br><br>  
+ 
+   
+    <h5 class ="alert alert-primary" id="12op1">
+  
+(a) 6 </h5>
+      
+       <h5 class ="alert alert-primary" id="12op2">
+  
+(b) 7 </h5>
+         
+          <h5 class ="alert alert-primary" id="12op3">
+  
+(c) 3 </h5>
+            
+ <h5 class ="alert alert-primary" id="12op4">
+  
+(d) \( 2\sqrt 2\)</h5>
+<h5 class ="btn btn-primary answer" id="btn12">
+ Explanation </h5>
+<h5 class="alert alert-primary" id="ans12">Ans: (d)</h5>
+
+</h5>
+
+<h5 class ="alert alert-success">
+ 
+(13) একটি দ্বিঘাত সমীকরণ \(ax^2 + bx + c = 0\) -এর
+
+ দুটো স্বতন্ত্ৰ বাস্তব মূল থাকবে, যদি -
+
+
+  <br><br>
+              
+ <h5 class ="alert alert-primary" id="13op1">
+  
+(a) \( b^2 - 4ac = 0 \) </h5>
+             
+ <h5 class ="alert alert-primary" id="13op2">
+  
+(b) \( b^2 - 4ac \le 0 \) </h5>
+             
+ <h5 class ="alert alert-primary" id="13op3">
+  
+(c) \( b^2 - 4ac \lt 0 \) </h5>
+             
+ <h5 class ="alert alert-primary" id="13op4">
+  
+(d)\( b^2 - 4ac \gt 0 \) </h5>
+
+<h5 class ="btn btn-primary answer" id="btn13">
+ Explanation </h5>
+<h5 class="alert alert-primary" id="ans13">Ans: (d):\( b^2 - 4ac \gt 0 \) </h5>
+
+</h5>
+
+<h5 class ="alert alert-success">
+ 
+   (14) একটি দ্বিঘাত সমীকরণ \(ax^2 + bx + c = 0\) -এর
+
+ দুটো মূল সমান এবং বাস্তব হবে, যদি 
+   
+
+<br><br>
+            
+ <h5 class ="alert alert-primary" id="14op1">
+  
+(a) \( b^2 - 4ac \gt 0 \)</h5>
+             
+ <h5 class ="alert alert-primary" id="14op2">
+  
+(b) \( b^2 - 4ac \ge 0 \) </h5>
+             
+ <h5 class ="alert alert-primary" id="14op3">
+  
+(c) \(b^2 - 4ac = 0 \)</h5>
+             
+ <h5 class ="alert alert-primary" id="14op4">
+  
+(d) \( b^2 - 4ac \le 0 \) </h5>
+
+<h5 class ="btn btn-primary answer" id="btn14">
+ Explanation </h5>
+<h5 class="alert alert-primary" id="ans14">Ans: (c):\(b^2 - 4ac = 0 \) </h5>
+
+</h5>
+
+
+<h5 class ="alert alert-success">
+ 
+   (15) একটি দ্বিঘাত সমীকরণ \(ax^2 + bx + c = 0\) -এর
+
+ 
+
+ কোনো বাস্তব মূল থাকবে না, যদি -
+   
+ <br>
+<br>
+             
+ <h5 class ="alert alert-primary" id="15op1">
+  
+(A) \( b^2 - 4ac \gt 0 \)</h5>
+             
+ <h5 class ="alert alert-primary" id="15op2">
+  
+   (B) \( b^2 - 4ac \ge 0 \) </h5>
+             
+ <h5 class ="alert alert-primary" id="15op3">
+  
+   (C) \( b^2 - 4ac = 0 \)</h5>
+               
+ <h5 class ="alert alert-primary" id="15op4">
+  
+     (D) \( b^2 - 4ac \lt 0 \)</h5>
+
+  
+  <h5 class ="btn btn-primary answer" id="btn15">
+ Explanation </h5>
+<h5 class="alert alert-primary" id="ans15">Ans: (d):\( b^2 - 4ac \lt 0 \) </h5>
+
+</h5>
+
+
+<h5 class ="alert alert-success">
+(16) 
+   p এর কী মানের জন্য\((p - 2) x ^ 2 + 3x + 5 = 0\) সমীকরণটি দ্বিঘাত সমীকরণ হবে না ? 
+<br>
+<span class="exam">HSLC 2025</span>
+<br>
+            
+ <h5 class ="alert alert-primary" id="16op1">
+  
+(a) 1</h5>
+          
+ <h5 class ="alert alert-primary" id="16op2">
+  
+  (b) 2</h5>
+          
+ <h5 class ="alert alert-primary" id="16op3">
+  
+(c) -2</h5>
+          
+ <h5 class ="alert alert-primary" id="16op4">
+  
+(d) 0 </h5>
+
+<h5 class ="btn btn-primary answer" id="btn16">
+ Explanation </h5>
+<h5 class="alert alert-primary" id="ans16">Ans: (b) যেহেতু দ্বিঘাত সমীকরণ হবে না ।<br>
+সুতরাং, a=0</br>
+\( p-2 = 0  \)</br>
+\(\Rightarrow p=2\)
+
+</h5>
+</h5>
+
+
+<h5 class ="alert alert-success">
+ 
+   (17) \(ax^2 + bx + c = 0\) a ≠ 0 সমীকরণের মূলগুলি বাস্তব এবং অসমান, বিবেচিকা D এর কোনটি মানের জন্য এটি সত্য?
+   
+   
+<span class="exam">HSLC 2025</span>
+            
+ <h5 class ="alert alert-primary" id="17op1">
+  
+(a) \( D \lt 0\)</h5>
+             
+ <h5 class ="alert alert-primary" id="17op2">
+  
+(b) \( D \gt 0\)</h5>
+             
+ <h5 class ="alert alert-primary" id="17op3">
+  
+(c) \( D = 0\)</h5>
+             
+ <h5 class ="alert alert-primary" id="17op4">
+  
+(d) \( D \le 0 \) </h5>
+<h5 class ="btn btn-primary answer" id="btn17">
+ Explanation </h5>
+<h5 class="alert alert-primary" id="ans17">Ans: (b)</br> </h5>
+
+</h5>
+<!--  
+<h5 class ="alert alert-success">
+ <span style="color:red">
+   (18) ত্রিঘাত বহুপদ রাশি \(x^3 + px^2 + qx + r \) এর একটি শূন্য  -1 হলে বাকি দুটি শূন্যের গুণফল হবে
+   
+ </span><br>
+<br>
+  
+ 
+            
+ <h5 class ="alert alert-primary" id="18op1">
+  
+(a) p + q + 1</h5>
+             
+ <h5 class ="alert alert-primary" id="18op2">
+  
+(b) pq - 1</h5>
+             
+ <h5 class ="alert alert-primary" id="18op3">
+  
+(c) q - p + 1
+             </h5>
+ <h5 class ="alert alert-primary" id="18op4">
+  
+(d) q - p - 1<br></h5>
+<h5 class ="btn btn-primary answer" id="btn18">
+ Explanation </h5>
+<h5 class="alert alert-primary" id="ans18">Ans: (c)</h5>
+
+
+
+  </h5>
+  
+  
+<h5 class ="alert alert-success">
+ <span style="color:red">
+   (19) বিভাজন পদ্ধতি মতে, p(x) = 
+ </span><br>
+<br>
+            
+ <h5 class ="alert alert-primary" id="19op1">
+  
+(a) g(x) × r(x) + q(x)</h5>
+             
+ <h5 class ="alert alert-primary" id="19op2">
+  
+(b) r(x) ×  q(x) + g(x)
+             </h5>
+ <h5 class ="alert alert-primary" id="19op3">
+  
+(c) g(x) × q(x) - r(x)</h5>
+             
+ <h5 class ="alert alert-primary" id="19op4">
+  
+(d) g(x) × q(x) + r(x)</h5>
+<h5 class ="btn btn-primary answer" id="btn19">
+ Explanation </h5>
+<h5 class="alert alert-primary" id="ans19">Ans: (d)</h5>
+
+</h5>
+  
+
+<h5 class ="alert alert-success">
+ <span style="color:red">
+(20) যদি p(x) = g(x) × q(x) + r(x) , এখানে r(x) = 0 অথবা _____
+ </span><br><br>
+
+            
+ <h5 class ="alert alert-primary" id="20op1">
+  
+(a)   r(x) এর মাত্রা \( \gt \ \) g(x) এর মাত্রা   
+  
+</h5>
+             
+ <h5 class ="alert alert-primary" id="20op2">
+  
+(b)  r(x) এর মাত্রা \( \leqslant \ \) g(x) এর মাত্রা   
+  </h5>
+             
+ <h5 class ="alert alert-primary" id="20op3">
+  
+(c) r(x) এর মাত্রা \( = \ \) g(x) এর মাত্রা   
+  
+</h5>
+  
+ <h5 class ="alert alert-primary" id="20op4">
+  
+(d)  r(x) এর মাত্রা \( \lt \ \) g(x) এর মাত্রা   
+  </h5>
+  
+  <h5 class ="btn btn-primary answer" id="btn20">
+ Explanation </h5>
+  
+<h5 class="alert alert-primary" id="ans20">Ans: (d)</h5>
+  
+
+</h5>
+
+<h5 class ="alert alert-success">
+ <span style="color:red">
+   (21) ত্রিঘাত বহুপদ রাশি \(ax^3 + bx^2 + cx + d \) এর একটি শূন্য  0 হলে বাকি দুটি শূন্যের গুণফল হবে
+   
+   <!--
+  <p class="clr" style="text-align:right"><marquee behavior="alternate"width="200" height="30" text-align="right">
+  H.S.L.C - 2023</marquee></p>
+ </span><br><br>
+  
+  
+             
+ <h5 class ="alert alert-primary" id="21op1">
+  
+(a) \({-}\frac{c}{a}\)
+
+</h5>
+ <h5 class ="alert alert-primary" id="21op2">
+  
+(b) \(\frac{c}{a}\)
+
+</h5>
+ <h5 class ="alert alert-primary" id="21op3">
+  
+(c) 0
+           </h5>
+ <h5 class ="alert alert-primary" id="21op4">
+  
+
+(d) \({-}\frac{b}{a}\)
+ </h5>
+<h5 class ="btn btn-primary answer" id="btn21">
+ Explanation </h5>
+<h5 class="alert alert-primary" id="ans21">Ans: (b)<br>
+   সমাধান:<br>
+  দেওয়া আছে, একটি মূল 0 <br>
+  \(\therefore p(x) =ax^3 + bx^2 + cx + d = 0\)<br>
+  \(\Rightarrow p(0) =0 + 0 + 0 + d = 0 \)<br>
+  \(\Rightarrow  d = 0 \)<br>
+  সুতরাং, সমীকরণ হবে <br>\(x(ax^2 + bx + c)\)<br>
+  অন্য দুটি মূল হবে \(ax^2 + bx + c \) এর<br>
+  \(\therefore\) দ্বিঘাত সমীকরণের মূল দুটির গুণফল \(\frac{c}{a}\) </h5>
+  
+</h5>
+  
+<h5 class ="alert alert-success">
+ <span style="color:red">
+(22) n মাত্র বিশিষ্ট বহুপদ রাশির শূন্যের সংখ্যা হল
+ </span><br><br>
+             
+ <h5 class ="alert alert-primary" id="22op1">
+  
+(a) 1 টি
+</h5>
+             
+ <h5 class ="alert alert-primary" id="22op2">
+  
+(b) 3n টি
+
+</h5>
+ <h5 class ="alert alert-primary" id="22op3">
+  
+(c) 0 টি
+</h5>
+ <h5 class ="alert alert-primary" id="22op4">
+  
+
+(d) n টি
+ </h5>
+<h5 class ="btn btn-primary answer" id="btn22">
+ Explanation </h5>
+<h5 class="alert alert-primary" id="ans22">Ans: (d)</h5>
+
+</h5>
+  
+
+<h5 class ="alert alert-success">
+ <span style="color:red">
+(23) দ্বিঘাত বহুপদ রাশি \(t^2 - 15\) এর শূন্য হল --
+   
+   
+   <br> </span><br>
+               
+ <h5 class ="alert alert-primary" id="23op1">
+  
+(a) উভয় ঋণাত্মক
+</h5>
+             
+ <h5 class ="alert alert-primary" id="23op2">
+  
+(b) একটি ধনাত্মক এবং একটি ঋণাত্মক
+
+</h5>
+ <h5 class ="alert alert-primary" id="23op3">
+  
+(c) উভয় ধনাত্মক
+           </h5>
+ <h5 class ="alert alert-primary" id="23op4">
+  
+(d) উভয়ই সমান
+ </h5>
+<h5 class ="btn btn-primary answer" id="btn23">
+ Explanation </h5>
+<h5 class="alert alert-primary" id="ans23">Ans: (b)</h5>
+
+</h5>
+  
+  <h5 class ="alert alert-success">
+ <span style="color:red">
+(24) বহুপদ রাশি \(p(x) = x^6 + 3x^2 + 10 \) কে \(g(x) = x^3 + 1 \) দ্বারা ভাগ করিলে ভাগফলের সম্ভাব্য মাত্র হবে 
+ </span><br><br>
+             
+ <h5 class ="alert alert-primary" id="24op1">
+  
+(a) 5
+   
+</h5>
+ <h5 class ="alert alert-primary" id="24op2">
+  
+(b) 4
+
+</h5>
+ <h5 class ="alert alert-primary" id="24op3">
+  
+(c) 3
+
+</h5>
+ <h5 class ="alert alert-primary" id="24op4">
+  
+(d) 2
+</h5>
+<h5 class ="btn btn-primary answer" id="btn24">
+ Explanation </h5>
+<h5 class="alert alert-primary" id="ans24">Ans: (c)</h5>
+</h5>
+  
+<h5 class ="alert alert-success">
+ <span style="color:red">
+(25)
+ n মাত্রা বিশিষ্ট বহুপদ রাশি p(x) হলে y = p(x) এর লেখটি x-অক্ষকে n টি বিন্দুতে ছেদ করে। সুতরাং বহুপদ রাশি p(x) এর  শূন্যের সংখ্যা --<br>
+   
+ </span><br>
+             
+ <h5 class ="alert alert-primary" id="25op1">
+  
+(a) 0
+
+</h5>
+ <h5 class ="alert alert-primary" id="25op2">
+  
+(b) 2
+
+</h5>
+ <h5 class ="alert alert-primary" id="25op3">
+  
+(c) n
+
+</h5>
+ <h5 class ="alert alert-primary" id="25op4">
+  
+(d) 4
+</h5>
+   
+<h5 class ="btn btn-primary answer" id="btn25">
+ Explanation </h5>
+<h5 class="alert alert-primary" id="ans25">Ans: (c)</h5>
+
+</h5>
+
+    <h5 class ="alert alert-success">
+ <span style="color:red">
+   
+(26) ax + b, \(a \neq 0 \) রৈখিক বহুপদ রাশির জন্য y = ax + b এর লেখ হচ্ছে একটি সরলরেখা যা x-অক্ষকে ছেদ করা বিন্দুর স্থানাঙ্ক হল---
+ </span><br><br>
+             
+ <h5 class ="alert alert-primary" id="26op1">
+  
+(a) \(  ( \ \ \frac{b}{a}, \ 0)\)
+   
+</h5>
+ <h5 class ="alert alert-primary" id="26op2">
+  
+(b) \((-\frac{b}{a},0)\)
+
+</h5>
+ <h5 class ="alert alert-primary" id="26op3">
+  
+(c) \((-\frac{a}{b},0)\)
+
+</h5>
+ <h5 class ="alert alert-primary" id="26op4">
+  
+(d) \( (  \ \ 0,\frac{a}{b})\)
+  </h5>
+<h5 class ="btn btn-primary answer" id="btn26">
+ Explanation </h5>
+<h5 class="alert alert-primary" id="ans26">Ans: (b)</h5>
+</h5>
+      
+    <h5 class ="alert alert-success">
+ <span style="color:red">
+(27) রৈখিক বহুপদ রাশি ax + b, \(a \neq 0 \) এর শূন্য হচ্ছে ---
+ </span><br><br>
+                
+ <h5 class ="alert alert-primary" id="27op1">
+  
+      (a) \(   \ \ \frac{b}{a} \ \)
+   
+</h5>
+ <h5 class ="alert alert-primary" id="27op2">
+  
+(b) \(-\frac{b}{a}\)
+
+</h5>
+ <h5 class ="alert alert-primary" id="27op3">
+  
+(c) \(-\frac{a}{b} \ \)
+</h5>
+             
+ <h5 class ="alert alert-primary" id="27op4">
+  
+(d) \(   \ \ \frac{a}{b} \ \)
+ 
+   </h5>
+   
+
+<h5 class ="btn btn-primary answer" id="btn27">
+ Explanation </h5>
+<h5 class="alert alert-primary" id="ans27">Ans: (b)</h5>
+ 
+    </h5>
+      
+      
+      
+   <h5 class ="alert alert-success">
+ <span style="color:red">
+(28) যদি \(p(x) = bx^2 + 4(b + 1) + 1 \)বহুপদটির একটি শূন্য 1 হয় তাহলে b-এর মান হবে-
+ 
+     <br>
+   <span class="exam">HSLC 2023</span>
+     </span>
+     
+     <br>
+     
+   
+             
+ <h5 class ="alert alert-primary" id="28op1">
+  
+(a) 1
+   
+</h5>
+             
+ <h5 class ="alert alert-primary" id="28op2">
+  
+(b)  -1
+   
+</h5>
+             
+ <h5 class ="alert alert-primary" id="28op3">
+  
+(c) 0
+   
+</h5>
+             
+ <h5 class ="alert alert-primary" id="28op4">
+  
+(d)  -4
+   
+</h5>
+<h5 class ="btn btn-primary" id="btn28">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans28">Ans: (b)</h5>
+     </h5>
+ 
+     
+     <!--
+    <h5 class ="alert alert-success">
+ <span style="color:red">
+   
+(29) \((-1)^n\) = -1 হইলে n একটি ?     
+ </span><br><br><span>  
+             
+ <h5 class ="alert alert-primary" id="12op4">
+  
+(a) যুগ্ম সংখ্যা
+<br><br>
+             
+ <h5 class ="alert alert-primary" id="12op4">
+  
+(b) অযুগ্ম সংখ্যা
+<br><br>
+             
+ <h5 class ="alert alert-primary" id="12op4">
+  
+(c) যুগ্ম এবং অযুগ্ম উভয়
+<br><br>
+             
+ <h5 class ="alert alert-primary" id="12op4">
+  
+(d) উপরের কোনটা না 
+   
+<br>
+<br><h5 class ="btn btn-primary" id="btn29">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans29">Ans: (b)</h5>
+ </h5>
+      
+         <h5 class ="alert alert-success">
+ <span style="color:red">
+(30) 
+      \((-1)^n\) = 1 হইলে n একটি ?     
+ </span><br><br><span>  
+             
+ <h5 class ="alert alert-primary" id="12op4">
+  
+(a) যুগ্ম সংখ্যা
+<br><br>
+             
+ <h5 class ="alert alert-primary" id="12op4">
+  
+(b) অযুগ্ম সংখ্যা
+<br><br>
+             
+ <h5 class ="alert alert-primary" id="12op4">
+  
+(c) যুগ্ম এবং অযুগ্ম উভয়
+<br><br>
+             
+ <h5 class ="alert alert-primary" id="12op4">
+  
+(d) উপরের কোনটা না <br>
+
+<br><h5 class ="btn btn-primary" id="btn30">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans30">Ans: (a)</h5>
+         </span>
+ </h5>
+
+<h5 class ="alert alert-success">
+ <span style="color:red">
+(31) যদি a, m, n অশূন্য সংখ্যা হইলে \( a^m × a^n \) = ?
+   
+   <br> <br><span>
+               
+ <h5 class ="alert alert-primary" id="12op4">
+  
+     (a) \(a^{m-n}\)<br><br>
+             
+ <h5 class ="alert alert-primary" id="12op4">
+  
+(b) \(a^{m+n}\) <br><br>
+             
+ <h5 class ="alert alert-primary" id="12op4">
+  
+(c) ) \(a^{mn}\)<br><br>
+             
+ <h5 class ="alert alert-primary" id="12op4">
+  
+(d) \(a\)<br>
+<br><h5 class ="btn btn-primary" id="btn31">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans31">Ans: (b)</h5>
+</span>
+</h5>
+           
+<h5 class ="alert alert-success">
+ <span style="color:red">
+(32) \(\sqrt[3]{1^3}\) + \(\sqrt[3]{2^3}\) + \(\sqrt[3]{3^3}\) = ?
+   <br><br></span><span>
+               
+ <h5 class ="alert alert-primary" id="12op4">
+  
+     (a) 40 <br><br>
+             
+ <h5 class ="alert alert-primary" id="12op4">
+  
+(b) 6 <br><br>
+             
+ <h5 class ="alert alert-primary" id="12op4">
+  
+(c) 25<br><br>
+             
+ <h5 class ="alert alert-primary" id="12op4">
+  
+(d) 26<br>
+<br><h5 class ="btn btn-primary" id="btn32">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans32">Ans: (b)</h5>
+</span>
+</h5>
+           
+           
+
+<h5 class ="alert alert-success">
+ <span style="color:red">
+(33) x, y এর ঘনমূল হলে y এর মান হবে ---       
+ </span><br> 
+<br><span>
+            
+ <h5 class ="alert alert-primary" id="12op4">
+  
+  (a) \(\sqrt[3]{x}\)<br><br>
+             
+ <h5 class ="alert alert-primary" id="12op4">
+  
+(b) \(\sqrt{x}\)<br><br>
+             
+ <h5 class ="alert alert-primary" id="12op4">
+  
+(c) \(x^3\)<br><br>
+             
+ <h5 class ="alert alert-primary" id="12op4">
+  
+(d) \(\sqrt{x^2}\)<br>
+<br><h5 class ="btn btn-primary" id="btn33">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans33">Ans: (c)</h5>
+</span>
+</h5>
+               
+<h5 class ="alert alert-success">
+ <span style="color:red">
+(34) \(p \propto{\frac{1}{q}}\) এবং p = 10 হলে q = 2,এখন p = 20 তবে q = ?
+           <br></span><br><span>
+                       
+ <h5 class ="alert alert-primary" id="12op4">
+  
+             (a) 2<br><br>
+             
+ <h5 class ="alert alert-primary" id="12op4">
+  
+(b) 1 <br><br>
+             
+ <h5 class ="alert alert-primary" id="12op4">
+  
+(c) 10<br><br>
+             
+ <h5 class ="alert alert-primary" id="12op4">
+  
+(d) 20<br>
+<br><h5 class ="btn btn-primary" id="btn34">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans34">Ans: (b)</h5>
+</span>
+</h5>
+                  
+<h5 class ="alert alert-success">
+ <span style="color:red">
+(35) একটি ঘনকের দৈর্ঘ্য 1.2 সে.মি.। ঘনটির আয়তন ---
+   
+ </span>
+  <span>
+              
+ <h5 class ="alert alert-primary" id="12op4">
+  
+    <br><br>(a) 1.728 সে.মি.<sup>3</sup>
+   
+   <br><br>
+             
+ <h5 class ="alert alert-primary" id="12op4">
+  
+(b) 2.728 সে.মি.<sup>3</sup>
+   <br><br>
+             
+ <h5 class ="alert alert-primary" id="12op4">
+  
+(c) 1.028 সে.মি.<sup>3</sup>
+   <br><br>
+             
+ <h5 class ="alert alert-primary" id="12op4">
+  
+(d) 1.828 সে.মি.<sup>3</sup>
+   <br><br>
+             
+ <h5 class ="alert alert-primary" id="12op4">
+  
+<h5 class ="btn btn-primary" id="btn35">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans35">Ans: (a)</h5>
+</span>
+</h5>
+  
+  <h5 class ="alert alert-success">
+ <span style="color:red">
+(36) একটি ঘনকাকৃতির বাক্সের আয়তন 6859 সে.মি.<sup>3</sup>  হলে বাক্সটির উচ্চতা হবে---
+ </span><span><br><br>(a) 13<br><br>
+(b) 17<br><br>
+(c) 23<br><br>
+(d) 19<br><br>
+<h5 class ="btn btn-primary" id="btn36">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans36">Ans: (d)</h5>
+</span>
+</h5>
+     
+<h5 class ="alert alert-success">
+ <span style="color:red">
+(37) একটি তাকে 20 মিঃমিঃ পুরু 5 টি বই এবং 0.016 মি.মি. পুরু 5 টি কাগজ আছে, তাকটির মোট পুরু হবে ---?
+   
+ </span><br><br><span>(a) 10.8 সে.মি. <br><br>
+(b) 25 সে.মি<br><br>
+(c) 10.08 সে.মি<br><br>
+(d) 102 সে.মি<br><br>
+<h5 class ="btn btn-primary" id="btn37">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans37">Ans: (C)</h5>
+</span>
+</h5>
+  
+  
+<h5 class ="alert alert-success">
+ <span style="color:red">
+(38) 
+   একটি গাড়ীর ভ্রমনের সময় (t) এবং দূরত্ব (d) সম্পর্কটি নিম্নে দেওয়া হলো-
+   <table>
+         <tr>
+            <th>t</th>
+            <td>1</td>
+           <td>2</td>
+           <td>3</td>
+           <td>4</td>
+         </tr>
+         <tr>
+            <th>d</th>
+            <td>4</td>
+           <td>8</td>
+           <td>12</td>
+           <td>--</td>
+         </tr>   
+      </table>
+   <br>
+   t = 4 হলে d = ?<br>
+   <hr>
+ </span><span>(a) 16<br><br>
+(b) 8<br><br>
+(c) 12<br><br>
+(d) 20<br><br>
+<h5 class ="btn btn-primary" id="btn38">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans38">Ans: (a)</h5>
+</span>
+</h5>
+              
+      
+<h5 class ="alert alert-success">
+ <span style="color:red">
+(39) \(m^2 + (a + b)m + ab\) এর উৎপাদক হল ---<br><br>
+   <!--
+  <p class="clr" style="text-align:right"><marquee behavior="alternate"width="200" height="30" text-align="right">
+  H.S.L.C - 2020</marquee></p>
+   <span>
+           (a) (m +a)(m - b)
+           <br><br>
+(b) (m + a)(b + m)<br><br>
+(c) (m + a)(m + b)<br><br>
+(d) \((m + a)^2\)<br>
+<br><h5 class ="btn btn-primary" id="btn39">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans39">Ans: (c)</h5>
+</span>
+</h5>
+           
+               
+<h5 class ="alert alert-success">
+ <span style="color:red">
+(40) যুগ্ম সংখ্যা M এর বর্গ ----<br><br><span>
+(a) যুগ্ম<br><br>
+(b) অযুগ্ম <br><br>
+(c) যুগ্ম অথবা অযুগ্ম <br><br>
+(d) মৌলিক <br><br>
+<br><h5 class ="btn btn-primary" id="btn40">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans40">Ans: (a)</h5>
+</span>
+</h5>
+  
+<h5 class ="alert alert-success">
+ <span style="color:red">
+(41) অযুগ্ম সংখ্যা M এর বর্গ ----<br><br><span>
+(a) যুগ্ম<br><br>
+(b) অযুগ্ম <br><br>
+(c) যুগ্ম অথবা অযুগ্ম <br><br>
+(d) মৌলিক <br><br>
+<br><h5 class ="btn btn-primary" id="btn41">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans41">Ans: (b)</h5>
+</span>
+</h5>
+  
+  <h5 class ="alert alert-success">
+ <span style="color:red">
+(42) \({4a}^2 + {8a}^3 = \) ?
+   
+   <br><br><span>
+(a) \(2 × 2a^2(1 + 2a)\)
+     
+     <br><br>
+(b) \(2 × 2a(1 + 2a)\) <br><br>
+(c) \(2 × a^2(1 + 4a)\) <br><br>
+(d) \(a^2(4 + 8a)\) <br><br>
+<br><h5 class ="btn btn-primary" id="btn42">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans42">Ans: (a)</h5>
+</span>
+</h5>
+    
+    <h5 class ="alert alert-success">
+ <span style="color:red">
+(43)
+   xy + x + y + 1 = ?<br><br><span>
+(a) (x + 1)(y + 1)<br><br>
+(b) (x + y)(x - y)<br><br>
+(c) (x - 1)(y - 1)<br><br>
+(d) 2xy<br><br>
+     
+<br><h5 class ="btn btn-primary" id="btn43">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans43">Ans: (a)</h5>
+</span>
+</h5>
+      
+      <h5 class ="alert alert-success">
+ <span style="color:red">
+(44) \(121b^2 -88bc + {16a}^2 = \) ?
+   
+   <br><br><span>
+(a) \((11b + 4a)(11b + 4a)\)
+     
+     <br><br>
+(b) \((11b + 4a)(11b - 4a)\) <br><br>
+(c) \((11b^2 + 4a^2)(11b^2 - 4a^2)\) <br><br>
+(d) \((121b + 16a)(121b-16a)\) <br>
+<br><h5 class ="btn btn-primary" id="btn44">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans44">Ans: (a)</h5>
+</span>
+</h5>
+    
+    <h5 class ="alert alert-success">
+ <span style="color:red">
+(45) \((l + m)^2 - (l - m)^2 = \ ?\)<br><br><span>
+(a) \(4\ l^2m^2\)<br><br>
+(b) \( l^2m^2\)<br><br>
+(c) (l + m)(l - m)<br><br>
+(d) 4 lm<br><br>
+<br><h5 class ="btn btn-primary" id="btn45">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans45">Ans: (d)</h5>
+</span>
+</h5>
+      
+      
+
+
+<h5 class ="alert alert-success">
+ <span style="color:red">
+(46)
+  z - 7 + 7xy -xyz = ?<br><br><span>
+(a) (7 - z)(xy - 1)<br><br>
+(b) (7 + y)(xy - 7)<br><br>
+(c) (7 - z)(xy + 1)<br><br>
+(d) (7 - z)(y + 1)<br><br>
+     
+     <h5 class ="btn btn-primary" id="btn46">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans46">Ans: (a)</h5>
+</span>
+</h5>
+    
+    <h5 class ="alert alert-success">
+ <span style="color:red">
+(47)\(20(y + 4)(y^2 + 5y + 3 )÷5(y + 4) = ?\)<br><br><span>
+(a) \(y + 5y + 3)\)<br><br>
+(b) \(4(y^2 + 5y + 3)\)<br><br>
+
+(c) \(4(y+ 5y + 3)\)<br><br>
+(d) \(20(y^2 + 5y + 3)\)<br><br>
+<h5 class ="btn btn-primary" id="btn47">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans47">Ans: (b)</h5>
+</span>
+</h5>
+      
+  <h5 class ="alert alert-success">
+ <span style="color:red">
+(48) \((3y^8 - 4y^6 + 5y^4 )÷ \ y^4 = \ ?\)<br><br><span>
+(a) \(3y^4 - 4y^2 +  \ 5\)<br><br>
+(b) \(3y^2 + 5y^{-1} \ \ + 5\)<br><br>
+
+(c) \(4(y+ 5y + 3)\)<br><br>
+(d) \(20(y^2 + 5y + 3)\)<br><br>
+<h5 class ="btn btn-primary" id="btn48">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans48">Ans: (a)</h5>
+</span>
+</h5>
+      
+      
+  <h5 class ="alert alert-success">
+ <span style="color:red">
+(49) \(a^2bc + ab^2c + abc^2 = \ ?\)<br><br><span>
+(a) \(a^2bc(a + b + c)\)<br><br>
+(b) \(abc(a + b + c)\)<br><br>
+
+(c) \(abc(a^2+ b^2 + c^2)\)<br><br>
+(d) 0 <br><br>
+<h5 class ="btn btn-primary" id="btn49">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans49">Ans: (b)</h5>
+</span>
+</h5>
+      
+      
+
+  <h5 class ="alert alert-success">
+ <span style="color:red">
+(50) 20pq , 30qr , 40rp এর সাধারণ উৎপাদক --- ?<br><br><span>
+(a) 10 pqr<br><br>
+(b) 20<br><br>
+
+(c) p<br><br>
+(d) 10<br><br>
+<h5 class ="btn btn-primary" id="btn50">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans50">Ans: (d)</h5>
+</span>
+</h5>
+    <!--
+      
+  <h5 class ="alert alert-success">
+ <span style="color:red">
+(47)\(20(y + 4)(y^2 + 5y + 3 )÷5(y + 4) = ?\)<br><br><span>
+(a) \(y + 5y + 3)\)<br><br>
+(b) \(4(y^2 + 5y + 3)\)<br><br>
+
+(c) \(4(y+ 5y + 3)\)<br><br>
+(d) \(20(y^2 + 5y + 3)\)<br><br>
+<h5 class ="btn btn-primary" id="btn47">
+ উত্তর দেখুন </h5>
+<h5 class="alert alert-primary" id="ans47">Ans: (b)</h5>
+</span>
+</h5>
+   -->   
+      
+
+
+<a id="back-to-top" href="#" class="custom-back-to-top" title="Back to top">
+  <i class="bi bi-arrow-up-circle-fill"></i>
+</a>
+
+    <ul class="list-group  border border-primary list-group-numbered" id="index" >
+      
+   <span style="text-align:center; color:indigo"> <h4>Chapter
+        
+   </h4></span>
+  <li class="list-group-item d-flex justify-content-between align-items-center">
+    <a href="https://bijush1.blogspot.com/p/blog-page_18.html" > পুণরলোচনা </a>
+    <span class="badge bg-primary rounded-pill">50</span>
+    
+  </li>
+    
+  <li class="list-group-item d-flex justify-content-between align-items-center">
+    <a href="https://bijush1.blogspot.com/p/class-10-math-mcq.html">
+Chapter 1- বাস্তব সংখ্যা</a>
+    <span class="badge bg-primary rounded-pill">39</span>
+    
+  </li>
+      
+  <li class="list-group-item d-flex justify-content-between align-items-center">  
+    <a href="https://bijush1.blogspot.com/p/chapter-2.html">Chapter 2:
+বহুপদ রাশি</a>
+    <span class="badge bg-primary rounded-pill">27</span>   
+  </li>
+    
+     
+     <li class="list-group-item d-flex justify-content-between align-items-center">  
+    <a href="https://bijush1.blogspot.com/p/chapter-3.html">
+Chapter-3: রৈখিক সমীকরণ</a>
+    <span class="badge bg-primary rounded-pill">10</span>   
+  </li>
+     
+     <li class="list-group-item d-flex justify-content-between align-items-center active">  
+    <a href="https://bijush1.blogspot.com/p/chapter-4_24.html ">
+Chapter-4: দ্বিঘাত সমীকরণ</a>
+    <span class="badge bg-primary rounded-pill">10</span>   
+  </li>
+    
+      <li class="list-group-item d-flex justify-content-between align-items-center">  
+    <a href="https://bijush1.blogspot.com/p/chapter-4.html">
+Chapter-5: সমান্তর প্রগতি</a>
+    <span class="badge bg-primary rounded-pill">19</span>   
+  </li>
+      
+      <li class="list-group-item d-flex justify-content-between align-items-center ">  
+    <a href="https://bijush1.blogspot.com/p/chapter-6.html">
+Chapter-6: ত্রিভুজ</a>
+    <span class="badge bg-primary rounded-pill">18</span>   
+  </li>
+      
+      <li class="list-group-item d-flex justify-content-between align-items-center">  
+    <a href="https://bijush1.blogspot.com/p/chapter-7.html">
+Chapter-7: স্থানাঙ্ক জ্যামিতি</a>
+    <span class="badge bg-primary rounded-pill">20</span>   
+  </li>
+     
+</ul>
+    
+<i class='bi bi-arrow-90deg-up 
+' id="ar">Back</i>
+  
+  
+  
+  
+</body>
+</html>
