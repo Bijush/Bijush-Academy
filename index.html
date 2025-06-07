@@ -4,14 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Bijush's Academy - Responsive Site</title>
-  <link rel="manifest" href="manifest.json"/>
-  <link rel="icon" href="icons/icon-192.png" type="image/png">
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+
   
   <!-- Confetti library -->
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js">
+</script>
 
   <style>
     /* Reset & base */
@@ -99,53 +99,94 @@
       user-select: none;
     }
 
-    /* Carousel */
     .carousel-container {
-      position: relative;
-      max-width: 900px;
-      width: 100%;
-      margin: 40px auto 60px;
-      border-radius: 15px;
-      overflow: hidden;
-      box-shadow: 0 15px 40px rgba(0,0,0,0.3);
-    }
-    .carousel {
-      display: flex;
-      transition: transform 0.6s ease;
-      will-change: transform;
-    }
-    .carousel img {
-      width: 100%;
-      border-radius: 15px;
-      flex-shrink: 0;
-      user-select: none;
-      pointer-events: none;
-    }
-    button.prev,
-    button.next {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background: rgba(255, 255, 255, 0.3);
-      border: none;
-      color: #333;
-      font-size: 2.5rem;
-      padding: 5px 14px;
-      cursor: pointer;
-      border-radius: 50%;
-      box-shadow: 0 3px 12px rgba(0,0,0,0.2);
-      transition: background-color 0.3s ease, color 0.3s ease;
-      user-select: none;
-      z-index: 10;
-    }
-    button.prev:hover,
-    button.next:hover {
-      background: #ffd700;
-      color: #000;
-      box-shadow: 0 5px 18px #ffd700;
-    }
-    button.prev { left: 15px; }
-    button.next { right: 15px; }
+  position: relative;
+  width: 100%;
+  max-width: 1000px;
+  margin: auto;
+  overflow: hidden;
+}
+
+.carousel {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
+.slide {
+  position: relative;
+  min-width: 100%;
+}
+
+.slide img {
+  width: 100%;
+  display: block;
+}
+
+.slide-text {
+  position: absolute;
+  bottom: 30px;
+  left: 30px;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.7); /* darker overlay for better readability */
+  padding: 20px 30px;
+  border-radius: 10px;
+  max-width: 80%;
+  text-shadow: 1px 1px 5px #000;
+}
+
+.slide-text h2 {
+  font-size: 28px;
+  margin: 0 0 10px 0;
+}
+
+.slide-text p {
+  font-size: 18px;
+  margin: 0;
+}
+
+
+
+.prev, .next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #333;
+  color: white;
+  border: none;
+  font-size: 24px;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.prev { left: 10px; }
+.next { right: 10px; }
+
+@media (max-width: 600px) {
+  .slide-text {
+    position: absolute;
+    bottom: auto;
+    top: 20px;              /* Move text higher */
+    left: 10px;
+    right: 10px;            /* Stretch to both sides */
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.85);
+    border-radius: 12px;
+    max-width: 100%;        /* Take full width */
+    text-align: center;
+  }
+
+  .slide-text h2 {
+    font-size: 20px;
+    line-height: 1.3;
+  }
+
+  .slide-text p {
+    font-size: 10px;
+    line-height: 1.4;
+  }
+}
+
 
     /* Subjects Section */
     .subjects {
@@ -161,7 +202,7 @@
       text-shadow: 0 0 10px rgba(0 0 0 / 0.3);
     }
     .subject-grid {
-      display: grid;
+      display: grid !important;
       grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
       gap: 25px;
       padding: 0 10px;
@@ -225,14 +266,38 @@
 
   <!-- Carousel -->
   <section class="carousel-container" aria-label="Image carousel">
-    <div class="carousel" id="carousel" role="list">
-      <img src="https://placehold.co/900x400?text=Slide+1" alt="Slide 1" role="listitem" />
-      <img src="https://placehold.co/900x400?text=Slide+2" alt="Slide 2" role="listitem" />
-      <img src="https://placehold.co/900x400?text=Slide+3" alt="Slide 3" role="listitem" />
+  <div class="carousel" id="carousel" role="list">
+    
+    <div class="slide" role="listitem">
+      <img src="https://placehold.co/900x400?text=Slide+1" alt="Slide 1" />
+      <div class="slide-text">
+        <h2>Bijush Academy</h2>
+        <p>Your Personalized Learning Platform for SEBA Students</p>
+      </div>
     </div>
-    <button class="prev" aria-label="Previous Slide">❮</button>
-    <button class="next" aria-label="Next Slide">❯</button>
-  </section>
+    
+    <div class="slide" role="listitem">
+      <img src="https://placehold.co/900x400?text=Slide+2" alt="Slide 2" />
+      <div class="slide-text">
+        <h2>Interactive Lessons</h2>
+        <p>Learn at your own pace with rich content</p>
+      </div>
+    </div>
+    
+    <div class="slide" role="listitem">
+      <img src="https://placehold.co/900x400?text=Slide+3" alt="Slide 3" />
+      <div class="slide-text">
+        <h2>Trusted by Students</h2>
+        <p>Focused on SEBA Class 9 & 10 curriculum</p>
+      </div>
+    </div>
+
+  </div>
+
+  <button class="prev" aria-label="Previous Slide">❮</button>
+  <button class="next" aria-label="Next Slide">❯</button>
+</section>
+
 
   <!-- Subjects Section -->
   <section class="subjects" aria-label="Subjects We Offer">
@@ -247,14 +312,7 @@
 <div id="visitor-count">Visitors: Loading...</div>
 
   </section>
-<script>
-    // Register service worker
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js')
-        .then(reg => console.log("Service Worker registered:", reg.scope))
-        .catch(err => console.error("SW registration failed:", err));
-    }
-  </script>
+
   <script>
     //Responsive Hamburger menu toggle
 
@@ -301,27 +359,35 @@ document.addEventListener('click', function (event) {
 });
 
     // Carousel functionality
-    const carousel = document.getElementById('carousel');
-    const slides = carousel.querySelectorAll('img');
-    const prevBtn = document.querySelector('button.prev');
-    const nextBtn = document.querySelector('button.next');
-    let currentIndex = 0;
+    
+  const carousel = document.getElementById("carousel");
+  const slides = carousel.querySelectorAll("img");
+  let currentIndex = 0;
 
-    function updateCarousel() {
-      carousel.style.transform = `translateX(-${currentIndex * 100}%)`;
-    }
+  function showSlide(index) {
+    const offset = -index * 100;
+    carousel.style.transform = `translateX(${offset}%)`;
+    carousel.style.transition = "transform 0.5s ease";
+  }
 
-    prevBtn.addEventListener('click', () => {
-      currentIndex = (currentIndex - 1 + slides.length) % slides.length;
-      updateCarousel();
-    });
+  function nextSlide() {
+    currentIndex = (currentIndex + 1) % slides.length;
+    showSlide(currentIndex);
+  }
 
-    nextBtn.addEventListener('click', () => {
-      currentIndex = (currentIndex + 1) % slides.length;
-      updateCarousel();
-    });
+  // Auto-play every 4 seconds
+  setInterval(nextSlide, 4000);
 
-    updateCarousel();
+  // Optional: handle next/prev buttons
+  document.querySelector(".next").addEventListener("click", nextSlide);
+  document.querySelector(".prev").addEventListener("click", () => {
+    currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+    showSlide(currentIndex);
+  });
+
+  // Initial show
+  showSlide(currentIndex);
+
 
     // Confetti effect on clicks of clickable elements
     function confettiEffect(x, y) {
