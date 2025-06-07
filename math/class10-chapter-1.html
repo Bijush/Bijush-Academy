@@ -27,10 +27,116 @@
             user-select: none;
         }
   -->
-  body{
-  font-size:20px; 
-  color:blue;
+  html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  padding-top:30px;
+}
+  
+  
+   nav.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(0,0,0,0.6);
+    padding: 10px 20px;
+    position:fixed;
+    top: 0;
+    z-index: 10;
+    left:0;
+    width:100%;
+    backdrop-filter: blur(8px);
   }
+  nav .logo {
+    font-weight: 700;
+    font-size: 1.8rem;
+    letter-spacing: 2px;
+    color: #fff;
+  }
+  nav ul.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+  }
+  nav ul.nav-links li a {
+    text-decoration: none;
+    color: #ddd;
+    font-weight: 600;
+    padding: 6px 10px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+  }
+  nav ul.nav-links li a:hover {
+    background-color: #3498db;
+    color: white;
+  }
+  /* Hamburger */
+  .hamburger {
+    display: none;
+    font-size: 2rem;
+    cursor: pointer;
+    color: #fff;
+  }
+
+  /* Responsive nav */
+  @media (max-width: 768px) {
+    nav ul.nav-links {
+      position: fixed;
+      top: 60px; right: 0;
+      background: rgba(0,0,0,0.85);
+      height: calc(100vh - 60px);
+      width: 200px;
+      flex-direction: column;
+      padding-top: 20px;
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+      gap: 15px;
+      z-index: 20;
+    }
+    nav ul.nav-links.open {
+      transform: translateX(0);
+    }
+    .hamburger {
+      display: block;
+    }
+  }
+
+
+  /* Back Button */
+  a.back-arrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 20px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    text-decoration: none;
+    color: #fff;
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    padding: 10px 18px;
+    border-radius: 40px;
+    box-shadow: 0 4px 10px rgba(37,117,252,0.6);
+    transition: all 0.3s ease;
+  }
+  a.back-arrow:hover {
+    background: linear-gradient(135deg, #2575fc 0%, #6a11cb 100%);
+    box-shadow: 0 6px 15px rgba(106,17,203,0.8);
+    transform: scale(1.05);
+    color: #fff;
+  }
+
+  a.back-arrow::before {
+    content: "←";
+    font-size: 1.3rem;
+  }
+
+  
+  
+  
+  
+  
+  
   
   #index{
   box-shadow:10px 10px 15px 10px grey;
@@ -89,6 +195,13 @@
 color:#fffff;
 	box-shadow: 0 0 0 1px #9a00cd inset, 0 0 0 2px rgba(255, 255, 255, 0) inset, 0 8px 0 0 #9823d5, 0 8px 8px 1px rgba(0.5, 0, 0, 0.5);
   }
+  
+  h6{
+color:#fffff;
+	box-shadow: 0 0 0 1px #9a00cd inset, 0 0 0 2px rgba(255, 255, 255, 0) inset, 0 8px 0 0 #9823d5, 0 8px 8px 1px rgba(0.5, 0, 0, 0.5);
+	padding:5px;
+  }
+  
   </style>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.min.js" 
   >
@@ -103,151 +216,7 @@ color:#fffff;
 </script>
 <script>
 $(document).ready(function(){
-  /*
-  $('#btn1').click(function(){
-  $('#ans1').slideToggle();
-  });
   
-  $('#btn2').click(function(){
-  $('#ans2').slideToggle();
-  });
-  
-  $('#btn3').click(function(){
-  $('#ans3').slideToggle();
-  });
-  $('#btn4').click(function(){
-  $('#ans4').slideToggle();
-  });
-  
-  $('#btn5').click(function(){
-  $('#ans5').slideToggle();
-  });
-  $('#btn6').click(function(){
-  $('#ans6').slideToggle();
-  });
-  
-$('#btn7').click(function(){
-  $('#ans7').slideToggle();
-  });
-  $('#btn8').click(function(){
-  $('#ans8').slideToggle();
-  });
- 
-  $('#btn9').click(function(){
-  $('#ans9').slideToggle();
-  });
-  
-  $('#btn10').click(function(){
-  $('#ans10').slideToggle();
-  });
-  
-  $('#btn11').click(function(){
-  $('#ans11').slideToggle();
-  });
-  $('#btn12').click(function(){
-  $('#ans12').slideToggle();
-  });
-  
-  $('#btn13').click(function(){
-  $('#ans13').slideToggle();
-  });
-  $('#btn14').click(function(){
-  $('#ans14').slideToggle();
-  });
-  
-  $('#btn15').click(function(){
-  $('#ans15').slideToggle();
-  });
-  $('#btn16').click(function(){
-  $('#ans16').slideToggle();
-  });
-  
-  $('#btn17').click(function(){
-  $('#ans17').slideToggle();
-  });
-  
-  $('#btn18').click(function(){
-  $('#ans18').slideToggle();
-  });
-  
-  $('#btn19').click(function(){
-  $('#ans19').slideToggle();
-  });
-  $('#btn20').click(function(){
-  $('#ans20').slideToggle();
-  });
-  
-  $('#btn21').click(function(){
-  $('#ans21').slideToggle();
-  });
-  $('#btn22').click(function(){
-  $('#ans22').slideToggle();
-  });
-  
-  $('#btn23').click(function(){
-  $('#ans23').slideToggle();
-  });
-  $('#btn24').click(function(){
-  $('#ans24').slideToggle();
-  });
-  
-  $('#btn25').click(function(){
-  $('#ans25').slideToggle();
-  });
-  $('#btn26').click(function(){
-  $('#ans26').slideToggle();
-  });
-  
-  $('#btn27').click(function(){
-  $('#ans27').slideToggle();
-  });
-  
-  $('#btn28').click(function(){
-  $('#ans28').slideToggle();
-  });
-  
-  $('#btn29').click(function(){
-  $('#ans29').slideToggle();
-  });
-  $('#btn30').click(function(){
-  $('#ans30').slideToggle();
-  });
-  
-  $('#btn31').click(function(){
-  $('#ans31').slideToggle();
-  });
-  $('#btn32').click(function(){
-  $('#ans32').slideToggle();
-  });
-  
-  $('#btn33').click(function(){
-  $('#ans33').slideToggle();
-  });
-  $('#btn34').click(function(){
-  $('#ans34').slideToggle();
-  });
-  
-  
-  $('#btn35').click(function(){
-  $('#ans35').slideToggle();
-  });
-  $('#btn36').click(function(){
-  $('#ans36').slideToggle();
-  });
-   
-  $('#btn37').click(function(){
-  $('#ans37').slideToggle();
-  });
-  
-  $('#btn38').click(function(){
-  $('#ans38').slideToggle();
-  });
-  $('#btn39').click(function(){
-  $('#ans39').slideToggle();
-  });
- 
- 
-*/
 // For all #btnX and #ansX (1 to 51)
   for (let i = 1; i <= 51; i++) {
     $(`#btn${i}`).click(function () {
@@ -272,33 +241,37 @@ $('#btn7').click(function(){
     $(this).css("background-color", "red");
     $('#2op3').css("background-color", "green").css("color", "white");
   });
+  
+  
+  const hamburger = document.getElementById('hamburger');
+  const navLinks = document.getElementById('navLinks');
+  hamburger.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+  });
+  
+  
 });
 
 </script>
 
 </head>
 <body>
-  <nav class="navbar">
-    <div class="logo">Bijush Academy</div>
-    <ul class="nav-links" id="navLinks">
-      <li><a href="../index.html">Home</a></li>
-      <li><a href="#">About</a></li>
-      <li><a href="#">Contact</a></li>
-    </ul>
-    <div class="hamburger" id="hamburger">&#9776;</div>
-  </nav>
+  <!-- Navbar -->
+  <nav class="navbar" role="navigation" aria-label="Main Navigation">
+  <div class="logo">Bijush Academy</div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger">&#9776;</div>
+</nav>
 
-  <section>
-    <a href="class10-chapter.html" class="back-arrow">
-      <svg fill="none" stroke="currentColor" stroke-width="4" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg>
-      Back to Class Selection
-    </a>
+<!-- Back Button -->
+<a href="class10-chapter.html" class="back-arrow" id="backBtn">Back to Classes</a>
 
 
-
-
-
-    <h2>Chapter 1 -বাস্তব সংখ্যা ( MCQ)</h2>
+    <h6>Chapter 1 -বাস্তব সংখ্যা ( MCQ)</h6>
     
 
 
