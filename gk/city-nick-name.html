@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> MCQ</title>
+<link rel="manifest" href="../manifest.json">
+<link rel="icon" href="../icons/icon-192.png">
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('../sw.js');
+  }
+</script>
+
+  <title>Interactive Quiz Q1–Q10</title>
+  
+   <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css'>    
+  
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+            
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <style>
+    html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  padding-top:30px;
+}
+    nav.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(0,0,0,0.6);
+    padding: 10px 20px;
+    position:fixed;
+    top: 0;
+    z-index: 10;
+    left:0;
+    width:100%;
+    backdrop-filter: blur(8px);
+  }
+  nav .logo {
+    font-weight: 700;
+    font-size: 1.8rem;
+    letter-spacing: 2px;
+    color: #fff;
+  }
+  nav ul.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+  }
+  nav ul.nav-links li a {
+    text-decoration: none;
+    color: #ddd;
+    font-weight: 600;
+    padding: 6px 10px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+  }
+  nav ul.nav-links li a:hover {
+    background-color: #3498db;
+    color: white;
+  }
+  /* Hamburger */
+  .hamburger {
+    display: none;
+    font-size: 2rem;
+    cursor: pointer;
+    color: #fff;
+  }
+
+  /* Responsive nav */
+  @media (max-width: 768px) {
+    nav ul.nav-links {
+      position: fixed;
+      top: 60px; right: 0;
+      background: rgba(0,0,0,0.85);
+      height: calc(100vh - 60px);
+      width: 200px;
+      flex-direction: column;
+      padding-top: 20px;
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+      gap: 15px;
+      z-index: 20;
+    }
+    nav ul.nav-links.open {
+      transform: translateX(0);
+    }
+    .hamburger {
+      display: block;
+    }
+  }
+
+
+  /* Back Button */
+  a.back-arrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 20px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    text-decoration: none;
+    color: #fff;
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    padding: 10px 18px;
+    border-radius: 40px;
+    box-shadow: 0 4px 10px rgba(37,117,252,0.6);
+    transition: all 0.3s ease;
+  }
+  a.back-arrow:hover {
+    background: linear-gradient(135deg, #2575fc 0%, #6a11cb 100%);
+    box-shadow: 0 6px 15px rgba(106,17,203,0.8);
+    transform: scale(1.05);
+    color: #fff;
+  }
+
+  a.back-arrow::before {
+    content: "←";
+    font-size: 1.3rem;
+  }
+
+.custom-back-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 999;
+  display: none;
+  font-size: 2.5rem;
+  color: #0d6efd;
+  background-color: white;
+  border-radius: 50%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  padding: 10px;
+  transition: all 0.3s ease;
+  text-align: center;
+  text-decoration: none;
+}
+
+.custom-back-to-top:hover {
+  color: white;
+  background-color: #0d6efd;
+  transform: scale(1.1);
+}
+  
+.stylish-back-btn {
+  background: linear-gradient(135deg, #6f42c1, #6610f2);
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-weight: 600;
+  font-size: 16px;
+  border-radius: 30px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.stylish-back-btn:hover {
+  background: linear-gradient(135deg, #5a32a3, #520dc2);
+  transform: translateY(-2px);
+  color: #ffffff;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+}
+
+.stylish-back-btn i {
+  font-size: 1.2rem;
+}
+
+  
+    
+    .quiz-item {
+    max-width:600px; 
+    margin:20px auto; 
+    background:#fff; 
+    padding:20px; 
+    border-radius:8px; 
+    box-shadow:0 4px 12px rgba(0,0,0,0.05);
+     position:relative;
+      }
+    
+    .question { font-size:1.2rem; font-weight:bold; margin-bottom:12px; }
+    .option { display:flex; align-items:center; padding:12px; margin:6px 0; border:2px solid #007BFF; border-radius:6px; background:#fff; color:#007BFF; cursor:pointer; transition:background .25s, color .25s; }
+    .option:hover { background:#e7f1ff; }
+    .option.disabled { cursor:default; }
+    .option.correct { background:#d4edda; border-color:#28a745; color:#155724; }
+    .option.wrong { background:#f8d7da; border-color:#dc3545; color:#721c24; }
+    .icon { margin-left:auto; font-size:1.2rem; }
+    button.show-details { margin:15px auto 0; display:none; padding:10px 20px; background:#28a745; color:#fff; border:none; border-radius:4px; cursor:pointer; transition:background .3s; }
+    button.show-details:hover { background:#1e7e34; }
+    h4.alert { display:none; margin-top:10px; padding:15px; background:#d4edda; border:1px solid #c3e6cb; border-radius:5px; color:#155724; }
+    .revealed h4.alert { display:block; }
+    @media (max-width:480px){ button.show-details { width:100%; }}
+    
+    .ad-container { 
+    margin-bottom: 20px; 
+    }
+    
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.min.js" 
+  >
+</script>
+  <!--jQuery--> 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"> 
+</script>
+</head>
+<body>
+<nav class="navbar" role="navigation" aria-label="Main Navigation">
+  <div class="logo">Bijush Academy</div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../about.html">About</a></li>
+    <li><a href="../contact.html">Contact</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger">&#9776;</div>
+</nav>
+
+<!-- Back Button -->
+<a href="select-gk.html" class="back-arrow" id="backBtn">Back to Classes</a>
+
+
+<div class="content">
+
+
+  <!-- Google AdSense Banner -->
+  <div class="ad-container">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-7552073292756448"
+         data-ad-slot="3754890054"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+  </div>
+  </div>
+  <div id="quiz-container"></div>
+  
+  <div>
+  <a id="back-to-top" href="#" class="custom-back-to-top" title="Back to top">
+  <i class="bi bi-arrow-up-circle-fill"></i>
+</a>
+</div>
+<!-- footer.html -->
+  
+<footer>
+  <p>&copy; 2025 Bijush Academy. All rights reserved.</p>
+</footer>
+<script>
+
+const quizData = [
+  {q:"Q.1: Which city is known as City of Seven Hills?", options:["A) Rome","B) Paris","C) Italy","D) Shimla"], answer:"A", detail:"Correct: (A) — Rome (Italy).", state:"Italy"},
+  {q:"Q.2: Which city is known as Diamond City of India?", options:["A) Thiruvananthapuram","B) Surat","C) Kanpur","D) Jodhpur"], answer:"B", detail:"Correct: (B) — Surat, Gujarat (Diamond City).", state:"Gujarat"},
+  {q:"Q.3: Which city is known as City of Festival in India?", options:["A) Agra","B) Madurai","C) Kanpur","D) Jodhpur"], answer:"B", detail:"Correct: (B) — Madurai, Tamil Nadu (City of Festivals).", state:"Tamil Nadu"},
+  {q:"Q.4: Which city is called City of Lakes in India?", options:["A) Udaipur","B) Madurai","C) Kanpur","D) Jodhpur"], answer:"A", detail:"Correct: (A) — Udaipur, Rajasthan (City of Lakes).", state:"Rajasthan"},
+  {q:"Q.5: Which city is called City of Letters?", options:["A) Kottayam","B) Rachi","C) Bangalore","D) Chennai"], answer:"A", detail:"Correct: (A) — Kottayam, Kerala (Akshara Nagari).", state:"Kerala"},
+  {q:"Q.6: Which state is known as Heart of India?", options:["A) Madhya Pradesh","B) Bangalore","C) Delhi","D) Chennai"], answer:"A", detail:"Correct: (A) — Madhya Pradesh (Heart of India).", state:"Madhya Pradesh"},
+  {q:"Q.7: Which country is known as City of Lakes?", options:["A) Finland","B) Brazil","C) Australia","D) England"], answer:"A", detail:"Correct: (A) — Finland (Land of a Thousand Lakes).", state:"Finland"},
+  {q:"Q.8: Which city is known as Silk City of India?", options:["A) Kottayam","B) Rachi","C) Bangalore","D) Pochampally ikat"], answer:"D", detail:"Correct: (D) — Pochampally, Andhra Pradesh (Silk City).", state:"Andhra Pradesh"},
+  {q:"Q.9: Which city is called City of Letters?", options:["A) Pune","B) Rachi","C) Bangalore","D) Chennai"], answer:"A", detail:"Correct: (A) — Pune, Maharashtra (Oxford of the East).", state:"Maharashtra"},
+  {q:"Q.10: Which town is also known as the Manchester of Assam?", options:["A) Jorhat","B) Sualkuchi","C) Diphu","D) Digboi"], answer:"B", detail:"Correct: (B) — Sualkuchi, Assam (Manchester of Assam).", state:"Assam"},
+
+  {q:"Q.11: Which city is known as the Pink City?", options:["A) Jaipur","B) Jodhpur","C) Udaipur","D) Agra"], answer:"A", detail:"Correct: (A) — Jaipur, Rajasthan (Pink City).", state:"Rajasthan"},
+  {q:"Q.12: Which city is called the Blue City?", options:["A) Jaipur","B) Jodhpur","C) Udaipur","D) Coorg"], answer:"B", detail:"Correct: (B) — Jodhpur, Rajasthan (Blue City).", state:"Rajasthan"},
+  {q:"Q.13: Which city is nicknamed Sun City?", options:["A) Udaipur","B) Jodhpur","C) Jaipur","D) Nagpur"], answer:"B", detail:"Correct: (B) — Jodhpur, Rajasthan (Sun City).", state:"Rajasthan"},
+  {q:"Q.14: Which city is the Silicon Valley of India?", options:["A) Mumbai","B) Pune","C) Bengaluru","D) Chennai"], answer:"C", detail:"Correct: (C) — Bengaluru, Karnataka (Silicon Valley of India).", state:"Karnataka"},
+  {q:"Q.15: Which city is called the Manchester of India?", options:["A) Ahmedabad","B) Kanpur","C) Ludhiana","D) Surat"], answer:"A", detail:"Correct: (A) — Ahmedabad, Gujarat (Manchester of India).", state:"Gujarat"},
+  {q:"Q.16: Which city is the Steel City of India?", options:["A) Jamshedpur","B) Bhilai","C) Rourkela","D) Trivandrum"], answer:"A", detail:"Correct: (A) — Jamshedpur, Jharkhand (Steel City of India).", state:"Jharkhand"},
+  {q:"Q.17: Which city is known as the City of Joy?", options:["A) Kolkata","B) Mumbai","C) Pune","D) Lucknow"], answer:"A", detail:"Correct: (A) — Kolkata, West Bengal (City of Joy).", state:"West Bengal"},  /* Kolkata nicknames from sources :contentReference[oaicite:1]{index=1} */
+  {q:"Q.18: Which city is the Detroit of India?", options:["A) Chennai","B) Mumbai","C) Delhi","D) Hyderabad"], answer:"A", detail:"Correct: (A) — Chennai, Tamil Nadu (Detroit of India).", state:"Tamil Nadu"},
+  {q:"Q.19: Which city is the Golden City?", options:["A) Udaipur","B) Amritsar","C) Jaisalmer","D) Agra"], answer:"B", detail:"Correct: (B) — Amritsar, Punjab (Golden City).", state:"Punjab"},
+  {q:"Q.20: Which city is known as the City of Pearls?", options:["A) Hyderabad","B) Mumbai","C) Kolkata","D) Pune"], answer:"A", detail:"Correct: (A) — Hyderabad, Telangana (City of Pearls).", state:"Telangana"},
+  {q:"Q.21: Which city is called the Scotland of India?", options:["A) Kashmir","B) Coorg","C) Shillong","D) Mussoorie"], answer:"B", detail:"Correct: (B) — Coorg, Karnataka (Scotland of India).", state:"Karnataka"},
+{q:"Q.22: Which city is nicknamed the Venice of the East?", options:["A) Alappuzha","B) Srinagar","C) Udaipur","D) Calicut"], answer:"A", detail:"Correct: (A) — Alappuzha, Kerala (Venice of the East).", state:"Kerala"},
+{q:"Q.23: Which city is called the Garden City?", options:["A) Bengaluru","B) Pune","C) Chandigarh","D) Mysore"], answer:"A", detail:"Correct: (A) — Bengaluru, Karnataka (Garden City of India).", state:"Karnataka"},
+{q:"Q.24: Which city is the Gateway to North‑East India?", options:["A) Guwahati","B) Tezpur","C) Shillong","D) Dibrugarh"], answer:"A", detail:"Correct: (A) — Guwahati, Assam (Gateway to North‑East India).", state:"Assam"},
+{q:"Q.25: Which city is nicknamed Twin City?", options:["A) Hyderabad","B) Chennai","C) Mumbai","D) Kolkata"], answer:"A", detail:"Correct: (A) — Hyderabad, Telangana (paired with Secunderabad).", state:"Telangana"},
+{q:"Q.26: Which city is the Wine Capital of India?", options:["A) Nashik","B) Nagpur","C) Pune","D) Indore"], answer:"A", detail:"Correct: (A) — Nashik, Maharashtra (Wine Capital of India).", state:"Maharashtra"},
+{q:"Q.27: Which city is called the Cultural Capital of India?", options:["A) Kolkata","B) Mumbai","C) Chennai","D) Delhi"], answer:"A", detail:"Correct: (A) — Kolkata, West Bengal (Cultural Capital).", state:"West Bengal"},
+{q:"Q.28: Which city is known as the City of Castles?", options:["A) Kolkata","B) Delhi","C) Mumbai","D) Jaipur"], answer:"A", detail:"Correct: (A) — Kolkata, West Bengal (City of Castles).", state:"West Bengal"},
+{q:"Q.29: Which city is the Gateway of Eastern India?", options:["A) Kolkata","B) Guwahati","C) Patna","D) Bhubaneswar"], answer:"A", detail:"Correct: (A) — Kolkata, West Bengal (Gateway of Eastern India).", state:"West Bengal"},
+{q:"Q.30: Which city is the Silk City of India?", options:["A) Bhagalpur","B) Surat","C) Kanchipuram","D) Mysore"], answer:"A", detail:"Correct: (A) — Bhagalpur, Bihar (Silk City of India).", state:"Bihar"},
+  // Q.31 – Q.60 city nicknames with states/countries
+{q:"Q.31: Which city is called the Cotton City of India?", options:["A) Akola","B) Surat","C) Mumbai","D) Indore"], answer:"A", detail:"Correct: (A) — Akola, Maharashtra (Cotton City).", state:"Maharashtra"},
+{q:"Q.32: Which city is known as the Cashew Capital of the World?", options:["A) Kollam","B) Kochi","C) Kozhikode","D) Alappuzha"], answer:"A", detail:"Correct: (A) — Kollam, Kerala (Cashew Capital).", state:"Kerala"},
+{q:"Q.33: Which city is nicknamed the Petrol City of India?", options:["A) Guwahati","B) Mumbai","C) Kochi","D) Vishakhapatnam"], answer:"A", detail:"Correct: (A) — Guwahati, Assam (Petrol City).", state:"Assam"},
+{q:"Q.34: Which city is known as the Coal Capital of India?", options:["A) Dhanbad","B) Jharia","C) Bokaro","D) Kolkata"], answer:"A", detail:"Correct: (A) — Dhanbad, Jharkhand (Coal Capital).", state:"Jharkhand"},
+{q:"Q.35: Which city is called the Litchi City?", options:["A) Muzaffarpur","B) Malda","C) Bhopal","D) Lucknow"], answer:"A", detail:"Correct: (A) — Muzaffarpur, Bihar (Litchi City).", state:"Bihar"},
+{q:"Q.36: Which city is nicknamed the Heritage City of Mysore?", options:["A) Mysore","B) Bangalore","C) Coimbatore","D) Chennai"], answer:"A", detail:"Correct: (A) — Mysore, Karnataka (Heritage City).", state:"Karnataka"},
+{q:"Q.37: Which city is called the Temple City of Odisha?", options:["A) Bhubaneswar","B) Puri","C) Konark","D) Cuttack"], answer:"A", detail:"Correct: (A) — Bhubaneswar, Odisha (Temple City).", state:"Odisha"},
+{q:"Q.38: Which city is called the Deccan Queen?", options:["A) Pune","B) Hyderabad","C) Bangalore","D) Chennai"], answer:"A", detail:"Correct: (A) — Pune, Maharashtra (Deccan Queen).", state:"Maharashtra"},
+{q:"Q.39: Which hill station is known as Queen of Hill Stations?", options:["A) Ooty","B) Mussoorie","C) Darjeeling","D) Shimla"], answer:"A", detail:"Correct: (A) — Ooty, Tamil Nadu (Queen of Hill Stations).", state:"Tamil Nadu"},
+{q:"Q.40: Which city is nicknamed the Abode of the Gods?", options:["A) Prayagraj","B) Varanasi","C) Haridwar","D) Rishikesh"], answer:"A", detail:"Correct: (A) — Prayagraj, Uttar Pradesh (Abode of the Gods).", state:"Uttar Pradesh"},
+{q:"Q.41: Which city is called the Wine Capital of India?", options:["A) Nashik","B) Nagpur","C) Pune","D) Indore"], answer:"A", detail:"Correct: (A) — Nashik, Maharashtra (Wine Capital).", state:"Maharashtra"},  // Nashik sources :contentReference[oaicite:1]{index=1}
+{q:"Q.42: Which city is known as the Silk City of India?", options:["A) Bhagalpur","B) Surat","C) Kanchipuram","D) Mysore"], answer:"A", detail:"Correct: (A) — Bhagalpur, Bihar (Silk City).", state:"Bihar"},  // Bhagalpur sources :contentReference[oaicite:2]{index=2}
+{q:"Q.43: Which city is called the Spice City?", options:["A) Kozhikode","B) Cochin","C) Kochi","D) Kollam"], answer:"A", detail:"Correct: (A) — Kozhikode (Calicut), Kerala (Spice City).", state:"Kerala"},
+{q:"Q.44: Which city is known as the Queen of the Arabian Sea?", options:["A) Kochi","B) Mumbai","C) Chennai","D) Kolkata"], answer:"A", detail:"Correct: (A) — Kochi, Kerala (Queen of Arabian Sea).", state:"Kerala"},
+{q:"Q.45: Which city is the City of Pearls?", options:["A) Hyderabad","B) Mumbai","C) Kolkata","D) Pune"], answer:"A", detail:"Correct: (A) — Hyderabad, Telangana (City of Pearls).", state:"Telangana"},
+{q:"Q.46: Which city is called the Gateway of India?", options:["A) Chennai","B) Mumbai","C) Delhi","D) Kolkata"], answer:"B", detail:"Correct: (B) — Mumbai, Maharashtra (Gateway of India).", state:"Maharashtra"},
+{q:"Q.47: Which city is known as the Golden City?", options:["A) Udaipur","B) Amritsar","C) Jaisalmer","D) Agra"], answer:"B", detail:"Correct: (B) — Amritsar, Punjab (Golden City).", state:"Punjab"},
+{q:"Q.48: Which city is called the City of Temples?", options:["A) Varanasi","B) Bhubaneswar","C) Madurai","D) All of these"], answer:"D", detail:"Correct: (D) — Varanasi (UP), Bhubaneswar (Odisha), Madurai (TN) (City of Temples).", state:"Various"},
+{q:"Q.49: Which city is nicknamed Sun City?", options:["A) Udaipur","B) Jodhpur","C) Jaipur","D) Nagpur"], answer:"B", detail:"Correct: (B) — Jodhpur, Rajasthan (Sun City).", state:"Rajasthan"},
+{q:"Q.50: Which city is known as the Manchester of India?", options:["A) Ahmedabad","B) Kanpur","C) Ludhiana","D) Surat"], answer:"A", detail:"Correct: (A) — Ahmedabad, Gujarat (Manchester of India).", state:"Gujarat"},
+{q:"Q.51: Which city is the Steel City of India?", options:["A) Jamshedpur","B) Bhilai","C) Rourkela","D) Trivandrum"], answer:"A", detail:"Correct: (A) — Jamshedpur, Jharkhand (Steel City).", state:"Jharkhand"},
+{q:"Q.52: Which city is called the City of Joy?", options:["A) Kolkata","B) Mumbai","C) Pune","D) Lucknow"], answer:"A", detail:"Correct: (A) — Kolkata, West Bengal (City of Joy).", state:"West Bengal"},
+{q:"Q.53: Which city is called the Detroit of India?", options:["A) Chennai","B) Mumbai","C) Delhi","D) Hyderabad"], answer:"A", detail:"Correct: (A) — Chennai, Tamil Nadu (Detroit of India).", state:"Tamil Nadu"},
+{q:"Q.54: Which city is called the Galaxy of Temples?", options:["A) Khajuraho","B) Mahabalipuram","C) Madurai","D) Bhubaneswar"], answer:"C", detail:"Correct: (C) — Madurai, Tamil Nadu (Galaxy of Temples).", state:"Tamil Nadu"},
+{q:"Q.55: Which city is the 'Oxford of the East'?", options:["A) Pune","B) Varanasi","C) Chennai","D) Kolkata"], answer:"A", detail:"Correct: (A) — Pune, Maharashtra (Oxford of the East).", state:"Maharashtra"},
+{q:"Q.56: Which town is known as the Manchester of Assam?", options:["A) Jorhat","B) Sualkuchi","C) Diphu","D) Digboi"], answer:"B", detail:"Correct: (B) — Sualkuchi, Assam (Manchester of Assam).", state:"Assam"},
+{q:"Q.57: Which city is called the Paris of the East?", options:["A) Pondicherry","B) Shillong","C) Kolkata","D) Shimla"], answer:"A", detail:"Correct: (A) — Pondicherry, Puducherry (Paris of the East).", state:"Puducherry"},
+{q:"Q.58: Which city is called the Twin City?", options:["A) Hyderabad","B) Chennai","C) Mumbai","D) Kolkata"], answer:"A", detail:"Correct: (A) — Hyderabad‑Secunderabad, Telangana (Twin City).", state:"Telangana"},
+{q:"Q.59: Which city is called the Detroit of India?", options:["A) Chennai","B) Mumbai","C) Delhi","D) Kolkata"], answer:"A", detail:"Correct: (A) — Chennai, Tamil Nadu (Detroit of India).", state:"Tamil Nadu"},
+{q:"Q.60: Which city is called the Gateway to North‑East India?", options:["A) Guwahati","B) Tezpur","C) Shillong","D) Dibrugarh"], answer:"A", detail:"Correct: (A) — Guwahati, Assam (Gateway to North‑East India).", state:"Assam"},
+
+  
+  /* Hyderabad source :contentReference[oaicite:2]{index=2} */
+
+  // ...continue similarly for Q21–Q60
+];
+
+// Updated buildQuiz to show state in detail
+function buildQuiz() {
+  const container = document.getElementById('quiz-container');
+  quizData.forEach(item => {
+    const div = document.createElement('div');
+    div.className = 'quiz-item';
+    div.innerHTML = `
+      <p class="question">${item.q}</p>
+      ${item.options.map(opt=>`
+        <div class="option" data-answer="${item.answer}">
+          <span>${opt}</span><span class="icon"></span>
+        </div>`).join('')}
+      <button class="show-details">Show Details</button>
+      <h4 class="alert">${item.detail}<br><em>State/Country: ${item.state}</em></h4>
+    `;
+    container.appendChild(div);
+
+    let answered = false;
+    const opts = div.querySelectorAll('.option');
+    const btn = div.querySelector('.show-details');
+
+    opts.forEach(o => o.addEventListener('click', () => {
+      if(answered) return;
+      answered = true;
+      opts.forEach(o2 => {
+        o2.classList.add('disabled');
+        const icon = o2.querySelector('.icon');
+        if(o2.textContent.trim().charAt(0)===item.answer) {
+          o2.classList.add('correct'); icon.textContent='✅';
+        } else if(o2===o) {
+          o2.classList.add('wrong'); icon.textContent='❌';
+        }
+      });
+      btn.style.display='block';
+    }));
+
+    btn.addEventListener('click', () => {
+      div.classList.toggle('revealed');
+      btn.textContent = div.classList.contains('revealed') ? 'Hide Details' : 'Show Details';
+    });
+    btn.style.display='none';
+  });
+}
+
+document.addEventListener('DOMContentLoaded', buildQuiz);
+
+
+
+$(window).scroll(function () {
+			if ($(this).scrollTop() >20) {
+				$('#back-to-top').fadeIn();
+			} else {
+				$('#back-to-top').fadeOut();
+			}
+		});
+		// scroll body to 0px on click
+		$('#back-to-top').click(function () {
+			$('body,html').animate({
+				scrollTop: 0
+			}, 400);
+			return false;
+		});
+ 
+
+
+const hamburger = document.getElementById('hamburger');
+  const navLinks = document.getElementById('navLinks');
+  hamburger.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+  });
+
+</script>
+
+</body>
+</html>
