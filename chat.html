@@ -1,0 +1,1323 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> MCQ</title>
+<link rel="manifest" href="../manifest.json">
+<link rel="icon" href="../icons/icon-192.png">
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('../sw.js');
+  }
+</script>
+  <title>Q&A Social App</title>
+  <style>
+        
+        * {
+  box-sizing: border-box;
+}
+
+    :root {
+      --primary: #007bff;
+      --secondary: #f0f0f0;
+      --text: #333;
+      --bg: #f4f4f4;
+      --danger: #dc3545;
+    }
+
+  
+
+     html, body {
+  margin: 0;
+  padding:5px;
+  overflow-x: hidden;
+  padding-top:30px;
+}
+    nav.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(0,0,0,0.6);
+    padding: 10px 20px;
+    position:fixed;
+    top: 0;
+    z-index: 10;
+    left:0;
+    width:100%;
+    backdrop-filter: blur(8px);
+  }
+  nav .logo {
+    font-weight: 700;
+    font-size: 1.8rem;
+    letter-spacing: 2px;
+    color: #fff;
+  }
+  nav ul.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+  }
+  nav ul.nav-links li a {
+    text-decoration: none;
+    color: #ddd;
+    font-weight: 600;
+    padding: 6px 10px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+  }
+  nav ul.nav-links li a:hover {
+    background-color: #3498db;
+    color: white;
+  }
+  /* Hamburger */
+  .hamburger {
+    display: none;
+    font-size: 2rem;
+    cursor: pointer;
+    color: #fff;
+  }
+
+  /* Responsive nav */
+  @media (max-width: 768px) {
+    nav ul.nav-links {
+      position: fixed;
+      top: 60px; right: 0;
+      background: rgba(0,0,0,0.85);
+      height: calc(100vh - 60px);
+      width: 200px;
+      flex-direction: column;
+      padding-top: 20px;
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+      gap: 15px;
+      z-index: 20;
+    }
+    nav ul.nav-links.open {
+      transform: translateX(0);
+    }
+    .hamburger {
+      display: block;
+    }
+  }
+
+
+  /* Back Button */
+  a.back-arrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 20px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    text-decoration: none;
+    color: #fff;
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    padding: 10px 18px;
+    border-radius: 40px;
+    box-shadow: 0 4px 10px rgba(37,117,252,0.6);
+    transition: all 0.3s ease;
+  }
+  a.back-arrow:hover {
+    background: linear-gradient(135deg, #2575fc 0%, #6a11cb 100%);
+    box-shadow: 0 6px 15px rgba(106,17,203,0.8);
+    transform: scale(1.05);
+    color: #fff;
+  }
+
+  a.back-arrow::before {
+    content: "←";
+    font-size: 1.3rem;
+  }
+
+.custom-back-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 999;
+  display: none;
+  font-size: 2.5rem;
+  color: #0d6efd;
+  background-color: white;
+  border-radius: 50%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  padding: 10px;
+  transition: all 0.3s ease;
+  text-align: center;
+  text-decoration: none;
+}
+
+.custom-back-to-top:hover {
+  color: white;
+  background-color: #0d6efd;
+  transform: scale(1.1);
+}
+  
+.stylish-back-btn {
+  background: linear-gradient(135deg, #6f42c1, #6610f2);
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-weight: 600;
+  font-size: 16px;
+  border-radius: 30px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.stylish-back-btn:hover {
+  background: linear-gradient(135deg, #5a32a3, #520dc2);
+  transform: translateY(-2px);
+  color: #ffffff;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+}
+
+.stylish-back-btn i {
+  font-size: 1.2rem;
+}
+
+
+  
+    .container {
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 1px;
+  padding: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+    #mainApp {
+      display: none;
+    }
+
+    textarea, input[type="text"], input[type="email"], input[type="password"] {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 1em;
+      background-color: var(--secondary);
+    }
+
+    textarea:focus, input:focus {
+      border-color: var(--primary);
+      background-color: #fff;
+      outline: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      background-color: var(--primary);
+      border: none;
+      border-radius: 6px;
+      color: white;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+
+    .spinner {
+      width: 16px;
+      height: 16px;
+      margin-left: 8px;
+      border: 2px solid #fff;
+      border-top: 2px solid #333;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+      display: inline-block;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .post {
+      background: #e6f3ff;
+      padding: 2px 2px;
+      margin-top:5px;
+      margin-bottom:10px;
+      border-radius: 4px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      position: relative;
+      font-size: 1em;
+    }
+
+    .post::after {
+      content: "";
+      position: absolute;
+      left: -10px;
+      top: 14px;
+      border: 2px solid transparent;
+      border-right-color: #e6f3ff;
+    }
+
+    .post-footer {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+    }
+
+    .emoji-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      font-size: 1.2rem;
+      align-items: center;
+    }
+
+    
+      
+  .emoji {
+    
+    cursor: pointer;
+  
+
+      padding: 8px 10px;
+      border-radius: 5px;
+      background-color: var(--secondary);
+      margin-right: 5px;
+      transition: background-color 0.2s, color 0.2s;
+    }
+
+    .emoji:hover {
+      background-color: #e0e0e0;
+    }
+
+    .emoji.active-emoji {
+      background-color: var(--primary);
+      color: white;
+      font-weight: bold;
+    }
+
+    .comment, .reply {
+      background: #fdfdfd;
+      border-left: 3px solid var(--primary);
+      padding: 10px 15px;
+      margin-top: 12px;
+      border-radius: 6px;
+      position: relative;
+    }
+
+    .reply {
+      margin-left: 20px;
+    }
+
+    .comment-toggle {
+      cursor: pointer;
+      font-size: 0.9em;
+      color: var(--primary);
+    }
+
+    .comment-input-wrapper {
+      position: relative;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .comment-input {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+      resize: vertical;
+      background-color: var(--secondary);
+    }
+
+    .comment-submit {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      font-size: 18px;
+      color: var(--primary);
+    }
+
+    .edit-icon, .delete-icon {
+      position: absolute;
+      top: 5px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .edit-icon { right: 30px; }
+    .delete-icon { right: 5px; }
+
+    .file-link { display: block; margin-top: 5px; }
+    img { max-width: 100%; margin-top: 5px; }
+
+    #fileInfo {
+      margin-top: 10px;
+      color: var(--danger);
+      font-weight: bold;
+    }
+
+    #customPrompt {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: #00000088;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    #customPrompt > div {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 500px;
+      width: 90%;
+    }
+
+    #loadMoreBtn {
+      display: block;
+      margin: 20px auto;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+      }
+
+      .container {
+    border-radius: 0;
+    padding: 0px;
+    box-shadow: none;
+  }
+
+      .post, .comment, .reply {
+        font-size: 0.95em;
+      }
+    }
+    
+    .emoji-tooltip-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.emoji-tooltip {
+  visibility: hidden;
+  background-color: #333;
+  color: #fff;
+  text-align: left;
+  padding: 5px 8px;
+  border-radius: 4px;
+  font-size: 0.75em;
+  position: absolute;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: pre-line;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.2s;
+  max-width: 200px;
+}
+
+.emoji-tooltip-wrapper:hover .emoji-tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+    
+  </style>
+  
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.min.js" 
+  >
+</script>
+  <!--jQuery--> 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"> 
+</script>
+  
+</head>
+<body>
+<nav class="navbar" role="navigation" aria-label="Main Navigation">
+  <div class="logo">Bijush Academy</div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../about.html">About</a></li>
+    <li><a href="../contact.html">Contact</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger">&#9776;</div>
+</nav>
+
+<!-- Back Button -->
+<a href="select-gk.html" class="back-arrow" id="backBtn">Back to Classes</a>
+
+ <div class="container" id="loginSection">
+    <h2>Login</h2>
+    <input type="text" id="loginEmail" placeholder="Name" />
+    <input type="password" id="loginPassword" placeholder="Password" />
+    <button id="loginBtn">
+      <span class="btn-text">Login</span>
+      <span class="spinner" style="display: none;"></span>
+    </button>
+    
+    
+    <p>Don't have an account? <a href="#" onclick="showRegister()">Register</a></p>
+  </div>
+
+  <div class="container" id="registerSection" style="display:none;">
+    <h2>Register</h2>
+    <input type="text" id="registerName" placeholder="Full Name" />
+    <input type="email" id="registerUsername" placeholder="Username (email)" />
+    <input type="password" id="registerPassword" placeholder="Password" />
+    <button id="registerBtn"><span class="btn-text">Register</span>
+      <span class="spinner" style="display: none;"></span>
+    
+    
+    </button>
+    <p>Already have an account? <a href="#" onclick="showLogin()">Login</a></p>
+  </div>
+
+  <div class="container" id="mainApp">
+    <div style="text-align: right;">
+      <button id="logoutBtn">Logout</button>
+    </div>
+
+    <textarea id="postInput" placeholder="Post Your Questions"></textarea>
+    <div id="fileInfo"></div>
+    <input type="file" id="fileInput" multiple />
+    <button id="postBtn"><span class="btn-text">Post</span>
+      <span class="spinner" style="display: none;"></span>
+    
+    
+    </button>
+
+    <div id="postsContainer"></div>
+
+    <div id="customPrompt">
+      <div>
+        <textarea id="promptTextarea" rows="4" style="width:100%; resize:vertical;"></textarea>
+        <div style="margin-top:10px; text-align:right;">
+          <button onclick="submitPrompt()">OK</button>
+          <button onclick="closePrompt()">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <button id="loadMoreBtn" onclick="loadMorePosts()">Load More</button>
+  </div>
+
+
+
+<div id="reaction-modal" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
+  background:white; border:1px solid #ccc; padding:20px; z-index:1000; max-width:90%; max-height:80%; overflow:auto;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3); border-radius: 8px;">
+  <div id="reaction-modal-content"></div>
+  <button onclick="document.getElementById('reaction-modal').style.display='none'"
+    style="margin-top:10px; background:#444; color:white; padding:5px 10px; border:none; border-radius:4px; cursor:pointer;">
+    Close
+  </button>
+</div>
+
+
+
+  
+
+  <script type="module">
+    // Firebase Core
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+
+// Firestore
+import {
+  initializeFirestore,
+  collection,
+  doc,
+  getDoc,
+  setDoc,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  query,
+  where,
+  orderBy,
+  limit,
+  serverTimestamp,
+  onSnapshot,
+  persistentLocalCache,
+  persistentMultipleTabManager,
+  getDocs,
+  startAfter,
+  writeBatch
+} from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+
+// Authentication
+import {
+  getAuth,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  signOut
+} from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+
+// Your Firebase config
+const firebaseConfig = {
+  apiKey: "AIzaSyCybmzCk3M8jV_255SbRGkGPWLAz2lgayE",
+  authDomain: "bijus-app-52978.firebaseapp.com",
+  projectId: "bijus-app-52978",
+  storageBucket: "bijus-app-52978.appspot.com",
+  messagingSenderId: "796288544713",
+  appId: "1:796288544713:web:fd1363b026ea3927aec218"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+
+// Firestore with multi-tab offline support
+const db = initializeFirestore(app, {
+  localCache: persistentLocalCache({
+    tabManager: persistentMultipleTabManager()
+  })
+});
+
+// Firebase Auth
+const auth = getAuth(app);
+
+
+    const emojis = ['👍', '👌', '😂']; // Use this exact line
+
+    
+    const MAX_FILE_SIZE_MB = 5;
+    const MAX_FILES = 5;
+    const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp", "application/pdf"];
+    
+    let hasLargeFile = false;
+    const postsContainer = document.getElementById("postsContainer");
+    let unsubscribePosts = null;
+    
+    let lastVisible = null;
+const pageSize = 10;
+
+
+    
+let promptCallback = null;
+const globalUserMap = {}; 
+
+const hamburger = document.getElementById('hamburger');
+  const navLinks = document.getElementById('navLinks');
+  hamburger.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+  });
+
+
+
+function customPrompt(initialText, callback) {
+  // Create modal overlay
+  const modal = document.createElement("div");
+  modal.style.position = "fixed";
+  modal.style.top = "0";
+  modal.style.left = "0";
+  modal.style.width = "100vw";
+  modal.style.height = "100vh";
+  modal.style.background = "rgba(0, 0, 0, 0.5)";
+  modal.style.display = "flex";
+  modal.style.alignItems = "center";
+  modal.style.justifyContent = "center";
+  modal.style.zIndex = "1000";
+
+  // Create modal box
+  const box = document.createElement("div");
+  box.style.background = "#fff";
+  box.style.padding = "20px";
+  box.style.borderRadius = "8px";
+  box.style.width = "90%";
+  box.style.maxWidth = "400px";
+  box.innerHTML = `
+    <h3>Edit Post</h3>
+    <textarea id="promptInput" rows="5" style="width:100%;resize:vertical;">${initialText}</textarea>
+    <div style="margin-top:10px;text-align:right;">
+         <button id="savePrompt">Save</button>
+      <button id="cancelPrompt" style="margin-right:10px;">Cancel</button>
+     
+    </div>
+  `;
+
+  modal.appendChild(box);
+  document.body.appendChild(modal);
+
+  document.getElementById("savePrompt").onclick = () => {
+    const newText = document.getElementById("promptInput").value.trim();
+    document.body.removeChild(modal);
+    callback(newText);
+  };
+
+  document.getElementById("cancelPrompt").onclick = () => {
+    document.body.removeChild(modal);
+  };
+}
+
+
+
+
+  async function loadInitialPosts() {
+  const q = query(collection(db, "posts"), orderBy("createdAt", "desc"), limit(pageSize));
+  const snapshot = await getDocs(q);
+
+  postsContainer.innerHTML = "";
+  snapshot.forEach(doc => renderPost(doc.id, doc.data()));
+
+  lastVisible = snapshot.docs[snapshot.docs.length - 1];
+
+  document.getElementById("loadMoreBtn").style.display = snapshot.size < pageSize ? "none" : "block";
+}
+
+async function loadMorePosts() {
+  if (!lastVisible) return;
+
+  const q = query(
+    collection(db, "posts"),
+    orderBy("createdAt", "desc"),
+    startAfter(lastVisible),
+    limit(pageSize)
+  );
+
+  const snapshot = await getDocs(q);
+  snapshot.forEach(doc => renderPost(doc.id, doc.data()));
+
+  lastVisible = snapshot.docs[snapshot.docs.length - 1];
+
+  if (snapshot.size < pageSize) {
+    document.getElementById("loadMoreBtn").style.display = "none";
+  }
+}
+
+// Expose to global scope
+
+ 
+window.loadMorePosts = loadMorePosts;
+
+window.onload = () => {
+  loadInitialPosts();
+};
+
+
+function showReactionsModal(message) {
+  const modal = document.getElementById("reaction-modal");
+  const content = document.getElementById("reaction-modal-content");
+  content.innerHTML = message.trim().replace(/\n/g, "<br>");
+  modal.style.display = "block";
+}
+
+
+
+
+    
+    onAuthStateChanged(auth, async user => {
+      if (user) {
+        document.getElementById("loginSection").style.display = "none";
+        document.getElementById("registerSection").style.display = "none";
+        document.getElementById("mainApp").style.display = "block";
+        unsubscribePosts = await listenToPosts();
+      } else {
+        if (typeof unsubscribePosts === 'function') unsubscribePosts();
+        document.getElementById("loginSection").style.display = "block";
+        document.getElementById("registerSection").style.display = "none";
+        document.getElementById("mainApp").style.display = "none";
+      }
+    });
+      
+    // onAuthStateChange End
+    
+    window.showRegister = () => {
+      document.getElementById("loginSection").style.display = "none";
+      document.getElementById("registerSection").style.display = "block";
+    };
+    
+    // Show registration end
+    
+    window.showLogin = () => {
+      document.getElementById("registerSection").style.display = "none";
+      document.getElementById("loginSection").style.display = "block";
+    };
+    
+      // ShowLogin End
+    document.getElementById("loginBtn").onclick = async () => {
+  const email = document.getElementById("loginEmail").value.trim().toLowerCase();
+  const password = document.getElementById("loginPassword").value;
+  if (!email || !password) return alert("Both fields are required.");
+
+  const loginBtn = document.getElementById("loginBtn");
+  const btnText = loginBtn.querySelector(".btn-text");
+  const spinner = loginBtn.querySelector(".spinner");
+
+  btnText.style.display = "none";
+  spinner.style.display = "inline-block";
+
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+  } catch (err) {
+    alert(err.message);
+  } finally {
+    btnText.style.display = "inline";
+    spinner.style.display = "none";
+  }
+};
+
+      // loginBtn End
+    document.getElementById("registerBtn").onclick = async () => {
+  const name = document.getElementById("registerName").value.trim();
+  const username = document.getElementById("registerUsername").value.trim().toLowerCase();
+  const password = document.getElementById("registerPassword").value;
+  if (!name || !username || !password) return alert("All fields are required.");
+
+  const registerBtn = document.getElementById("registerBtn");
+  const btnText = registerBtn.querySelector(".btn-text");
+  const spinner = registerBtn.querySelector(".spinner");
+
+  btnText.style.display = "none";
+  spinner.style.display = "inline-block";
+
+  try {
+    const userCred = await createUserWithEmailAndPassword(auth, username, password);
+    await setDoc(doc(db, "users", userCred.user.uid), { name, username, email: username });
+    alert("Registered! Please log in.");
+    showLogin();
+  } catch (err) {
+    alert(err.message);
+  } finally {
+    btnText.style.display = "inline";
+    spinner.style.display = "none";
+  }
+};
+
+   
+   // RegistrationBtn end
+   
+    document.getElementById("logoutBtn").onclick = () => signOut(auth);
+
+    // logoutBtn end
+    
+
+document.getElementById("postBtn").onclick = async () => {
+  const text = document.getElementById("postInput").value.trim();
+  const postBtn = document.getElementById("postBtn");
+  const btnText = postBtn.querySelector(".btn-text");
+  const spinner = postBtn.querySelector(".spinner");
+
+  postBtn.disabled = true;
+  btnText.style.display = "none";
+  spinner.style.display = "inline-block";
+
+  try {
+    const files = Array.from(document.getElementById("fileInput").files);
+    const user = auth.currentUser;
+
+    if (!user || (!text && files.length === 0)) return;
+    if (hasLargeFile) return alert("Remove large files.");
+    if (files.length > MAX_FILES) return alert(`Max ${MAX_FILES} files allowed.`);
+    for (let file of files) {
+      if (!ALLOWED_TYPES.includes(file.type)) {
+        return alert(`File type ${file.type} not allowed.`);
+      }
+    }
+
+    const userSnap = await getDoc(doc(db, "users", user.uid));
+    const userData = userSnap.data();
+    const fileData = [];
+
+    for (let file of files) {
+      const reader = await new Promise(res => {
+        const r = new FileReader();
+        r.onload = () => res(r.result);
+        r.readAsDataURL(file);
+      });
+
+      let compressedData = reader;
+
+      if (file.type.startsWith("image/")) {
+        const img = await new Promise(res => {
+          const i = new Image();
+          i.onload = () => res(i);
+          i.src = reader;
+        });
+
+        const canvas = document.createElement("canvas");
+        const maxDim = 800;
+        const scale = Math.min(maxDim / img.width, maxDim / img.height, 1);
+        canvas.width = img.width * scale;
+        canvas.height = img.height * scale;
+
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+        compressedData = canvas.toDataURL("image/jpeg", 0.7);
+
+        while (compressedData.length > 100 * 1024 && canvas.width > 100 && canvas.height > 100) {
+          canvas.width *= 0.9;
+          canvas.height *= 0.9;
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+          compressedData = canvas.toDataURL("image/jpeg", 0.7);
+        }
+      }
+
+      fileData.push({ name: file.name, type: file.type, data: compressedData });
+    }
+
+    await addDoc(collection(db, "posts"), {
+      text,
+      name: userData.name,
+      uid: auth.currentUser.uid,
+      createdAt: serverTimestamp(),
+      files: fileData,
+      reactions: {}
+    });
+
+    document.getElementById("postInput").value = "";
+    document.getElementById("fileInput").value = "";
+    document.getElementById("fileInfo").innerHTML = "";
+
+  } catch (e) {
+    alert(e.message);
+  } finally {
+    postBtn.disabled = false;
+    btnText.style.display = "inline";
+    spinner.style.display = "none";
+  }
+};
+
+
+    // postBtnOnclik End
+    
+    
+    function listenToPosts() {
+  const postsQuery = query(collection(db, "posts"), orderBy("createdAt", "desc"));
+
+  return onSnapshot(postsQuery, snapshot => {
+    postsContainer.innerHTML = ""; // clear previous
+    snapshot.forEach(docSnap => {
+      renderPost(docSnap.id, docSnap.data());
+    });
+  });
+}
+    //listenToPosts End
+   
+   
+   
+
+
+async function renderPost(id, data) {
+  const postDiv = document.createElement("div");
+  postDiv.className = "post";
+  postDiv.dataset.id = id;
+
+  const files = data.files || [];
+  const createdAt = data.createdAt?.toDate?.() || null;
+  const currentUserUid = auth.currentUser?.uid;
+  const isOwner = currentUserUid === data.uid;
+
+  let html = `
+    <div style="display:flex; align-items:center; gap:10px;">
+      <div style="width:32px; height:32px; background:#007bff; color:white; border-radius:50%; display:flex; align-items:center; justify-content:center;">
+        ${data.name.charAt(0).toUpperCase()}
+      </div>
+      <strong>${data.name}</strong>
+    </div>
+    <div style="font-size:0.8em;color:gray;">
+      ${createdAt ? createdAt.toLocaleString() : ""}${data.edited ? " (edited)" : ""}
+    </div>
+    <p>${data.text.replace(/\n/g, "<br>")}</p>
+  `;
+
+  files.forEach(f => {
+    html += f.type.startsWith("image/")
+      ? `<img src="${f.data}" alt="${f.name}" style="max-width:100%;margin:5px 0;" />`
+      : `<a class="file-link" href="${f.data}" download="${f.name}">${f.name}</a>`;
+  });
+
+  if (isOwner) {
+    html += `<div class="edit-icon">✏️</div><div class="delete-icon">🗑️</div>`;
+  }
+
+  html += `
+    <div class="post-footer">
+        
+        <span class="view-reactions-icon" title="View who reacted" style="cursor:pointer; margin-left:10px;">👁️</span>
+<div class="reaction-users" style="display:none; font-size:0.85em; margin-top:5px;"></div>
+
+        
+      <div class="actions">
+       ${emojis.map(e => `
+  <span class="emoji" data-emoji="${e}">${e} 0</span>
+`).join("")}
+
+        
+      </div>
+      <div class="comment-toggle">💬 ANSWERS(<span class="comment-count">0</span>)</div>
+    </div>
+    <div class="comment-section" style="display:none;">
+      <div class="comment-input-wrapper" style="display:flex; gap:5px;">
+        <textarea class="comment-input" placeholder="Type your message..." rows="2" style="flex:1; resize:vertical;"></textarea>
+        <span class="comment-submit">➤</span>
+      </div>
+      <div class="comments"></div>
+    </div>
+  `;
+
+  postDiv.innerHTML = ""; // Clear any old content
+postDiv.innerHTML = html; // Then insert new HTML
+
+
+  // Replace existing post if it exists
+  if (!document.querySelector(`.post[data-id="${id}"]`)) {
+  postsContainer.appendChild(postDiv);
+}
+
+
+  // Toggle comments
+  const commentToggle = postDiv.querySelector(".comment-toggle");
+  const commentSection = postDiv.querySelector(".comment-section");
+  const commentsDiv = postDiv.querySelector(".comments");
+  commentToggle.onclick = () => {
+    const shown = commentSection.style.display === "block";
+    commentSection.style.display = shown ? "none" : "block";
+    if (!shown) postDiv.querySelector(".comment-input").focus();
+  };
+
+  // Add comment
+  postDiv.querySelector(".comment-submit").onclick = async () => {
+    const input = postDiv.querySelector(".comment-input");
+    const text = input.value.trim();
+    if (!text) return;
+
+    const user = auth.currentUser;
+    const userSnap = await getDoc(doc(db, "users", user.uid));
+    const name = userSnap.data().name;
+
+    await addDoc(collection(db, "posts", id, "comments"), {
+      text, name, uid: user.uid, createdAt: serverTimestamp(), parentId: null
+    });
+
+    input.value = "";
+  };
+
+  // Emoji toggle
+  
+  
+  const reactionSpans = postDiv.querySelectorAll(".emoji");
+const reactionsCol = collection(db, "posts", id, "reactions");
+
+// Realtime listener for emoji reaction updates
+
+onSnapshot(reactionsCol, async snap => {
+  const emojiMap = {}; // { emoji: Set(userIds) }
+  const emojiNames = {}; // { emoji: [names] }
+  let userEmoji = null;
+
+  for (const docSnap of snap.docs) {
+    const { emoji, userId } = docSnap.data();
+    if (!emojiMap[emoji]) emojiMap[emoji] = new Set();
+    emojiMap[emoji].add(userId);
+    if (!emojiNames[emoji]) emojiNames[emoji] = [];
+
+    // Fetch and cache user name
+    if (!globalUserMap[userId]) {
+      const snap = await getDoc(doc(db, "users", userId));
+      globalUserMap[userId] = snap.exists() ? snap.data().name : "Unknown";
+    }
+    emojiNames[emoji].push(globalUserMap[userId]);
+
+    if (userId === auth.currentUser?.uid) userEmoji = emoji;
+  }
+
+  reactionSpans.forEach(span => {
+    const emoji = span.dataset.emoji;
+    const count = emojiMap[emoji]?.size || 0;
+    span.textContent = `${emoji} ${count}`;
+    span.title = emojiNames[emoji]?.join(", ") || "No reactions yet";
+    span.classList.toggle("active-emoji", emoji === userEmoji);
+  });
+});
+
+
+// Handle only one emoji per user
+reactionSpans.forEach(span => {
+  span.onclick = async () => {
+    const selectedEmoji = span.dataset.emoji;
+    const userId = auth.currentUser.uid;
+    const reactionsRef = collection(db, "posts", id, "reactions");
+
+    // Fetch all current reactions by this user
+    const existingSnap = await getDocs(query(reactionsRef, where("userId", "==", userId)));
+    const batch = writeBatch(db);
+
+    // Remove existing reactions
+    existingSnap.forEach(doc => batch.delete(doc.ref));
+
+    // If the user clicked the same emoji again, just remove it
+    const alreadyReactedWithSelected = existingSnap.docs.some(doc => doc.data().emoji === selectedEmoji);
+    if (!alreadyReactedWithSelected) {
+      const newReactionDoc = doc(db, "posts", id, "reactions", `${selectedEmoji}_${userId}`);
+      batch.set(newReactionDoc, {
+        emoji: selectedEmoji,
+        userId,
+        createdAt: serverTimestamp()
+      });
+    }
+
+    await batch.commit();
+  };
+});
+
+const viewIcon = postDiv.querySelector(".view-reactions-icon");
+const reactionUsersDiv = postDiv.querySelector(".reaction-users");
+
+viewIcon.onclick = () => {
+  const emojiUsersMap = {}; // { emoji: [names] }
+
+  getDocs(reactionsCol).then(async snap => {
+    const nameMap = {};
+
+    for (const docSnap of snap.docs) {
+      const { emoji, userId } = docSnap.data();
+      if (!emojiUsersMap[emoji]) emojiUsersMap[emoji] = [];
+
+      if (!nameMap[userId]) {
+        const userDoc = await getDoc(doc(db, "users", userId));
+        nameMap[userId] = userDoc.exists() ? userDoc.data().name : "Unknown";
+      }
+
+      emojiUsersMap[emoji].push(nameMap[userId]);
+    }
+
+    let html = "";
+    for (const emoji in emojiUsersMap) {
+      html += `<div><strong>${emoji}</strong>: ${emojiUsersMap[emoji].join(", ")}</div>`;
+    }
+
+    showReactionsModal(html || "No reactions yet.");
+  });
+};
+
+
+  if (isOwner) {
+   
+postDiv.querySelector(".edit-icon").onclick = async () => {
+  customPrompt(data.text, async (newText) => {
+    
+    if (newText && newText !== data.text) {
+      await updateDoc(doc(db, "posts", id), { text: newText, edited: true });
+      
+    }
+  });
+};
+
+    postDiv.querySelector(".delete-icon").onclick = async () => {
+      if (confirm("Delete this post?")) {
+        await deleteDoc(doc(db, "posts", id));
+      }
+    };
+  }
+
+  // Render comments
+  const commentsRef = collection(db, "posts", id, "comments");
+  onSnapshot(query(commentsRef, orderBy("createdAt", "desc")), snap => {
+    const comments = [];
+    snap.forEach(doc => comments.push({ id: doc.id, ...doc.data() }));
+    const nested = buildNestedComments(comments);
+    commentsDiv.innerHTML = "";
+    renderCommentsTree(nested, commentsDiv, id);
+    postDiv.querySelector(".comment-count").textContent = comments.length;
+  });
+}
+
+
+
+//renderPost End
+
+
+function buildNestedComments(flat) {
+      const map = {}, roots = [];
+      flat.forEach(c => map[c.id] = { ...c, children: [] });
+      flat.forEach(c => {
+        if (c.parentId && map[c.parentId]) map[c.parentId].children.push(map[c.id]);
+        else roots.push(map[c.id]);
+      });
+      return roots;
+    }
+    
+// buildNestedComment  End
+    
+
+function renderCommentsTree(comments, container, postId, depth = 0) {
+  comments.forEach(comment => {
+    const div = document.createElement("div");
+    div.className = "comment";
+    div.style.marginLeft = `${depth * 20}px`;
+
+    const createdAt = comment.createdAt?.toDate?.() || null;
+    div.innerHTML = `
+      <div style="font-weight:bold;">${comment.name}</div>
+      <div style="font-size:0.8em;color:gray;">
+        ${createdAt ? createdAt.toLocaleString() : ""}${comment.edited ? " (edited)" : ""}
+      </div>
+      <div>${comment.text.replace(/\n/g, "<br>")}</div>
+      <div class="comment-actions">
+        <span class="reply-toggle">↪️</span>
+      </div>
+      <div class="comment-input-wrapper" style="display:none; margin-top:5px; gap:5px;">
+        <textarea rows="2" style="flex:1; resize:vertical;"></textarea>
+        <span class="comment-submit">➤</span>
+      </div>
+    `;
+
+    const inputWrapper = div.querySelector(".comment-input-wrapper");
+    div.querySelector(".reply-toggle").onclick = () => {
+      inputWrapper.style.display = inputWrapper.style.display === "none" ? "flex" : "none";
+    };
+
+    div.querySelector(".comment-submit").onclick = async () => {
+      const input = inputWrapper.querySelector("textarea");
+      const text = input.value.trim();
+      if (!text) return;
+      const user = auth.currentUser;
+      const userSnap = await getDoc(doc(db, "users", user.uid));
+      const name = userSnap.data().name;
+
+      await addDoc(collection(db, "posts", postId, "comments"), {
+        text, name, uid: user.uid, createdAt: serverTimestamp(), parentId: comment.id
+      });
+
+      input.value = "";
+      inputWrapper.style.display = "none";
+    };
+
+    if (auth.currentUser?.uid === comment.uid) {
+      const editIcon = document.createElement("span");
+      editIcon.innerHTML = "✏️";
+      editIcon.className = "edit-icon";
+      editIcon.title = "Edit comment";
+
+      const deleteIcon = document.createElement("span");
+      deleteIcon.innerHTML = "🗑️";
+      deleteIcon.className = "delete-icon";
+      deleteIcon.title = "Delete comment";
+
+      editIcon.onclick = () => {
+        customPrompt(comment.text, async newText => {
+          if (newText && newText !== comment.text) {
+            await updateDoc(doc(db, "posts", postId, "comments", comment.id), {
+              text: newText,
+              edited: true
+            });
+          }
+        });
+      };
+
+      deleteIcon.onclick = async () => {
+        if (confirm("Delete this comment?")) {
+          await deleteDoc(doc(db, "posts", postId, "comments", comment.id));
+        }
+      };
+
+      div.querySelector(".comment-actions").appendChild(editIcon);
+      div.querySelector(".comment-actions").appendChild(deleteIcon);
+    }
+
+    // Emoji reactions
+    const userId = auth.currentUser?.uid || "";
+    const reactionDiv = document.createElement("div");
+    reactionDiv.className = "comment-reactions";
+    reactionDiv.style.display = "flex";
+    reactionDiv.style.gap = "10px";
+    reactionDiv.style.marginTop = "5px";
+
+    emojis.forEach(e => {
+      const emojiKey = e;
+      const users = comment.reactions?.[emojiKey] || [];
+
+      const span = document.createElement("span");
+      span.textContent = `${emojiKey} ${users.length}`;
+      span.className = "emoji" + (users.includes(userId) ? " active-emoji" : "");
+      span.dataset.emoji = emojiKey;
+
+      span.onclick = async () => {
+        const updatedReactions = {};
+        emojis.forEach(emoji => {
+          const allUsers = comment.reactions?.[emoji] || [];
+          updatedReactions[emoji] = allUsers.filter(u => u !== userId);
+        });
+
+        if (!users.includes(userId)) {
+          updatedReactions[emojiKey].push(userId);
+        }
+
+        await updateDoc(doc(db, "posts", postId, "comments", comment.id), {
+          reactions: updatedReactions
+        });
+      };
+
+      reactionDiv.appendChild(span);
+    });
+
+    div.appendChild(reactionDiv);
+
+    // View reactions icon (modal)
+    const viewIcon = document.createElement("span");
+    viewIcon.textContent = "👁️";
+    viewIcon.title = "View who reacted";
+    viewIcon.style.cursor = "pointer";
+    viewIcon.style.fontSize = "0.85em";
+    viewIcon.style.marginTop = "5px";
+    viewIcon.style.display = "inline-block";
+
+    viewIcon.onclick = async () => {
+  const emojiMap = comment.reactions || {};
+  const nameMap = {};
+
+  for (const emoji in emojiMap) {
+    for (const uid of emojiMap[emoji]) {
+      if (!nameMap[uid]) {
+        const userDoc = await getDoc(doc(db, "users", uid));
+        nameMap[uid] = userDoc.exists() ? userDoc.data().name : "Unknown";
+      }
+    }
+  }
+
+  let html = "";
+  for (const emoji in emojiMap) {
+    const names = emojiMap[emoji].map(uid => nameMap[uid] || "Unknown");
+    html += `<div><strong>${emoji}</strong>: ${names.join(", ")}</div>`;
+  }
+
+  showReactionsModal(html || "No reactions yet.");
+};
+
+
+
+    div.appendChild(viewIcon);
+    container.appendChild(div);
+
+    if (comment.children?.length) {
+      renderCommentsTree(comment.children, container, postId, depth + 1);
+    }
+  });
+}
+
+</script>
+ <a id="back-to-top" href="#" class="custom-back-to-top" title="Back to top">
+  <i class="bi bi-arrow-up-circle-fill"></i>
+</a>
+   
+</body>
+</html>
