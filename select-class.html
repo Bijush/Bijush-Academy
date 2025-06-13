@@ -253,10 +253,11 @@ canvas {
 <!-- Main Content -->
 <div class="container">
   <h2>Select Class</h2>
-  
+  <!--
  <div class="class-card" tabindex="0">
 <i class="fas fa-chalkboard"></i> Class 9
 </div>
+  -->
 <div class="class-card" tabindex="0">
   <i class="fas fa-chalkboard-user"></i>  Class 10
 </div>
@@ -312,9 +313,12 @@ document.addEventListener('click', function (event) {
 
   function handleClassSelect() {
     const selectedClass = this.textContent.trim();
+    /*
     if (selectedClass === 'Class 9') {
       window.location.href = 'class9/index.html';
-    } else if (selectedClass === 'Class 10') {
+    } else
+    */
+      if (selectedClass === 'Class 10') {
       window.location.href = 'math/class10-chapter.html';
     }
   }
