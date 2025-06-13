@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+<link rel="manifest" href="../manifest.json">
+<link rel="icon" href="../icons/icon-192.png">
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('../sw.js');
+  }
+</script>
+
+ <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css'>    
+  
+  <!-- Bootstrap 5 only (no jQuery needed) -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+            
+
+
+  <style>
+  	
+	html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  padding-top:30px;
+}
+    nav.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(0,0,0,0.6);
+    padding: 10px 20px;
+    position:fixed;
+    top: 0;
+    z-index: 10;
+    left:0;
+    width:100%;
+    backdrop-filter: blur(8px);
+  }
+  nav .logo {
+    font-weight: 700;
+    font-size: 1.8rem;
+    letter-spacing: 2px;
+    color: #fff;
+  }
+  nav ul.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+  }
+  nav ul.nav-links li a {
+    text-decoration: none;
+    color: #ddd;
+    font-weight: 600;
+    padding: 6px 10px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+  }
+  nav ul.nav-links li a:hover {
+    background-color: #3498db;
+    color: white;
+  }
+  /* Hamburger */
+  .hamburger {
+    display: none;
+    font-size: 2rem;
+    cursor: pointer;
+    color: #fff;
+  }
+
+  /* Responsive nav */
+  @media (max-width: 768px) {
+    nav ul.nav-links {
+      position: fixed;
+      top: 60px; right: 0;
+      background: rgba(0,0,0,0.85);
+      height: calc(100vh - 60px);
+      width: 200px;
+      flex-direction: column;
+      padding-top: 20px;
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+      gap: 15px;
+      z-index: 20;
+    }
+    nav ul.nav-links.open {
+      transform: translateX(0);
+    }
+    .hamburger {
+      display: block;
+    }
+  }
+
+
+  /* Back Button */
+  a.back-arrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 20px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    text-decoration: none;
+    color: #fff;
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    padding: 10px 18px;
+    border-radius: 40px;
+    box-shadow: 0 4px 10px rgba(37,117,252,0.6);
+    transition: all 0.3s ease;
+  }
+  a.back-arrow:hover {
+    background: linear-gradient(135deg, #2575fc 0%, #6a11cb 100%);
+    box-shadow: 0 6px 15px rgba(106,17,203,0.8);
+    transform: scale(1.05);
+    color: #fff;
+  }
+
+  a.back-arrow::before {
+    content: "←";
+    font-size: 1.3rem;
+  }
+
+	*{
+	box-sizing:border-box;
+	margin:0;
+	padding:0;
+	}
+	
+	.custom-box{
+	max-width:700px;
+	background-color:#ffffff;
+	margin:40px auto;
+	padding:30px;
+	border-radius:10px;
+	animation:customRight 1s ease;
+	}
+	
+	@keyframes customRight{
+	
+	0%{
+	tranform:translateX(40px);
+	opacity:0;
+	}
+	100%{
+	tranform:translateX(0px);
+	}
+	}
+	
+	.custom-box.hide{
+	display:none;
+	}
+	
+	.home-box h1{
+	margin-bottom:15px;
+	font-size:18px;
+	Line-height:25px;
+	color:#000000;
+	font-weight:400px;
+	}
+	.home-box .btn{
+	margin-top:20px;
+	}
+	.home-box p{
+	margin-bottom:10px;
+	font-size:16px;
+	Line-height:22px;
+	color:#000000;
+	font-weight:400px;
+	}
+	.home-box p span{
+	font-weight:500px;
+	}
+	
+	
+	.btn {
+	padding:15px 45px;
+	background-color:#009688;
+	border:none;
+	border-radius: 5px;
+	 font-family: monospace;
+	font-size: 16px;
+	cursor: pointer;
+	display:inline-block;
+	margin-top:5px;
+	color:#ffff;
+	}
+	
+	.custom-box::before,
+	.custom-box::after{
+	content:'';
+	clear: both;
+	display: table;
+	}
+	.quiz-box .question-number,
+	.quiz-box .question-text,
+	.quiz-box .option-container, 
+	.quiz-box .answer-indicator,
+	.quiz-box .next-question-btn
+	{ 
+	width:100%;
+	float:left;
+	}
+	
+	.quiz-box .question-number{
+	 font-size: 18px; 
+	 padding-bottom: 10px;
+	color:#009688;
+	font-weight: 600;
+	border-bottom:1px solid #cccccc;
+	Line-height: 25px
+	
+	}
+	
+	.quiz-box .question-text{
+	font-size: 22px;
+	color:#000000;
+	Line-height: 28px;
+	font-weight: 400; 
+	padding: 20px 0;
+	margin:0;
+	
+	}
+	
+	.quiz-box .question-text img{
+	max-width:100%;
+	display:block;
+	margin-top:15px;
+	
+	}
+	
+	.quiz-box .option-container .option{
+	background-color: #cccc;
+	padding:13px 15px;
+	font-size: 16px; Line-height: 22px;
+	color:#fffff;
+	border-radius: 5px;
+	margin-bottom: 10px;
+	text-transform:capitalize;
+	cursor: pointer;
+	opacity:0;
+	animation:fade-in 0.9s ease forwards;	
+	position:relative;
+	overflow:hidden;
+	}
+	@keyframes fade-in{
+	
+	0%{
+	opacity:0;
+	}
+	
+	100%{
+	opacity:1;
+	}
+	}
+	
+	.quiz-box .option-container .option.correct::before{ 
+	content:""; 
+	position:absolute; 
+	height:100%; 
+	background-color:green;
+	width:100%;
+	left:0;
+	top:0;
+	color:#ffffff;
+	z-index: -1; 
+	animation:  slideInLeft 0.3s ease forwards;
+	} 
+	@keyframes slideInLeft{
+	
+	0%{
+	transform:translateX(-100%);	
+	}	
+	100%{
+	transform:translateX(0%);
+	}
+	
+	}
+	
+	.quiz-box .option-container .option.wrong::after{ 
+	content:""; 
+	position: absolute; 
+	height:100%;
+	width:100%;
+	left:0;
+	top:0;
+	color:#ffffff;
+	background-color:red;
+	z-index: -1; 
+	animation:  slideOutLeft 0.3s ease forwards;
+	} 
+	@keyframes slideOutLeft{
+	
+	0%{
+	transform:translateX(-100%);	
+	}
+	
+	100%{
+	transform:translateX(0%);
+	}
+	
+	}
+	
+	
+	
+	.quiz-box .option-container .option.correct{ 
+	color:#ffffff;
+	
+	
+	}
+	
+	.quiz-box .option-container .option.wrong{ 
+	color:#ffffff;
+	
+      }
+      
+    .quiz-box .option-container .option.already-answered{
+	pointer-events:none;
+	}
+    
+	
+	.quiz-box .btn{
+	margin: 15px 0;
+	}
+    
+	.quiz-box .answer-indicator {
+	border-top:1px solid #cccc;
+	}
+	.quiz-box .answer-indicator div{
+	height:40px;
+	width:40px;
+	display:inline-block;
+	background-color :#cccccc;
+	border-radius:50%;
+	margin-top:15px;
+	margin-right:3px;
+	}
+    
+    .quiz-box .answer-indicator div.correct{
+	
+	background-size: 50%;
+	
+	background-color: green;
+	background-image:url("https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhqB82fdvs8xVjaVMzKOszQtdKlVcJpvdhbMRIoCMXn2X0V9kfYyfmiDjeS_VF5PJTMYg2svti95a-J9slkkR1egF9aOFQoji7IVSrSfQWaUtkTe0fqL_j1P8vZ2cG-uVS-27rMAzFsGVFTX0cZ4I8x3bKiUuSOrmzUuYhoKDaRlwm0Mfd3fjFG5bIcoA/s320/correct.png");
+	
+	background-repeat: no-repeat;
+	background-position: center;
+	
+	} 
+	.quiz-box .answer-indicator div.wrong{
+	background-size: 80%;
+	
+	background-color:red;
+	background-image:url("https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgkdqN2SUYTI88ZxfhEkxr_ofOBWUGZMz4aGrfSFOmxt9XseMJ1gp7mfikSxGe2UaR8aI-LJmdBl8s-wYxv1OLa95ftpg2fnp8wpsuFxqHClocgHe8Ull-IPNUW37ni8OqojqkTE7Czk-RE8mMZ-SKTRyQ8lb-8bIVhI7A9SN9QbueIgki4OU8Mz6emjQ/s320/wrong.png");
+
+	background-repeat: no-repeat;
+	background-position: center;
+	
+	}
+    
+    
+    
+    
+    
+	.result-box{
+	text-align:center;
+	}
+	result-box .hide{
+	display:none;
+	}
+	
+	.result-box h1{
+	
+	font-size:36px;
+	color:#009688;
+	Line-height:42px;
+	}
+	
+	.result-box table{
+	width:100%;
+	border-collapse:collapse;
+	
+	}
+	
+	.result-box td{
+	border:1px solid #cccccc;
+	padding:16px;
+	font-weight:500;
+	color:#000000;
+	width:50%;
+	text-align:left;
+	font-size:18px;
+	
+	
+	}
+	
+	.result-box .btn{
+	margin-top:15px;
+	
+	}
+	@media(max-width:767px){
+	.result-box .btn{
+	margin-bottom:15px;
+	
+	}
+	
+	}
+  
+  </style>
+
+
+  
+</head>
+  
+  
+<body>
+<nav class="navbar" role="navigation" aria-label="Main Navigation">
+  <div class="logo">Bijush Academy</div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../about.html">About</a></li>
+    <li><a href="../contact.html">Contact</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger">&#9776;</div>
+</nav>
+
+<!-- Back Button -->
+<a href="select-gk.html" class="back-arrow" id="backBtn">Back to List</a>
+
+<div class="home-box custom-box">
+<h1>Instruction</h1>
+<p> Total Number of Question :<span class="total-question"></span></p>
+<button class="btn" onclick="startQuiz()"> Start Quiz</button>
+</div>
+
+
+<div class="quiz-box custom-box hide"> 
+<div class="question-number">
+</div>
+
+<div class="question-text">
+</div>
+
+<div class="option-container">
+
+
+</div>
+
+<div class="next-question-btn">
+
+<button type="button" class="btn" onclick="next()">
+Next</button>
+</div>
+
+<div class="answer-indicator">
+
+
+</div>
+</div>
+
+<div class="result-box custom-box hide">
+<h1> Quiz Result</h1>
+<table>
+<tr>
+<td>Total Question </td>
+
+<td><span class="total-question"></span></td>
+</tr>
+
+<tr>
+
+<td>Attempt</td>
+
+<td><span class="total-attempt"></span></td>
+
+</tr>
+<tr>
+
+<td>Total Skipped </td>
+
+<td><span class="total-skipped"></span></td>
+
+</tr>
+<tr>
+
+<td>Correct</td>
+
+<td><span class="total-correct"></span></td>
+
+</tr>
+
+<tr>
+
+<td> Wrong</td>
+
+<td><span class="total-wrong"></span></td>
+
+</tr>
+
+<tr>
+
+<td>Percentage </td>
+
+<td><span class="percentage"></span></td>
+
+</tr>
+
+<tr>
+
+<td>Total Score</td>
+
+<td><span class="total-score"></span></td>
+
+</tr>
+
+</table>
+
+<button type="button" class="btn" onclick="tryAgain()">Try Again</button>
+
+<button type="button" class="btn" onclick="goBackHome()">Go To Home</button>
+</div>
+
+
+
+  <script>
+    	const hamburger = document.getElementById('hamburger');
+  const navLinks = document.getElementById('navLinks');
+  hamburger.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+  });
+
+	const quiz=[
+	    {
+	        q: "Which city is known as the culture capital of Assam?",
+	        options:[ "Dibrugarh ","Jorhat", "Silchar","Guwahati "],
+	        answer: 1
+	    },
+	    {
+	        q: "Who represented Assam in the Round Table Conference of 1937 ?",
+	        options:[ "(A) :Chandradhar Barua",
+	         "(B): Gopinath Bordoloi",
+	        "Both (A) & (B)",
+	         "None of the above"],
+	        answer: 0
+	    },
+	    {
+	        q: "Who is the first king of Assam?",
+	        options:[ "Siu-ka-pha",
+	         "Suhungmung",
+	         "Sunenphaa",
+	         "Sukhrungphaa"],
+	        answer:0
+	    },
+	    {
+	        q: "Which is Assam state tree?",
+	        options:["Dipterocarpus retusus",
+	         "Dipterocarpus hasseltii",
+	         "Dipterocarpus gracilis",
+	        "Dipterocarpus turbinatus"],
+	        answer: 0
+	    },
+	    {
+	        q: "What is Assam national bird?",
+	        options:[ "White-winged duck",
+	         "Asarcornis",
+	         "Cairina",
+	         "Bernier's teal"],
+	        answer: 0
+	    },
+	    {
+	        q: "What is state animal of Assam?",
+	        options: ["Indian rhinoceros",
+	         "Lion",
+	         "Tiger",
+	         "Cow"],
+	        answer: 0
+	    },
+	    {
+	        q: "How many district are there in Assam?",
+	        options:[ "35",
+	        "36",
+	        "37",
+	        "34"],
+	        answer:0
+	    },
+	    {
+	        q: "What is the flower of Assam?",
+	        options: ["Lotus",
+	       "Marigold ",
+	         "water lily",
+	        "Rhynchostylis retusa"],
+	        answer: 3
+	    },
+	    {
+	        q: "Who was the last king of Assam?",
+	        options:[ "Chandrakanta Singha",
+	         "Purandar Singha",
+	        "Jogeswar Singha",
+	        "None of the above"],
+	        answer: 1
+	    },
+	    {
+	        q: "Which is the city  known as the knowledge city of Assam ?",
+	        options:[ "Guwahati ",
+	         "Dibrugarh ",
+	         "Silchar",
+	        "Jorhat"],
+	        answer: 3
+	    },
+	    {
+	        q: "In which earthquake zone is Assam falls?",
+	        options:[ "Seismic Zone III",
+	         "Seismic Zone IV",
+	        "Seismic Zone V",
+	        "None of the Above"],
+	       answer : 2
+	    },
+	    {
+	        q: "How many seismic zones are in India ?",
+	        options:[ "5",
+	         "6",
+	         "3",
+	         "4"],
+	        answer:3
+	    },
+	    {
+	    q: "How many triangles are there in the figure given below ?",
+	    options:
+         [
+        "28",
+	    "30",
+	    "26",
+	    "27"
+         ],
+	    answer:0,
+	    img:"https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiQVzyHo_N-ZoJD8sLvIwiIDBGVv_1R7S5vie5QconiQZ7bkoldueT_2i5j_4f7Fcplq39y-Mp83kV0c-ouCgxLJDSYNmev4cbTVgJQA4V06L18aqS2UPx5pOCOyjzOj0AGcoJOyh2wfYnRRiNRtrnwQOe8AC8hQ25khqmSLEPw43PvxT5cC--0ctxg4g/s320/images%20%2845%29.jpeg"
+	    },
+	    
+	{
+	q: "How many triangles are there in the figure given below ?",
+	options:
+      [ 
+    "16",
+	"12",
+	"13",
+	"15"
+      ],
+	answer:2,
+	img:"https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg3gwp4x5-UN4poL-C_CS6hbq1YFvJcoFAW3Twsrymd4wLPhEXXyaSHCN0wpqoySnCNHFeRXBLKb1YAFsd4ajKvaec2jsu8T30dcd0MVYeGxdHS9ME4GXHyVdEZEC_bMOTQdW9WIdw90a-Q4486haIWUDlCRSSe8Oxxq7zrZ0L-XuXnfJIblJKayB_EfA/s320/images%20%281%29.png"
+	}
+	]
+	
+	const questionText = document.querySelector(".question-text");
+	const optionContainer= document.querySelector(".option-container");
+    const questionNumber= document.querySelector(".question-number");
+   const answersIndicatorContainer=document.querySelector(".answer-indicator"); 
+   const homeBox = document.querySelector(".home-box");
+   const quizBox= document.querySelector(".quiz-box");
+   const resultBox= document.querySelector(".result-box");
+	
+	
+	/*
+	variable Declarations  start here
+	*/
+	let questionCounter = 0;
+	let currentQuestion;
+	let availableQuestions = [];
+	let availableOptions = [];
+	let correctAnswers=0;
+	let attempt=0;
+	let wrongAnswers=0;
+	const questionLimit=10;
+	// push the questions into availableQuestions Array
+	
+	function setAvailableQuestions(){
+	
+	const totalQuestion= quiz.length;
+	
+	for (let i=0; i<totalQuestion; i++){ 
+	availableQuestions.push(quiz[i]);
+	
+	}
+	
+	}
+	
+	// set question number and question and options
+	 function getNewQuestion(){
+	
+	// set question number 
+	questionNumber.innerHTML = "Question " + (questionCounter+ 1) + " of " + questionLimit;
+	
+	// set question text
+	
+	// get random question
+	
+	const questionIndex = availableQuestions[Math.floor(Math.random()* availableQuestions.length)];
+	
+	currentQuestion = questionIndex;
+	
+	questionText.innerHTML = currentQuestion.q; 
+	
+	//get the position of 'questionIndex from the availableQuestion Array
+	
+	const index1 = availableQuestions.indexOf(questionIndex);
+	//alert(index1);
+	// remove the questionIndex' from the availableQuestion Array, so that the question does not repeated 
+	
+	availableQuestions.splice (index1,1);
+	 //alert (availableQuestions.splice (index1,1));
+	// set options
+	
+	// get the length of options
+	
+	
+
+	if(currentQuestion.hasOwnProperty("img")){ 
+	const img =document.createElement("img");
+	img.src =currentQuestion.img;
+	questionText.appendChild(img);
+	
+	}
+	
+	
+	
+	const optionLen = currentQuestion.options.length;
+	//alert(currentQuestion.options);
+	// push options into availableOptions Array
+	 for(let i=0; i<optionLen; i++){
+	 availableOptions.push(i);
+	// alert (availableOptions);
+	}
+	optionContainer.innerHTML=" ";
+	
+	let animationDelay=0.2;
+	// create options in html
+	 for(let i=0; i<optionLen; i++){
+	 
+	 const optionIndex = availableOptions[Math.floor(Math.random()* availableOptions.length)];
+	 const index2 = availableOptions.indexOf(optionIndex);
+	 availableOptions.splice (index2,1);
+	 
+	 
+	 
+	const option = document.createElement("div");
+	  option.innerHTML = currentQuestion.options[optionIndex];
+	  
+	  option.style.animationDelay=animationDelay + "s";
+	  animationDelay=animationDelay + 0.2; 
+	  
+	 option.id = optionIndex; 
+	 option.className = "option";
+     
+	 optionContainer.appendChild(option);
+	 option.setAttribute("onclick","getResult(this)");
+	  }
+	
+	
+	questionCounter++;
+	
+	}
+    
+    // STARTING QUIZ FUNCTIO
+    function startQuiz(){
+    questionCounter = 0;
+    homeBox.classList.add("hide");
+    quizBox.classList.remove("hide");
+    // first we will set all questions in availableQuestions Array setAvailableQuestions();
+    setAvailableQuestions();
+    // second we will call getNes/Question(); 
+    getNewQuestion();
+    answersIndicator();
+    }
+    
+   function resetQuiz(){
+    questionCounter = 0;
+    correctAnswers=0;
+    attempt=0;
+    availableQuestions = [];
+    }
+    function tryAgain(){
+    
+    quizBox.classList.remove("hide");
+    resultBox.classList.add("hide");
+    resetQuiz();
+    startQuiz();
+    }
+    function goBackHome(){
+    resetQuiz();
+    quizBox.classList.add("hide");
+    resultBox.classList.add("hide");
+    homeBox.classList.remove("hide");
+    
+    }
+    
+    
+	function next(){
+	if(questionCounter===questionLimit){
+	quizOver();
+	
+	}
+	else
+	{
+	getNewQuestion();
+	}
+	
+	}
+	
+	function quizOver(){
+	quizBox.classList.add("hide");
+	resultBox.classList.remove("hide");
+	quizResult();
+	}
+	
+	// get the quiz Result
+	
+	function quizResult(){
+	
+	resultBox.querySelector(".total-attempt").innerHTML = attempt;	
+	resultBox.querySelector(".total-question").innerHTML =questionLimit;
+	resultBox.querySelector(".total-skipped").innerHTML=questionLimit-attempt;
+	
+	
+	 resultBox.querySelector(".total-correct").innerHTML= correctAnswers; 
+	 const percentage =(correctAnswers/questionLimit ) * 100;
+	 
+	  resultBox.querySelector(".percentage").innerHTML= percentage.toFixed()  + "%";
+	
+	resultBox.querySelector(".total-wrong").innerHTML =attempt-correctAnswers;
+	//resultBox.querySelector(".total-wrong").innerHTML=wrongAnswers;
+	resultBox.querySelector(".total-score").innerHTML =correctAnswers +"/" + questionLimit;
+	}
+	
+    
+	function getResult(element){
+	const id=parseInt(element.id);
+	
+	if(id===currentQuestion.answer){
+	element.classList.add("correct");
+      updateAnswerIndicator("correct");
+      correctAnswers++;
+	}
+	else{
+      
+      element.classList.add("wrong");
+      
+      updateAnswerIndicator("wrong");
+      wrongAnswers++;
+	
+	// if the answer is incorrect the show the correct option by adding green color the corr
+	 const optionLen = optionContainer.children.length;
+	
+	//set the red color to the incorrect option
+	
+	for (let i=0; i< optionLen; i++){ 
+	if(parseInt(optionContainer.children[i].id) === currentQuestion.answer){ 
+	optionContainer.children[i].classList.add("correct");
+		}		
+		}	
+      
+	}
+      attempt++;
+      unclickableOptions();
+	
+	}
+    
+    		
+// Answer Indicator
+
+		function answersIndicator(){
+	answersIndicatorContainer.innerHTML=' ';
+		
+		const totalQuestion =questionLimit;
+		
+		for (let i=0; i<totalQuestion; i++){
+		
+		const indicator=document.createElement("div");
+		
+		answersIndicatorContainer.appendChild(indicator);
+		
+		}
+		}
+		
+		function updateAnswerIndicator(markType){
+		answersIndicatorContainer.children[questionCounter-1].classList.add(markType);
+		}
+		
+		
+    
+    
+    
+    // make all the options unclickable once the user select a option (RESTRICT THE USER TO CHANGE
+		 function unclickableOptions()
+		 { 
+		 const optionLen = optionContainer.children.length;
+		  for (let i=0; i<optionLen; i++)
+		  { 
+		  optionContainer.children[i].classList.add("already-answered");
+		}
+		}
+    
+    
+	window.onload=function(){
+	
+	// first we will set all questions in availableQuestions Array setAvailableQuestions();
+	 setAvailableQuestions();
+	// second we will call getNes/Question(); 
+	 getNewQuestion();
+     answersIndicator();
+      homeBox.querySelector(".total-question").innerHTML =questionLimit;
+      
+	}
+    
+    
+ </script>
+  
+
+</body>
+</html>
