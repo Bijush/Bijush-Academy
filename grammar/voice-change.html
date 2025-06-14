@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+<link rel="manifest" href="../manifest.json">
+<link rel="icon" href="../icons/icon-192.png">
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('../sw.js');
+  }
+</script>
+  <title>Modular Grammar Quiz – Dynamic Reload</title>
+  <script src="https://unpkg.com/fuzzyset.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/diff/dist/diff.min.js"></script>
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js">
+        
+  </script>
+            
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap');
+
+html, body {
+  margin: 0;
+  padding:5px;
+  overflow-x: hidden;
+  padding-top:30px;
+}
+    nav.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(0,0,0,0.6);
+    padding: 10px 20px;
+    position:fixed;
+    top: 0;
+    z-index: 10;
+    left:0;
+    width:100%;
+    backdrop-filter: blur(8px);
+  }
+  nav .logo {
+    font-weight: 700;
+    font-size: 1.8rem;
+    letter-spacing: 2px;
+    color: #fff;
+  }
+  nav ul.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+  }
+  nav ul.nav-links li a {
+    text-decoration: none;
+    color: #ddd;
+    font-weight: 600;
+    padding: 6px 10px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+  }
+  nav ul.nav-links li a:hover {
+    background-color: #3498db;
+    color: white;
+  }
+  /* Hamburger */
+  .hamburger {
+    display: none;
+    font-size: 2rem;
+    cursor: pointer;
+    color: #fff;
+  }
+
+  /* Responsive nav */
+  @media (max-width: 768px) {
+    nav ul.nav-links {
+      position: fixed;
+      top: 60px; right: 0;
+      background: rgba(0,0,0,0.85);
+      height: calc(100vh - 60px);
+      width: 200px;
+      flex-direction: column;
+      padding-top: 20px;
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+      gap: 15px;
+      z-index: 20;
+    }
+    nav ul.nav-links.open {
+      transform: translateX(0);
+    }
+    .hamburger {
+      display: block;
+    }
+  }
+
+
+  /* Back Button */
+  a.back-arrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 20px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    text-decoration: none;
+    color: #fff;
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    padding: 10px 18px;
+    border-radius: 40px;
+    box-shadow: 0 4px 10px rgba(37,117,252,0.6);
+    transition: all 0.3s ease;
+  }
+  a.back-arrow:hover {
+    background: linear-gradient(135deg, #2575fc 0%, #6a11cb 100%);
+    box-shadow: 0 6px 15px rgba(106,17,203,0.8);
+    transform: scale(1.05);
+    color: #fff;
+  }
+
+  a.back-arrow::before {
+    content: "←";
+    font-size: 1.3rem;
+  }
+
+	*{
+	box-sizing:border-box;
+	margin:0;
+	padding:0;
+	}
+	
+
+.question {
+  background: #fff;
+  padding: 20px;
+  margin-bottom: 24px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.question p {
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+
+input[type="text"],
+button {
+  width: 100%;
+  max-width: 600px;
+  padding: 12px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin-bottom: 12px;
+  box-sizing: border-box;
+}
+
+button {
+  background: #0069d9;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+button:hover {
+  background: #0053a5;
+}
+
+.feedback .correct { color: #2e7d32; }
+.feedback .close   { color: #ed6c02; }
+.feedback .wrong   { color: #c62828; }
+
+ins { background: #e8f5e9; text-decoration: none; }
+del { background: #ffebee; text-decoration: none; }
+
+@media (max-width: 600px) {
+  .question { padding: 16px; }
+  input[type="text"], button { font-size: 0.9rem; }
+}
+#leaderboard { margin-top:30px; }
+    #leaderboard table { width:100%; border-collapse:collapse; }
+    #leaderboard th, td { border:1px solid #ccc; padding:8px; }
+    #leaderboard th { background:#f0f0f0; }
+    
+    
+
+.controls {
+  display: flex;
+  gap: 10px; /* spacing between buttons */
+}
+
+.controls button {
+  flex: 1; /* optionally make both buttons equal width */
+}
+
+
+
+
+
+
+
+
+  </style>
+</head>
+<body>
+      
+      <nav class="navbar" role="navigation" aria-label="Main Navigation">
+  <div class="logo">Bijush Academy</div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../about.html">About</a></li>
+    <li><a href="../contact.html">Contact</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger">&#9776;</div>
+</nav>
+
+<!-- Back Button -->
+<a href="../index.html" class="back-arrow" id="backBtn">BACK</a>
+
+  <h1>Grammar Voice Conversion Quiz</h1>
+  <div id="quiz"></div>
+  
+  <div id="scoreBoard"></div>
+
+  <div class="controls">
+        <button id="submit">Submit Answers</button>
+    <button id="resetLeaderboard">Reset Leaderboard</button>
+  </div>
+  <div id="leaderboard"></div>
+
+  <script>
+        
+        const hamburger = document.getElementById('hamburger');
+  const navLinks = document.getElementById('navLinks');
+  hamburger.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+  });
+        
+    const LEADER_KEY = 'grammarQuizLeaderboard';
+    const TOTAL_QUESTIONS = 5;
+
+    const questionPool = [
+      { topic:'Voice Conversion', difficulty:'Easy', q:'The dog chased the cat.', answers:['The cat was chased by the dog.'], synopsis:['cat was chased by the dog'], expl_en:'Simple past passive.' },
+      { topic:'Voice Conversion', difficulty:'Easy', q:'The dog bit the boy.', answers:['The boy was bitten by the dog.'], synopsis:['boy was bitten by the dog'], expl_en:'Past passive (irregular).' },
+      { topic:'Voice Conversion', difficulty:'Easy', q:'Miss Mary teaches us English.', answers:['English is taught to us by Miss Mary.'], synopsis:['english is taught to us by miss mary'], expl_en:'Present simple passive.' },
+      { topic:'Voice Conversion', difficulty:'Medium', q:'Rita will take a photograph.', answers:['A photograph will be taken by Rita.'], synopsis:['photograph will be taken by rita'], expl_en:'Future simple passive.' },
+      { topic:'Voice Conversion', difficulty:'Medium', q:'The peon rang the bell.', answers:['The bell was rung by the peon.'], synopsis:['bell was rung by the peon'], expl_en:'Past passive (regular).' },
+      { topic:'Voice Conversion', difficulty:'Medium', q:'Children like sweets.', answers:['Sweets are liked by children.'], synopsis:['sweets are liked by children'], expl_en:'Present simple passive.' },
+      { topic:'Voice Conversion', difficulty:'Hard', q:'She was writing a letter.', answers:['A letter was being written by her.'], synopsis:['letter was being written by her'], expl_en:'Past continuous passive.' },
+      { topic:'Voice Conversion', difficulty:'Hard', q:'The children were playing football.', answers:['Football was being played by the children.'], synopsis:['football was being played by the children'], expl_en:'Past continuous passive.' },
+      { topic:'Voice Conversion', difficulty:'Hard', q:'My sister has drawn this portrait.', answers:['This portrait has been drawn by my sister.'], synopsis:['portrait has been drawn by my sister'], expl_en:'Present perfect passive.' },
+      { topic:'Voice Conversion', difficulty:'Medium', q:'The cat was chased by the dog.', answers:['The dog chased the cat.'], synopsis:['dog chased the cat'], expl_en:'Simple past active.' },
+      { topic:'Voice Conversion', difficulty:'Medium', q:'The boy was bitten by the dog.', answers:['The dog bit the boy.'], synopsis:['dog bit the boy'], expl_en:'Past active (irregular).' },
+      { topic:'Voice Conversion', difficulty:'Easy', q:'English is taught to us by Miss Mary.', answers:['Miss Mary teaches us English.'], synopsis:['miss mary teaches us english'], expl_en:'Present simple active.' },
+      { topic:'Voice Conversion', difficulty:'Easy', q:'A photograph will be taken by Rita.', answers:['Rita will take a photograph.'], synopsis:['rita will take a photograph'], expl_en:'Future simple active.' },
+      { topic:'Voice Conversion', difficulty:'Medium', q:'The bell was rung by the peon.', answers:['The peon rang the bell.'], synopsis:['peon rang the bell'], expl_en:'Past simple active.' },
+      { topic:'Voice Conversion', difficulty:'Medium', q:'Sweets are liked by children.', answers:['Children like sweets.'], synopsis:['children like sweets'], expl_en:'Present simple active.' },
+      { topic:'Voice Conversion', difficulty:'Hard', q:'A letter was being written by her.', answers:['She was writing a letter.'], synopsis:['she was writing a letter'], expl_en:'Past continuous active.' },
+      { topic:'Voice Conversion', difficulty:'Hard', q:'Football was being played by the children.', answers:['The children were playing football.'], synopsis:['children were playing football'], expl_en:'Past continuous active.' },
+      { topic:'Voice Conversion', difficulty:'Hard', q:'This portrait has been drawn by my sister.', answers:['My sister has drawn this portrait.'], synopsis:['my sister has drawn this portrait'], expl_en:'Present perfect active.' },
+      { topic:'Advanced – Modal Passive', difficulty:'Hard', q:'She can solve this problem.', answers:['This problem can be solved by her.'], synopsis:['this problem can be solved by her'], expl_en:'Modal passive with can.', expl_bn:'মডাল অকর্মক।' },
+  { topic:'Advanced – Modal Passive', difficulty:'Hard', q:'They must complete the report.', answers:['The report must be completed by them.'], synopsis:['report must be completed by them'], expl_en:'Modal passive with must.', expl_bn:'মডাল অকর্মক।' },
+  { topic:'Advanced – Modal Passive', difficulty:'Hard', q:'We should clean the room.', answers:['The room should be cleaned by us.'], synopsis:['room should be cleaned by us'], expl_en:'Modal passive with should.', expl_bn:'মডাল অকর্মক।' },
+  { topic:'Advanced – Modal Passive', difficulty:'Hard', q:'He may have finished the work.', answers:['The work may have been finished by him.'], synopsis:['work may have been finished by him'], expl_en:'Perfect modal passive (may have been).', expl_bn:'পারফেক্ট মডাল অকর্মক।' },
+
+  // 9–13: Impersonal / Personal passives with infinitives
+  { topic:'Advanced – Impersonal Passive', difficulty:'Hard', q:'People say that she is talented.', answers:['It is said that she is talented.'], synopsis:['it is said that she is talented'], expl_en:'Impersonal passive it + be + that.', expl_bn:'নির্দিষ্ট ন্যায় অকর্মক।' },
+  { topic:'Advanced – Personal Passive', difficulty:'Hard', q:'People know Susan is a jewellery thief.', answers:['Susan is known to be a jewellery thief.'], synopsis:['susan is known to be a jewellery thief'], expl_en:'Personal passive with to-infinitive.', expl_bn:'পার্সোনাল অকর্মক।' },
+  { topic:'Advanced – Impersonal Passive', difficulty:'Hard', q:'They believe the government has prepared a plan.', answers:['It is believed that the government has prepared a plan.'], synopsis:['it is believed that the government has prepared a plan'], expl_en:'Impersonal passive with that.', expl_bn:'নির্দিষ্ট ন্যায় অকর্মক।' },
+  { topic:'Advanced – Personal Passive', difficulty:'Hard', q:'They say the earth is round.', answers:['The earth is said to be round.'], synopsis:['earth is said to be round'], expl_en:'Personal passive with to-infinitive.', expl_bn:'পার্সোনাল অকর্মক।' },
+  { topic:'Advanced – Impersonal Passive', difficulty:'Hard', q:'They expect scientists to present results.', answers:['It is expected that scientists present results.'], synopsis:['it is expected that scientists present results'], expl_en:'Impersonal passive, present tense.', expl_bn:'নির্দিষ্ট ন্যায় অকর্মক।' },
+
+  // 14–17: Causative & get‑passives
+  { topic:'Advanced – Causative Passive', difficulty:'Hard', q:'The university had experts review the curriculum.', answers:['The curriculum had been reviewed by experts.'], synopsis:['curriculum had been reviewed by experts'], expl_en:'Causative passive (have sth done).', expl_bn:'কজেটিভ অকর্মক।' },
+  { topic:'Advanced – Get Passive', difficulty:'Hard', q:'She got her car repaired.', answers:['Her car got repaired.'], synopsis:['her car got repaired'], expl_en:'Informal get-passive.', expl_bn:'গেট অকর্মক।' },
+  { topic:'Advanced – Causative Passive', difficulty:'Hard', q:'They had the documents printed.', answers:['The documents had been printed.'], synopsis:['documents had been printed'], expl_en:'Causative passive with have.', expl_bn:'কজেটিভ অকর্মক।' },
+  { topic:'Advanced – Causative Passive', difficulty:'Hard', q:'I got my hair cut.', answers:['My hair got cut.'], synopsis:['my hair got cut'], expl_en:'Get‑passive with haircut.', expl_bn:'গেট অকর্মক।' },
+
+  // 18–22: Prepositional passives
+  { topic:'Advanced – Prepositional Passive', difficulty:'Hard', q:'He looked at the painting.', answers:['The painting was looked at by him.'], synopsis:['painting was looked at by him'], expl_en:'Prepositional passive.', expl_bn:'প্রিপজিশনাল অকর্মক।' },
+  { topic:'Advanced – Prepositional Passive', difficulty:'Hard', q:'People talk about the problem.', answers:['The problem is talked about.'], synopsis:['problem is talked about'], expl_en:'Prepositional passive without agent.', expl_bn:'এজেন্ট‑বিহীন প্রি‑পজিশনাল অকর্মক।' },
+  { topic:'Advanced – Prepositional Passive', difficulty:'Hard', q:'Someone has slept in this bunk.', answers:['This bunk has been slept in.'], synopsis:['this bunk has been slept in'], expl_en:'Prepositional passive (sleep in).', expl_bn:'প্রি‑পজিশনাল অকর্মক।' },
+  { topic:'Advanced – Prepositional Passive', difficulty:'Hard', q:'He ran into a problem.', answers:['A problem was run into.'], synopsis:['problem was run into'], expl_en:'Prepositional passive (run into).', expl_bn:'প্রিপজিশনাল অকর্মক।' },
+  { topic:'Advanced – Prepositional Passive', difficulty:'Hard', q:'She takes care of the children.', answers:['The children are taken care of by her.'], synopsis:['children are taken care of by her'], expl_en:'Prepositional passive (take care of).', expl_bn:'প্রিপজিশনাল অকর্মক।' },
+
+  // 23–29: Passive infinitives (be + V3)
+  { topic:'Advanced – Passive Infinitive', difficulty:'Hard', q:'Someone will fix the car.', answers:['The car will be fixed.'], synopsis:['car will be fixed'], expl_en:'Future passive infinitive.', expl_bn:'ইনফিনিটিভ অকর্মক।' },
+  { topic:'Advanced – Passive Infinitive', difficulty:'Hard', q:'They did not allow him to leave.', answers:['He was not allowed to leave.'], synopsis:['he was not allowed to leave'], expl_en:'Passive infinitive with allow.', expl_bn:'ইনফিনিটিভ অকর্মক।' },
+  { topic:'Advanced – Passive Infinitive', difficulty:'Hard', q:'People don’t let me speak.', answers:['I am not let to speak.'], synopsis:['i am not let to speak'], expl_en:'Passive infinitive with let.', expl_bn:'ইনফিনিটিভ অকর্মক।' },
+  { topic:'Advanced – Passive Infinitive', difficulty:'Hard', q:'They advise us to arrive early.', answers:['We are advised to arrive early.'], synopsis:['we are advised to arrive early'], expl_en:'Passive infinitive with advise.', expl_bn:'ইনফিনিটিভ অকর্মক।' },
+  { topic:'Advanced – Passive Infinitive', difficulty:'Hard', q:'They expect them to win.', answers:['They are expected to win.'], synopsis:['they are expected to win'], expl_en:'Passive infinitive with expectation.', expl_bn:'ইনফিনিটিভ অকর্মক।' },
+  { topic:'Advanced – Passive Infinitive', difficulty:'Hard', q:'People consider him a genius.', answers:['He is considered to be a genius.'], synopsis:['he is considered to be a genius'], expl_en:'Passive infinitive with consider.', expl_bn:'ইনফিনিটিভ অকর্মক।' },
+  { topic:'Advanced – Passive Infinitive', difficulty:'Hard', q:'They believe him to be innocent.', answers:['He is believed to be innocent.'], synopsis:['he is believed to be innocent'], expl_en:'Passive infinitive with believe.', expl_bn:'ইনফিনিটিভ অকর্মক।' },
+
+  // 30–36: Agentless passives
+  { topic:'Advanced – Agentless Passive', difficulty:'Hard', q:'They caught a thief.', answers:['A thief was caught.'], synopsis:['thief was caught'], expl_en:'Agent‑less passive.', expl_bn:'কর্তা‑বিহীন অকর্মক।' },
+  { topic:'Advanced – Agentless Passive', difficulty:'Hard', q:'No one told me the answer.', answers:['I was not told the answer.'], synopsis:['i was not told the answer'], expl_en:'Negative agentless passive.', expl_bn:'নেগেটিভ অকর্মক।' },
+  { topic:'Advanced – Agentless Passive', difficulty:'Hard', q:'They closed the store.', answers:['The store was closed.'], synopsis:['store was closed'], expl_en:'Agentless passive.', expl_bn:'কর্তা‑বিহীন অকর্মক।' },
+  { topic:'Advanced – Agentless Passive', difficulty:'Hard', q:'They stole my wallet.', answers:['My wallet was stolen.'], synopsis:['my wallet was stolen'], expl_en:'Agent‑less passive.', expl_bn:'কর্তা‑বিহীন অকর্মক।' },
+  { topic:'Advanced – Agentless Passive', difficulty:'Hard', q:'They evacuated the building.', answers:['The building was evacuated.'], synopsis:['building was evacuated'], expl_en:'Agentless passive.', expl_bn:'কর্তা‑বিহীন অকর্মক।' },
+  { topic:'Advanced – Agentless Passive', difficulty:'Hard', q:'They hit the target.', answers:['The target was hit.'], synopsis:['target was hit'], expl_en:'Agentless passive.', expl_bn:'কর্তা‑বিহীন অকর্মক।' },
+  { topic:'Advanced – Agentless Passive', difficulty:'Hard', q:'They repaired the road.', answers:['The road was repaired.'], synopsis:['road was repaired'], expl_en:'Agentless passive.', expl_bn:'কর্তা‑বিহীন অকর্মক।' },
+
+  // 37–50: Mix of all forms continued...
+  { topic:'Advanced – Get Passive', difficulty:'Hard', q:'My phone got stolen at school.', answers:['My phone got stolen.'], synopsis:['my phone got stolen'], expl_en:'Get‑passive (informal).', expl_bn:'গেট অকর্মক।' },
+  { topic:'Advanced – Get Passive', difficulty:'Hard', q:'He got injured in the accident.', answers:['He got injured.'], synopsis:['he got injured'], expl_en:'Get‑passive (injured).', expl_bn:'গেট অকর্মক।' },
+  { topic:'Advanced – Modal Passive', difficulty:'Hard', q:'You could finish the task quickly.', answers:['The task could be finished quickly by you.'], synopsis:['task could be finished quickly by you'], expl_en:'Modal passive could.', expl_bn:'মডাল অকর্মক।' },
+  { topic:'Advanced – Modal Passive', difficulty:'Hard', q:'She should have sent the email.', answers:['The email should have been sent by her.'], synopsis:['email should have been sent by her'], expl_en:'Perfect modal passive.', expl_bn:'পারফেক্ট মডাল অকর্মক।' },
+  { topic:'Advanced – Impersonal Passive', difficulty:'Hard', q:'They report that prices are rising.', answers:['It is reported that prices are rising.'], synopsis:['it is reported that prices are rising'], expl_en:'Impersonal passive.', expl_bn:'নির্দিষ্ট ন্যায় অকর্মক।' },
+  { topic:'Advanced – Personal Passive', difficulty:'Hard', q:'They expect him to arrive soon.', answers:['He is expected to arrive soon.'], synopsis:['he is expected to arrive soon'], expl_en:'Personal passive with to-infinitive.', expl_bn:'পার্সোনাল অকর্মক।' },
+  { topic:'Advanced – Causative Passive', difficulty:'Hard', q:'She had her dress cleaned.', answers:['Her dress had been cleaned.'], synopsis:['her dress had been cleaned'], expl_en:'Causative passive.', expl_bn:'কজেটিভ অকর্মক।' },
+  { topic:'Advanced – Passive Infinitive', difficulty:'Hard', q:'They want the work completed.', answers:['They want the work completed.'], synopsis:['work completed'], expl_en:'Passive infinitive object.', expl_bn:'ইনফিনিটিভ অকর্মক।' },
+  { topic:'Advanced – Agentless Passive', difficulty:'Hard', q:'They erased the data.', answers:['The data was erased.'], synopsis:['data was erased'], expl_en:'Agentless passive.', expl_bn:'কর্তা‑বিহীন অকর্মক।' },
+  { topic:'Advanced – Get Passive', difficulty:'Hard', q:'The window got broken.', answers:['The window got broken.'], synopsis:['window got broken'], expl_en:'Get‑passive.', expl_bn:'গেট অকর্মক।' },
+  { topic:'Advanced – Prepositional Passive', difficulty:'Hard', q:'They laughed at his mistake.', answers:['His mistake was laughed at.'], synopsis:['mistake was laughed at'], expl_en:'Prepositional passive (laughed at).', expl_bn:'প্রি‑পজিশনাল অকর্মক।' },
+  { topic:'Advanced – Passive Infinitive', difficulty:'Hard', q:'They expect the work to be done.', answers:['The work is expected to be done.'], synopsis:['work is expected to be done'], expl_en:'Passive infinitive with expectation.', expl_bn:'ইনফিনিটিভ অকর্মক।' },
+  { topic:'Advanced – Personal Passive', difficulty:'Hard', q:'People report her as skilled.', answers:['She is reported to be skilled.'], synopsis:['she is reported to be skilled'], expl_en:'Personal passive with skill.', expl_bn:'পার্সোনাল অকর্মক।' },
+  { topic:'Advanced – Impersonal Passive', difficulty:'Hard', q:'They claim he cheated.', answers:['It is claimed that he cheated.'], synopsis:['it is claimed that he cheated'], expl_en:'Impersonal passive.', expl_bn:'নির্দিষ্ট ন্যায় অকর্মক।' },
+  { topic:'Advanced – Modal Passive', difficulty:'Hard', q:'He might have lost the way.', answers:['The way might have been lost by him.'], synopsis:['way might have been lost by him'], expl_en:'Perfect modal passive might.', expl_bn:'পারফেক্ট মডাল অকর্মক।' },
+  
+  { topic:'Advanced – Modal Passive', difficulty:'Hard',
+    q:'She may invite him tomorrow.',
+    answers:['He may be invited by her tomorrow.'],
+    synopsis:['he may be invited by her tomorrow'],
+    expl_en:'Modal passive: may + be + V³.', expl_bn:'মডাল অকর্মক।' },
+
+  { topic:'Advanced – Modal Passive', difficulty:'Hard',
+    q:'They must have completed the work.',
+    answers:['The work must have been completed by them.'],
+    synopsis:['work must have been completed by them'],
+    expl_en:'Modal perfect passive: must have been + V³.', expl_bn:'মডাল পারফেক্ট অকর্মক।' },
+
+  // Passive of Verbs with Two Objects
+  { topic:'Advanced – Double Object', difficulty:'Hard',
+    q:'Kulwant gave me a book.',
+    answers:['I was given a book by Kulwant.','A book was given to me by Kulwant.'],
+    synopsis:['i was given a book by kulwant'],
+    expl_en:'Passive with two objects.', expl_bn:'দুটি অবজেক্টের অকর্মক।' },
+
+  // Passive with Object Compliment
+  { topic:'Advanced – Object Complement', difficulty:'Hard',
+    q:'They elected him president.',
+    answers:['He was elected president by them.'],
+    synopsis:['he was elected president by them'],
+    expl_en:'Passive with object complement.', expl_bn:'অবজেক্ট কমপ্লিমেন্ট অকর্মক।' },
+
+  // Causative Passive
+  { topic:'Advanced – Causative Passive', difficulty:'Hard',
+    q:'The university had external experts review the curriculum.',
+    answers:['The university had the curriculum reviewed by external experts.'],
+    synopsis:['university had curriculum reviewed by external experts'],
+    expl_en:'Causative passive (have something done).', expl_bn:'উল্লেখযোগ্য অকর্মক।' },
+
+  { topic:'Advanced – Causative Passive', difficulty:'Hard',
+    q:'She got her car repaired.',
+    answers:['She got her car repaired by someone.'],
+    synopsis:['she got her car repaired by someone'],
+    expl_en:'Informal causative passive (get sth done).', expl_bn:'অনানুষ্ঠানিক causative passive।' },
+
+  // Impersonal Passive (It + passive + that)
+  { topic:'Advanced – Impersonal Passive', difficulty:'Hard',
+    q:'People say that the earth is round.',
+    answers:['It is said that the earth is round.'],
+    synopsis:['it is said that the earth is round'],
+    expl_en:'Impersonal passive (It is said that...).', expl_bn:'নির্দিষ্ট ন্যায় অকর্মক।' },
+
+  // Passive with Missing Agent
+  { topic:'Advanced – Agentless Passive', difficulty:'Hard',
+    q:'They caught the thief.',
+    answers:['The thief was caught.'],
+    synopsis:['thief was caught'],
+    expl_en:'Agent omitted passive.', expl_bn:'কর্তা ছাড়া অকর্মক।' },
+
+  // Passive with Prepositional Verb
+  { topic:'Advanced – Prepositional Passive', difficulty:'Hard',
+    q:'He looked at the painting.',
+    answers:['The painting was looked at by him.'],
+    synopsis:['painting was looked at by him'],
+    expl_en:'Passive of phrasal/prepositional verbs.', expl_bn:'প্রি-পজিশনাল অকর্মক।' },
+
+  // Passive with Infinitive
+  { topic:'Advanced – Passive Infinitive', difficulty:'Hard',
+    q:'Someone will fix the car.',
+    answers:['The car will have to be fixed.'],
+    synopsis:['car will have to be fixed'],
+    expl_en:'Passive infinitive: have to be + V³.', expl_bn:'ইনফিনিটিভ অকর্মক।' },
+
+  { topic:'Voice Conversion', difficulty:'Easy', q:'She paints a beautiful picture.', answers:['A beautiful picture is painted by her.'], synopsis:['beautiful picture is painted by her'], expl_en:'Simple present passive.', expl_bn:'বর্তমান সাধারণ অকর্মক।' },
+  { topic:'Voice Conversion', difficulty:'Easy', q:'They built a new house last year.', answers:['A new house was built by them last year.'], synopsis:['new house was built by them last year'], expl_en:'Simple past passive.', expl_bn:'অতীত সাধারণ অকর্মক।' },
+  { topic:'Voice Conversion', difficulty:'Easy', q:'The chef prepares delicious meals.', answers:['Delicious meals are prepared by the chef.'], synopsis:['delicious meals are prepared by the chef'], expl_en:'Present simple passive.', expl_bn:'বর্তমান সাধারণ অকর্মক।' },
+  { topic:'Voice Conversion', difficulty:'Easy', q:'He sings a melodious song.', answers:['A melodious song is sung by him.'], synopsis:['melodious song is sung by him'], expl_en:'Present simple passive.', expl_bn:'বর্তমান সাধারণ অকর্মক।' },
+  { topic:'Voice Conversion', difficulty:'Easy', q:'She wrote a poem for her mother.', answers:['A poem was written by her for her mother.'], synopsis:['poem was written by her for her mother'], expl_en:'Simple past passive.', expl_bn:'অতীত সাধারণ অকর্মক।' },
+  { topic:'Voice Conversion', difficulty:'Medium', q:'Someone stole my bike yesterday.', answers:['My bike was stolen yesterday by someone.'], synopsis:['my bike was stolen yesterday by someone'], expl_en:'Simple past passive.', expl_bn:'অতীত সাধারণ অকর্মক।' },
+  { topic:'Voice Conversion', difficulty:'Medium', q:'The chef baked a delicious cake.', answers:['A delicious cake was baked by the chef.'], synopsis:['delicious cake was baked by the chef'], expl_en:'Simple past passive.', expl_bn:'অতীত সাধারণ অকর্মক।' },
+  { topic:'Voice Conversion', difficulty:'Medium', q:'They are constructing a bridge.', answers:['A bridge is being constructed by them.'], synopsis:['bridge is being constructed by them'], expl_en:'Present continuous passive.', expl_bn:'বর্তমান চলমান অকর্মক।' },
+  { topic:'Voice Conversion', difficulty:'Medium', q:'She is reading a book.', answers:['A book is being read by her.'], synopsis:['book is being read by her'], expl_en:'Present continuous passive.', expl_bn:'বর্তমান চলমান অকর্মক।' },
+  { topic:'Voice Conversion', difficulty:'Medium', q:'The gardener waters the plants daily.', answers:['The plants are watered daily by the gardener.'], synopsis:['plants are watered daily by the gardener'], expl_en:'Present simple passive.', expl_bn:'বর্তমান সাধারণ অকর্মক।' },
+  { topic:'Voice Conversion', difficulty:'Hard', q:'They have completed the project.', answers:['The project has been completed by them.'], synopsis:['project has been completed by them'], expl_en:'Present perfect passive.', expl_bn:'বর্তমান সম্পূর্ণ অকর্মক।' },
+  { topic:'Voice Conversion', difficulty:'Hard', q:'He had sold the house.', answers:['The house had been sold by him.'], synopsis:['house had been sold by him'], expl_en:'Past perfect passive.', expl_bn:'অতীত সম্পূর্ণ অকর্মক।' },
+  { topic:'Voice Conversion', difficulty:'Hard', q:'She was writing a letter.', answers:['A letter was being written by her.'], synopsis:['letter was being written by her'], expl_en:'Past continuous passive.', expl_bn:'অতীত চলমান অকর্মক।' },
+  { topic:'Voice Conversion', difficulty:'Hard', q:'They were building a new bridge.', answers:['A new bridge was being built by them.'], synopsis:['new bridge was being built by them'], expl_en:'Past continuous passive.', expl_bn:'অতীত চলমান অকর্মক।' },
+  { topic:'Voice Conversion', difficulty:'Hard', q:'He is repairing the car.', answers:['The car is being repaired by him.'], synopsis:['car is being repaired by him'], expl_en:'Present continuous passive.', expl_bn:'বর্তমান চলমান অকর্মক।' },
+  { topic:'Voice Conversion', difficulty:'Hard', q:'They are solving maths problems.', answers:['Maths problems are being solved by them.'], synopsis:['maths problems are being solved by them'], expl_en:'Present continuous passive.', expl_bn:'বর্তমান চলমান অকর্মক।' },
+  { topic:'Voice Conversion', difficulty:'Hard', q:'She has organized the event.', answers:['The event has been organized by her.'], synopsis:['event has been organized by her'], expl_en:'Present perfect passive.', expl_bn:'বর্তমান সম্পূর্ণ অকর্মক।' },
+  { topic:'Voice Conversion', difficulty:'Hard', q:'The gardener has planted some trees.', answers:['Some trees have been planted by the gardener.'], synopsis:['some trees have been planted by the gardener'], expl_en:'Present perfect passive.', expl_bn:'বর্তমান সম্পূর্ণ অকর্মক।' },
+  { topic:'Voice Conversion', difficulty:'Hard', q:'Doctor Brown will give you advice.', answers:['You will be given advice by Doctor Brown.'], synopsis:['you will be given advice by doctor brown'], expl_en:'Future simple passive.', expl_bn:'ভবিষ্যৎ সাধারণ অকর্মক।' },
+  { topic:'Voice Conversion', difficulty:'Hard', q:'They will send him away to school.', answers:['He will be sent away to school by them.'], synopsis:['he will be sent away to school by them'], expl_en:'Future simple passive.', expl_bn:'ভবিষ্যৎ সাধারণ অকর্মক।' },
+  { topic:'Voice Conversion', difficulty:'Hard', q:'He will visit his grandparents.', answers:['His grandparents will be visited by him.'], synopsis:['his grandparents will be visited by him'], expl_en:'Future simple passive.', expl_bn:'ভবিষ্যৎ সাধারণ অকর্মক।' },
+  { topic:'Voice Conversion', difficulty:'Hard', q:'They will build a house next year.', answers:['A house will be built by them next year.'], synopsis:['house will be built by them next year'], expl_en:'Future simple passive.', expl_bn:'ভবিষ্যৎ সাধারণ অকর্মক।' },
+  { topic:'Voice Conversion', difficulty:'Hard', q:'My sister had baked a cake.', answers:['A cake had been baked by my sister.'], synopsis:['cake had been baked by my sister'], expl_en:'Past perfect passive.', expl_bn:'অতীত সম্পূর্ণ অকর্মক।' },
+  { topic:'Voice Conversion', difficulty:'Hard', q:'The committee selected a new chairman.', answers:['A new chairman was selected by the committee.'], synopsis:['new chairman was selected by the committee'], expl_en:'Simple past passive.', expl_bn:'অতীত সাধারণ অকর্মক।' },
+
+  // Passive → Active (25)
+  { topic:'Voice Conversion', difficulty:'Easy', q:'A beautiful picture is painted by her.', answers:['She paints a beautiful picture.'], synopsis:['she paints a beautiful picture'], expl_en:'Present simple active.', expl_bn:'বর্তমান সাধারণ সক্রিয়।' },
+  { topic:'Voice Conversion', difficulty:'Easy', q:'A new house was built by them last year.', answers:['They built a new house last year.'], synopsis:['they built a new house last year'], expl_en:'Past simple active.', expl_bn:'অতীত সাধারণ সক্রিয়।' },
+  { topic:'Voice Conversion', difficulty:'Easy', q:'Delicious meals are prepared by the chef.', answers:['The chef prepares delicious meals.'], synopsis:['the chef prepares delicious meals'], expl_en:'Present simple active.', expl_bn:'বর্তমান সাধারণ সক্রিয়।' },
+  { topic:'Voice Conversion', difficulty:'Easy', q:'A melodious song is sung by him.', answers:['He sings a melodious song.'], synopsis:['he sings a melodious song'], expl_en:'Present simple active.', expl_bn:'বর্তমান সাধারণ সক্রিয়।' },
+  { topic:'Voice Conversion', difficulty:'Easy', q:'A poem was written by her for her mother.', answers:['She wrote a poem for her mother.'], synopsis:['she wrote a poem for her mother'], expl_en:'Past simple active.', expl_bn:'অতীত সাধারণ সক্রিয়।' },
+  { topic:'Voice Conversion', difficulty:'Medium', q:'My bike was stolen yesterday by someone.', answers:['Someone stole my bike yesterday.'], synopsis:['someone stole my bike yesterday'], expl_en:'Past simple active.', expl_bn:'অতীত সাধারণ সক্রিয়।' },
+  { topic:'Voice Conversion', difficulty:'Medium', q:'A delicious cake was baked by the chef.', answers:['The chef baked a delicious cake.'], synopsis:['the chef baked a delicious cake'], expl_en:'Past simple active.', expl_bn:'অতীত সাধারণ সক্রিয়।' },
+  { topic:'Voice Conversion', difficulty:'Medium', q:'A bridge is being constructed by them.', answers:['They are constructing a bridge.'], synopsis:['they are constructing a bridge'], expl_en:'Present continuous active.', expl_bn:'বর্তমান চলমান সক্রিয়।' },
+  { topic:'Voice Conversion', difficulty:'Medium', q:'A book is being read by her.', answers:['She is reading a book.'], synopsis:['she is reading a book'], expl_en:'Present continuous active.', expl_bn:'বর্তমান চলমান সক্রিয়।' },
+  { topic:'Voice Conversion', difficulty:'Medium', q:'The plants are watered daily by the gardener.', answers:['The gardener waters the plants daily.'], synopsis:['the gardener waters the plants daily'], expl_en:'Present simple active.', expl_bn:'বর্তমান সাধারণ সক্রিয়।' },
+  { topic:'Voice Conversion', difficulty:'Hard', q:'The project has been completed by them.', answers:['They have completed the project.'], synopsis:['they have completed the project'], expl_en:'Present perfect active.', expl_bn:'বর্তমান সম্পূর্ণ সক্রিয়।' },
+  { topic:'Voice Conversion', difficulty:'Hard', q:'The house had been sold by him.', answers:['He had sold the house.'], synopsis:['he had sold the house'], expl_en:'Past perfect active.', expl_bn:'অতীত সম্পূর্ণ সক্রিয়।' },
+  { topic:'Voice Conversion', difficulty:'Hard', q:'A letter was being written by her.', answers:['She was writing a letter.'], synopsis:['she was writing a letter'], expl_en:'Past continuous active.', expl_bn:'অতীত চলমান সক্রিয়।' },
+  { topic:'Voice Conversion', difficulty:'Hard', q:'A new bridge was being built by them.', answers:['They were building a new bridge.'], synopsis:['they were building a new bridge'], expl_en:'Past continuous active.', expl_bn:'অতীত চলমান সক্রিয়।' },
+  { topic:'Voice Conversion', difficulty:'Hard', q:'The car is being repaired by him.', answers:['He is repairing the car.'], synopsis:['he is repairing the car'], expl_en:'Present continuous active.', expl_bn:'বর্তমান চলমান সক্রিয়।' },
+  { topic:'Voice Conversion', difficulty:'Hard', q:'Maths problems are being solved by them.', answers:['They are solving maths problems.'], synopsis:['they are solving maths problems'], expl_en:'Present continuous active.', expl_bn:'বর্তমান চলমান সক্রিয়।' },
+  { topic:'Voice Conversion', difficulty:'Hard', q:'The event has been organized by her.', answers:['She has organized the event.'], synopsis:['she has organized the event'], expl_en:'Present perfect active.', expl_bn:'বর্তমান সম্পূর্ণ সক্রিয়।' },
+  { topic:'Voice Conversion', difficulty:'Hard', q:'Some trees have been planted by the gardener.', answers:['The gardener has planted some trees.'], synopsis:['the gardener has planted some trees'], expl_en:'Present perfect active.', expl_bn:'বর্তমান সম্পূর্ণ সক্রিয়।' },
+  { topic:'Voice Conversion', difficulty:'Hard', q:'You will be given advice by Doctor Brown.', answers:['Doctor Brown will give you advice.'], synopsis:['doctor brown will give you advice'], expl_en:'Future simple active.', expl_bn:'ভবিষ্যৎ সাধারণ সক্রিয়।' },
+  { topic:'Voice Conversion', difficulty:'Hard', q:'He will be sent away to school by them.', answers:['They will send him away to school.'], synopsis:['they will send him away to school'], expl_en:'Future simple active.', expl_bn:'ভবিষ্যৎ সাধারণ সক্রিয়।' },
+  { topic:'Voice Conversion', difficulty:'Hard', q:'His grandparents will be visited by him.', answers:['He will visit his grandparents.'], synopsis:['he will visit his grandparents'], expl_en:'Future simple active.', expl_bn:'ভবিষ্যৎ সাধারণ সক্রিয়।' },
+  { topic:'Voice Conversion', difficulty:'Hard', q:'A house will be built by them next year.', answers:['They will build a house next year.'], synopsis:['they will build a house next year'], expl_en:'Future simple active.', expl_bn:'ভবিষ্যৎ সাধারণ সক্রিয়।' },
+  { topic:'Voice Conversion', difficulty:'Hard', q:'A cake had been baked by my sister.', answers:['My sister had baked a cake.'], synopsis:['my sister had baked a cake'], expl_en:'Past perfect active.', expl_bn:'অতীত সম্পূর্ণ সক্রিয়।' },
+  { topic:'Voice Conversion', difficulty:'Hard', q:'A new chairman was selected by the committee.', answers:['The committee selected a new chairman.'], synopsis:['the committee selected a new chairman'], expl_en:'Simple past active.', expl_bn:'অতীত সাধারণ সক্রিয়।' }
+];
+
+
+
+      
+   
+
+    let currentSet = [];
+    let fuzzySets = [];
+
+    function pickRandomQuestions() {
+      const copy = [...questionPool];
+      currentSet = [];
+      for (let i = 0; i < Math.min(TOTAL_QUESTIONS, copy.length); i++) {
+        const idx = Math.floor(Math.random() * copy.length);
+        currentSet.push(copy.splice(idx, 1)[0]);
+      }
+      fuzzySets = currentSet.map(q => FuzzySet(q.synopsis));
+    }
+
+    function renderQuiz() {
+      const container = document.getElementById('quiz');
+      container.innerHTML = '';
+      currentSet.forEach((item, i) => {
+        const isToActive = item.answers[0].includes(' by ');
+        const direction = isToActive ? 'Convert into Passive Voice <br>' :'Convert into Active Voice';
+        container.innerHTML += `
+          <div class="question" id="q${i}">
+            <p><strong>Q${i + 1}</strong> ${item.difficulty}<br>
+            <em> ${direction} </em>:<br> "<strong> ${item.q} </strong>"<br></p>
+            <input type="text"placeholder="Write Your Answer  "id="ans${i}" size="60">
+            <div id="fb${i}" class="feedback"></div>
+          </div>`;
+      });
+    }
+
+    function evaluateQuiz() {
+      let score = 0;
+      currentSet.forEach((item, i) => {
+        const ans = document.getElementById(`ans${i}`).value.trim();
+        const fb = document.getElementById(`fb${i}`);
+        let res;
+
+        if (item.answers.some(a => ans.toLowerCase() === a.toLowerCase())) {
+          score++; res = { score: 1, status: '✅ Exact!' };
+        } else {
+          const fz = fuzzySets[i].get(ans.toLowerCase());
+          if (fz && fz[0][0] >= 0.7) {
+            score += 0.5;
+            res = { score: 0.5, status: `🟠 Close (${fz[0][0].toFixed(2)})`, suggestion: item.answers[0] };
+          } else {
+            const diff = Diff.diffWords(ans, item.answers[0]);
+            res = { score: 0, status: '❌ Incorrect', diff };
+          }
+        }
+
+        fb.innerHTML = res.score === 1
+          ? `<span class="correct">${res.status}</span>`
+          : res.score === 0.5
+            ? `<span class="close">${res.status}</span><br>Suggestion: <strong>${res.suggestion}</strong>`
+            : `<span class="wrong">${res.status}</span><br>Correct: <strong>${item.answers[0]}</strong><br>` +
+              `<div>${res.diff.map(p =>
+                p.added ? `<ins>${p.value}</ins>` :
+                  p.removed ? `<del>${p.value}</del>` : p.value
+              ).join('')}</div>`;
+      });
+      return score;
+    }
+
+    function updateLeaderboard(entry) {
+      const lb = JSON.parse(localStorage.getItem(LEADER_KEY) || '[]');
+      lb.push(entry);
+      lb.sort((a, b) => b.score - a.score);
+      localStorage.setItem(LEADER_KEY, JSON.stringify(lb.slice(0, 5)));
+    }
+
+    function renderLeaderboard() {
+      const lb = JSON.parse(localStorage.getItem(LEADER_KEY) || '[]');
+      if (!lb.length) {
+        document.getElementById('leaderboard').innerHTML = '<p>No scores yet.</p>';
+        return;
+      }
+      const rows = lb.map(e =>
+        `<tr><td>${e.name}</td><td>${e.topic}</td><td>${e.difficulty}</td><td>${e.score}</td><td>${e.ts}</td></tr>`
+      ).join('');
+      document.getElementById('leaderboard').innerHTML = `
+        <h2>🏆 Leaderboard</h2>
+        <table><tr><th>Name</th><th>Topic</th><th>Difficulty</th><th>Score</th><th>Time</th></tr>${rows}</table>`;
+    }
+
+    function nowStr() {
+      return new Date().toLocaleString();
+    }
+
+    pickRandomQuestions();
+    renderQuiz();
+    renderLeaderboard();
+
+    document.getElementById('submit').onclick = () => {
+      const btn = document.getElementById('submit');
+      if (btn.innerText === 'Submit Answers') {
+        const score = evaluateQuiz();
+        document.getElementById('scoreBoard').innerHTML =
+          `<h2>Your Score: ${score.toFixed(1)} / ${currentSet.length}</h2>`;
+        const name = prompt('Enter your name:')?.trim() || 'Anonymous';
+        const { topic, difficulty } = currentSet[0] || {};
+        updateLeaderboard({ name, topic, difficulty, score: score.toFixed(1), ts: nowStr() });
+        renderLeaderboard();
+        btn.innerText = 'Start Again';
+      } else {
+        pickRandomQuestions();
+        renderQuiz();
+        document.getElementById('scoreBoard').innerHTML = '';
+        btn.innerText = 'Submit Answers';
+      }
+    };
+
+    document.getElementById('resetLeaderboard').onclick = () => {
+      if (confirm('Clear leaderboard?')) {
+        localStorage.removeItem(LEADER_KEY);
+        renderLeaderboard();
+      }
+    };
+  </script>
+</body>
+</html>
