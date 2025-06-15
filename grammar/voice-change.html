@@ -1,239 +1,241 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-<link rel="manifest" href="../manifest.json">
-<link rel="icon" href="../icons/icon-192.png">
-<script>
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('../sw.js');
-  }
-</script>
-  <title>Modular Grammar Quiz – Dynamic Reload</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Voice Change Grammar Quiz – Active and Passive Voice Exercise with Scoreboard" />
+  <title>Voice Change Quiz – Bijush Academy</title>
+
+  <link rel="manifest" href="../manifest.json" />
+  <link rel="icon" href="../icons/icon-192.png" />
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://unpkg.com/fuzzyset.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/diff/dist/diff.min.js"></script>
-  
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
-  
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js">
-        
-  </script>
-            
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap');
 
-html, body {
-  margin: 0;
-  padding:5px;
-  overflow-x: hidden;
-  padding-top:30px;
-}
+    html, body {
+      font-family: 'Montserrat', sans-serif;
+      margin: 0;
+      padding: 5px;
+      padding-top: 60px;
+      background: #f5f6fa;
+      overflow-x: hidden;
+    }
+
     nav.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: rgba(0,0,0,0.6);
-    padding: 10px 20px;
-    position:fixed;
-    top: 0;
-    z-index: 10;
-    left:0;
-    width:100%;
-    backdrop-filter: blur(8px);
-  }
-  nav .logo {
-    font-weight: 700;
-    font-size: 1.8rem;
-    letter-spacing: 2px;
-    color: #fff;
-  }
-  nav ul.nav-links {
-    list-style: none;
-    display: flex;
-    gap: 20px;
-  }
-  nav ul.nav-links li a {
-    text-decoration: none;
-    color: #ddd;
-    font-weight: 600;
-    padding: 6px 10px;
-    border-radius: 4px;
-    transition: background-color 0.3s ease;
-  }
-  nav ul.nav-links li a:hover {
-    background-color: #3498db;
-    color: white;
-  }
-  /* Hamburger */
-  .hamburger {
-    display: none;
-    font-size: 2rem;
-    cursor: pointer;
-    color: #fff;
-  }
-
-  /* Responsive nav */
-  @media (max-width: 768px) {
-    nav ul.nav-links {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(0,0,0,0.7);
+      padding: 10px 20px;
       position: fixed;
-      top: 60px; right: 0;
-      background: rgba(0,0,0,0.85);
-      height: calc(100vh - 60px);
-      width: 200px;
-      flex-direction: column;
-      padding-top: 20px;
-      transform: translateX(100%);
-      transition: transform 0.3s ease;
-      gap: 15px;
-      z-index: 20;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      backdrop-filter: blur(8px);
     }
-    nav ul.nav-links.open {
-      transform: translateX(0);
+
+    nav .logo {
+      font-weight: 700;
+      font-size: 1.6rem;
+      color: #fff;
     }
+
+    nav ul.nav-links {
+      display: flex;
+      list-style: none;
+      gap: 20px;
+    }
+
+    nav ul.nav-links li a {
+      color: #ddd;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    nav ul.nav-links li a:hover {
+      color: #fff;
+    }
+
     .hamburger {
-      display: block;
+      display: none;
+      font-size: 1.8rem;
+      color: #fff;
+      cursor: pointer;
     }
-  }
 
+    @media (max-width: 768px) {
+      nav ul.nav-links {
+        flex-direction: column;
+        position: fixed;
+        top: 60px;
+        right: 0;
+        width: 220px;
+        height: calc(100vh - 60px);
+        background: rgba(0,0,0,0.85);
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+        padding-top: 20px;
+        gap: 15px;
+      }
 
-  /* Back Button */
-  a.back-arrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    margin: 20px;
-    font-weight: 700;
-    font-size: 1.1rem;
-    text-decoration: none;
-    color: #fff;
-    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-    padding: 10px 18px;
-    border-radius: 40px;
-    box-shadow: 0 4px 10px rgba(37,117,252,0.6);
-    transition: all 0.3s ease;
-  }
-  a.back-arrow:hover {
-    background: linear-gradient(135deg, #2575fc 0%, #6a11cb 100%);
-    box-shadow: 0 6px 15px rgba(106,17,203,0.8);
-    transform: scale(1.05);
-    color: #fff;
-  }
+      nav ul.nav-links.open {
+        transform: translateX(0);
+      }
 
-  a.back-arrow::before {
-    content: "←";
-    font-size: 1.3rem;
-  }
+      .hamburger {
+        display: block;
+      }
+    }
 
-	*{
-	box-sizing:border-box;
-	margin:0;
-	padding:0;
-	}
-	
+    a.back-arrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      margin: 20px 0;
+      font-size: 1.1rem;
+      color: #fff;
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      padding: 10px 18px;
+      border-radius: 40px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
 
-.question {
-  background: #fff;
-  padding: 20px;
-  margin-bottom: 24px;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-}
+    a.back-arrow::before {
+      content: "←";
+      font-size: 1.3rem;
+    }
 
-.question p {
-  font-weight: 500;
-  margin-bottom: 12px;
-}
+    a.back-arrow:hover {
+      background: linear-gradient(135deg, #2575fc, #6a11cb);
+      transform: scale(1.05);
+    }
 
-input[type="text"],
-button {
-  width: 100%;
-  max-width: 600px;
-  padding: 12px;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  margin-bottom: 12px;
-  box-sizing: border-box;
-}
+    .question {
+      background: #fff;
+      padding: 20px;
+      margin-bottom: 24px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
 
-button {
-  background: #0069d9;
-  color: #fff;
-  cursor: pointer;
-  transition: background 0.2s ease;
-}
+    .question p {
+      font-weight: 500;
+      margin-bottom: 12px;
+    }
 
-button:hover {
-  background: #0053a5;
-}
+    input[type="text"], button {
+      width: 100%;
+      max-width: 600px;
+      padding: 12px;
+      font-size: 1rem;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      margin-bottom: 12px;
+    }
 
-.feedback .correct { color: #2e7d32; }
-.feedback .close   { color: #ed6c02; }
-.feedback .wrong   { color: #c62828; }
+    button {
+      background: #0069d9;
+      color: white;
+      border: none;
+      transition: background 0.3s ease;
+    }
 
-ins { background: #e8f5e9; text-decoration: none; }
-del { background: #ffebee; }
+    button:hover {
+      background: #004c9a;
+    }
 
-@media (max-width: 600px) {
-  .question { padding: 16px; }
-  input[type="text"], button { font-size: 0.9rem; }
-}
-#leaderboard { margin-top:30px; }
-    #leaderboard table { width:100%; border-collapse:collapse; }
-    #leaderboard th, td { border:1px solid #ccc; padding:8px; }
-    #leaderboard th { background:#f0f0f0; }
+    .feedback .correct { color: green; }
+    .feedback .close { color: orange; }
+    .feedback .wrong { color: red; }
+
+    ins { background: #e8f5e9; text-decoration: none; }
+    del { background: #ffebee; }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 20px 0;
+    }
+
+    .progress-bar {
+      height: 8px;
+      border-radius: 4px;
+      transition: width 0.8s ease;
+    }
+
+    #leaderboard table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      margin-bottom: 20px;
+    }
+
+    #leaderboard th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: center;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px 0;
+      color: #777;
+      font-size: 0.9rem;
+    }
     
-    
-
-.controls {
-  display: flex;
-  gap: 10px; /* spacing between buttons */
-}
-
-.controls button {
-  flex: 1; /* optionally make both buttons equal width */
-}
-
-
-
-
-
-
-
-
+    canvas {
+    position: fixed !important;
+    pointer-events: none;
+    z-index: 9999;
+  }
   </style>
-</head>
-<body>
-      
-      <nav class="navbar" role="navigation" aria-label="Main Navigation">
-  <div class="logo">Bijush Academy</div>
-  <ul class="nav-links" id="navLinks">
-    <li><a href="../index.html">Home</a></li>
-    <li><a href="../about.html">About</a></li>
-    <li><a href="../contact.html">Contact</a></li>
-  </ul>
-  <div class="hamburger" id="hamburger">&#9776;</div>
-</nav>
-
-<!-- Back Button -->
-<a href="list-grammar.html" class="back-arrow" id="backBtn">BACK</a>
-
-  <h1> Voice Change Quiz</h1>
-  <div id="quiz"></div>
-  
-  <div id="scoreBoard"></div>
-
-  <div class="controls">
-        <button id="submit">Submit Answers</button>
-    <button id="resetLeaderboard">Reset Leaderboard</button>
-  </div>
-  <div id="leaderboard"></div>
 
   <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('../sw.js');
+    }
+  </script>
+</head>
+
+<body>
+  <nav class="navbar">
+    <div class="logo">Bijush Academy</div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../about.html">About</a></li>
+      <li><a href="../contact.html">Contact</a></li>
+    </ul>
+    <div class="hamburger" id="hamburger">&#9776;</div>
+  </nav>
+
+  <main class="container">
+    <a href="list-grammar.html" class="back-arrow">Back</a>
+    <h1 class="my-3">Voice Change Quiz</h1>
+    <div id="quiz"></div>
+    <div id="scoreBoard"></div>
+
+    <div class="controls">
+      <button id="submit">Submit Answers</button>
+      <button id="resetLeaderboard">Reset Leaderboard</button>
+    </div>
+
+    <div id="leaderboard"></div>
+  </main>
+
+  <footer>&copy; 2025 Bijush Academy. All rights reserved.</footer>
+
+  <!-- Place your JS logic here (you already provided it, no changes needed) -->
+ <script>
         
         const hamburger = document.getElementById('hamburger');
   const navLinks = document.getElementById('navLinks');
@@ -243,8 +245,9 @@ del { background: #ffebee; }
         
     const LEADER_KEY = 'grammarQuizLeaderboard';
     const TOTAL_QUESTIONS = 5;
-
-    const questionPool = [
+    
+// const questionPool here
+const questionPool = [
       { topic:'Voice Conversion', difficulty:'Easy', q:'The dog chased the cat.', answers:['The cat was chased by the dog.'], synopsis:['cat was chased by the dog'], expl_en:'Simple past passive.' },
       { topic:'Voice Conversion', difficulty:'Easy', q:'The dog bit the boy.', answers:['The boy was bitten by the dog.'], synopsis:['boy was bitten by the dog'], expl_en:'Past passive (irregular).' },
       { topic:'Voice Conversion', difficulty:'Easy', q:'Miss Mary teaches us English.', answers:['English is taught to us by Miss Mary.'], synopsis:['english is taught to us by miss mary'], expl_en:'Present simple passive.' },
@@ -442,11 +445,8 @@ del { background: #ffebee; }
   { topic:'Voice Conversion', difficulty:'Hard', q:'A new chairman was selected by the committee.', answers:['The committee selected a new chairman.'], synopsis:['the committee selected a new chairman'], expl_en:'Simple past active.', expl_bn:'অতীত সাধারণ সক্রিয়।' }
 ];
 
-
-
-      
-   
-
+    
+    
     let currentSet = [];
     let fuzzySets = [];
 
@@ -475,6 +475,23 @@ del { background: #ffebee; }
           </div>`;
       });
     }
+
+
+function launchConfetti(times = 3, delay = 500) {
+  let count = 0;
+  const interval = setInterval(() => {
+    confetti({
+      particleCount: 100,
+      spread: 90,
+      origin: { y: 0.6 }
+    });
+    count++;
+    if (count >= times) clearInterval(interval);
+  }, delay);
+}
+
+
+
 
     let breakdown = [];
 
@@ -557,7 +574,7 @@ function renderLeaderboard() {
       </thead>
       <tbody>${rows}</tbody>
     </table>
-    <p class="mt-2"><strong>Breakdown:</strong> ${breakdown.join(' | ')}</p>
+    
   `;
 }
 
@@ -575,16 +592,63 @@ document.getElementById('submit').onclick = () => {
 
   if (btn.innerText === 'Submit Answers') {
     const score = evaluateQuiz();
+if (score === currentSet.length) launchConfetti();
 
-    document.getElementById('scoreBoard').innerHTML =
-      `<h2>Your Score: ${score.toFixed(1)} / ${currentSet.length}</h2>`;
+    document.getElementById('scoreBoard').innerHTML = `
+  <h2>Your Score: <span id="animatedScore">0.0</span> / ${currentSet.length}</h2>
+  <h3>Breakdown:</h3>
+  <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+    ${breakdown.map((val, i) => {
+      const scoreVal = parseFloat(val.split(': ')[1]);
+      const width = scoreVal * 100;
+      const color = scoreVal === 1 ? 'green' : scoreVal === 0.5 ? 'orange' : 'red';
+      return `
+        <div style="flex: 1 0 100px;">
+          <div style="font-size: 12px;">Q${i + 1}</div>
+          <div style="background: #ddd; height: 8px; border-radius: 4px; overflow: hidden;">
+            <div class="progress-bar" 
+                 data-width="${width}" 
+                 style="background: ${color};"></div>
+          </div>
+        </div>
+      `;
+    }).join('')}
+  </div>
+`;
 
-    const name = prompt('Enter your name:')?.trim() || 'Anonymous';
-    const { topic, difficulty } = currentSet[0] || {};
-    updateLeaderboard({ name, topic, difficulty, score: score.toFixed(1), ts: nowStr() });
+// Animate progress bars
+setTimeout(() => {
+  document.querySelectorAll('.progress-bar').forEach(el => {
+    const targetWidth = el.getAttribute('data-width');
+    el.style.width = `${targetWidth}%`;
+  });
+}, 50);
 
-    renderLeaderboard();
-    btn.innerText = 'Start Again';
+// Animate score count-up
+let start = 0;
+const end = score;
+const duration = 1000;
+const steps = 30;
+let step = 0;
+
+const interval = setInterval(() => {
+  step++;
+  const current = (start + (end - start) * (step / steps)).toFixed(1);
+  document.getElementById('animatedScore').textContent = current;
+  if (step >= steps) clearInterval(interval);
+}, duration / steps);
+
+const name = prompt('Enter your name:')?.trim() || 'Anonymous';
+const { topic, difficulty } = currentSet[0] || {};
+updateLeaderboard({ name, topic, difficulty, score: score.toFixed(1), ts: nowStr() });
+
+renderLeaderboard();
+btn.innerText = 'Start Again';
+
+    
+    
+    
+    
   } else {
     pickRandomQuestions();
     renderQuiz();
@@ -593,24 +657,12 @@ document.getElementById('submit').onclick = () => {
   }
 };
 
-        
-
-        
-
-    
-
-    
-    
-
-    document.getElementById('resetLeaderboard').onclick = () => {
+        document.getElementById('resetLeaderboard').onclick = () => {
       if (confirm('Clear leaderboard?')) {
         localStorage.removeItem(LEADER_KEY);
         renderLeaderboard();
       }
     };
   </script>
-	<footer>
-  <p>&copy; 2025 Bijush Academy. All rights reserved.</p>
-</footer>
 </body>
 </html>
