@@ -476,86 +476,131 @@ del { background: #ffebee; }
       });
     }
 
-    function evaluateQuiz() {
-      let score = 0;
-      currentSet.forEach((item, i) => {
-        const ans = document.getElementById(`ans${i}`).value.trim();
-        const fb = document.getElementById(`fb${i}`);
-        let res;
+    let breakdown = [];
 
-        if (item.answers.some(a => ans.toLowerCase() === a.toLowerCase())) {
-          score++; res = { score: 1, status: '✅ Exact!' };
-        } else {
-          const fz = fuzzySets[i].get(ans.toLowerCase());
-          if (fz && fz[0][0] >= 0.7) {
-            score += 0.5;
-            res = { score: 0.5, status: `🟠 Close (${fz[0][0].toFixed(2)})`, suggestion: item.answers[0] };
-          } else {
-            const diff = Diff.diffWords(ans, item.answers[0]);
-            res = { score: 0, status: '❌ Incorrect', diff };
-          }
-        }
+function evaluateQuiz() {
+  let score = 0;
+  breakdown = [];
 
-        fb.innerHTML = res.score === 1
-          ? `<span class="correct">${res.status}</span>`
-          : res.score === 0.5
-            ? `<span class="close">${res.status}</span><br>Suggestion: <strong>${res.suggestion}</strong>`
-            : `<span class="wrong">${res.status}</span><br>Correct: <strong>${item.answers[0]}</strong><br>` +
-              `<div>${res.diff.map(p =>
-                p.added ? `<ins>${p.value}</ins>` :
-                  p.removed ? `<del>${p.value}</del>` : p.value
-              ).join('')}</div>`;
-      });
-      return score;
-    }
+  currentSet.forEach((item, i) => {
+    const ans = document.getElementById(`ans${i}`).value.trim();
+    const fb = document.getElementById(`fb${i}`);
+    let res;
 
-    function updateLeaderboard(entry) {
-      const lb = JSON.parse(localStorage.getItem(LEADER_KEY) || '[]');
-      lb.push(entry);
-      lb.sort((a, b) => b.score - a.score);
-      localStorage.setItem(LEADER_KEY, JSON.stringify(lb.slice(0, 5)));
-    }
-
-    function renderLeaderboard() {
-      const lb = JSON.parse(localStorage.getItem(LEADER_KEY) || '[]');
-      if (!lb.length) {
-        document.getElementById('leaderboard').innerHTML = '<p>No scores yet.</p>';
-        return;
+    if (item.answers.some(a => ans.toLowerCase() === a.toLowerCase())) {
+      score++;
+      res = { score: 1, status: '✅ Exact!' };
+    } else {
+      const fz = fuzzySets[i].get(ans.toLowerCase());
+      if (fz && fz[0][0] >= 0.7) {
+        score += 0.5;
+        res = {
+          score: 0.5,
+          status: `🟠 Close (${fz[0][0].toFixed(2)})`,
+          suggestion: item.answers[0]
+        };
+      } else {
+        const diff = Diff.diffWords(ans, item.answers[0]);
+        res = { score: 0, status: '❌ Incorrect', diff };
       }
-      const rows = lb.map(e =>
-        `<tr><td>${e.name}</td><td>${e.topic}</td><td>${e.difficulty}</td><td>${e.score}</td><td>${e.ts}</td></tr>`
-      ).join('');
-      document.getElementById('leaderboard').innerHTML = `
-        <h2>🏆 Leaderboard</h2>
-        <table><tr><th>Name</th><th>Topic</th><th>Difficulty</th><th>Score</th><th>Time</th></tr>${rows}</table>`;
     }
 
-    function nowStr() {
-      return new Date().toLocaleString();
-    }
+    breakdown.push(`Q${i + 1}: ${res.score.toFixed(1)}`);
 
+    fb.innerHTML = res.score === 1
+      ? `<span class="correct">${res.status}</span>`
+      : res.score === 0.5
+        ? `<span class="close">${res.status}</span><br>Suggestion: <strong>${res.suggestion}</strong>`
+        : `<span class="wrong">${res.status}</span><br>Correct: <strong>${item.answers[0]}</strong><br>` +
+          `<div>${res.diff.map(p =>
+            p.added ? `<ins>${p.value}</ins>` :
+              p.removed ? `<del>${p.value}</del>` : p.value
+          ).join('')}</div>`;
+  });
+
+  return score;
+}
+
+function updateLeaderboard(entry) {
+  const lb = JSON.parse(localStorage.getItem(LEADER_KEY) || '[]');
+  lb.push(entry);
+  lb.sort((a, b) => b.score - a.score);
+  localStorage.setItem(LEADER_KEY, JSON.stringify(lb.slice(0, 5)));
+}
+
+function renderLeaderboard() {
+  const lb = JSON.parse(localStorage.getItem(LEADER_KEY) || '[]');
+  const leaderboardDiv = document.getElementById('leaderboard');
+
+  if (!lb.length) {
+    leaderboardDiv.innerHTML = '<p>No scores yet.</p>';
+    return;
+  }
+
+  const rows = lb.map(e =>
+    `<tr>
+      <td>${e.name}</td>
+      <td>${e.topic}</td>
+      <td>${e.difficulty}</td>
+      <td>${e.score}</td>
+      <td>${e.ts}</td>
+    </tr>`
+  ).join('');
+
+  leaderboardDiv.innerHTML = `
+    <h2>🏆 Leaderboard</h2>
+    <table border="1" cellpadding="5" style="border-collapse:collapse; background:#fff;">
+      <thead>
+        <tr>
+          <th>Name</th><th>Topic</th><th>Difficulty</th><th>Score</th><th>Time</th>
+        </tr>
+      </thead>
+      <tbody>${rows}</tbody>
+    </table>
+    <p class="mt-2"><strong>Breakdown:</strong> ${breakdown.join(' | ')}</p>
+  `;
+}
+
+function nowStr() {
+  return new Date().toLocaleString();
+}
+
+// === On Load Initialization ===
+pickRandomQuestions();
+renderQuiz();
+renderLeaderboard();
+
+document.getElementById('submit').onclick = () => {
+  const btn = document.getElementById('submit');
+
+  if (btn.innerText === 'Submit Answers') {
+    const score = evaluateQuiz();
+
+    document.getElementById('scoreBoard').innerHTML =
+      `<h2>Your Score: ${score.toFixed(1)} / ${currentSet.length}</h2>`;
+
+    const name = prompt('Enter your name:')?.trim() || 'Anonymous';
+    const { topic, difficulty } = currentSet[0] || {};
+    updateLeaderboard({ name, topic, difficulty, score: score.toFixed(1), ts: nowStr() });
+
+    renderLeaderboard();
+    btn.innerText = 'Start Again';
+  } else {
     pickRandomQuestions();
     renderQuiz();
-    renderLeaderboard();
+    document.getElementById('scoreBoard').innerHTML = '';
+    btn.innerText = 'Submit Answers';
+  }
+};
 
-    document.getElementById('submit').onclick = () => {
-      const btn = document.getElementById('submit');
-      if (btn.innerText === 'Submit Answers') {
-        const score = evaluateQuiz();
-        document.getElementById('scoreBoard').innerHTML =
-          `<h2>Your Score: ${score.toFixed(1)} / ${currentSet.length}</h2>`;
-        const name = prompt('Enter your name:')?.trim() || 'Anonymous';
-        const { topic, difficulty } = currentSet[0] || {};
-        updateLeaderboard({ name, topic, difficulty, score: score.toFixed(1), ts: nowStr() });
-        renderLeaderboard();
-        btn.innerText = 'Start Again';
-      } else {
-        pickRandomQuestions();
-        renderQuiz();
-        document.getElementById('scoreBoard').innerHTML = '';
-        btn.innerText = 'Submit Answers';
-      }
-    };
+        
+
+        
+
+    
+
+    
+    
 
     document.getElementById('resetLeaderboard').onclick = () => {
       if (confirm('Clear leaderboard?')) {
