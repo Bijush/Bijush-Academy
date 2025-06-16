@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Subjective vs Objective + Voice Change Rules</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <style>
+    * {
+    box-sizing: border-box;
+  }
+  body, html {
+    margin: 0; padding:0; height: 100%;
+    overflow-x: hidden;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    transition: background 1.5s ease;
+    color:blue;
+  }
+nav.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(0,0,0,0.6);
+    padding: 10px 20px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    backdrop-filter: blur(8px);
+  }
+  nav .logo {
+    font-weight: 700;
+    font-size: 1.8rem;
+    letter-spacing: 2px;
+    color: #fff;
+  }
+  nav ul.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+  }
+  nav ul.nav-links li a {
+    text-decoration: none;
+    color: #ddd;
+    font-weight: 600;
+    padding: 6px 10px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+  }
+  nav ul.nav-links li a:hover {
+    background-color: #3498db;
+    color: white;
+  }
+  /* Hamburger */
+  .hamburger {
+    display: none;
+    font-size: 2rem;
+    cursor: pointer;
+    color: #fff;
+  }
+
+  /* Responsive nav */
+  @media (max-width: 768px) {
+    nav ul.nav-links {
+      position: fixed;
+      top: 60px; right: 0;
+      background: rgba(0,0,0,0.85);
+      height: calc(100vh - 60px);
+      width: 200px;
+      flex-direction: column;
+      padding-top: 20px;
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+      gap: 15px;
+      z-index: 20;
+    }
+    nav ul.nav-links.open {
+      transform: translateX(0);
+    }
+    .hamburger {
+      display: block;
+    }
+  }
+
+  /* Back Button */
+  a.back-arrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin:5px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    text-decoration: none;
+    color: #fff;
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    padding: 10px 18px;
+    border-radius: 40px;
+    box-shadow: 0 4px 10px rgba(37,117,252,0.6);
+    transition: all 0.3s ease;
+  }
+  a.back-arrow:hover {
+    background: linear-gradient(135deg, #2575fc 0%, #6a11cb 100%);
+    box-shadow: 0 6px 15px rgba(106,17,203,0.8);
+    transform: scale(1.05);
+    color: #fff;
+  }
+
+  a.back-arrow::before {
+    content: "←";
+    font-size: 1.3rem;
+  }
+
+
+    /* Table Styles */
+    table {
+      width: 90%;
+      margin: 30px auto;
+      border-collapse: collapse;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      background: white;
+    }
+
+    caption {
+      font-size: 1.8em;
+      font-weight: bold;
+      padding: 15px;
+      color: #2c3e50;
+      background: #bbdefb;
+      border-bottom: 3px solid #64b5f6;
+    }
+
+    thead th {
+      background: linear-gradient(to right, #64b5f6, #81d4fa);
+      color: white;
+      font-size: 1.1em;
+      padding: 14px;
+    }
+
+    th, td {
+      padding: 12px 15px;
+      text-align: center;
+      border-bottom: 1px solid #eee;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f9fbe7;
+    }
+
+    tr:nth-child(odd) {
+      background-color: #fce4ec;
+    }
+
+    tr:hover {
+      background-color: #fff3e0;
+      transition: background-color 0.3s ease;
+    }
+
+    td[colspan="3"] {
+      background-color: #c8e6c9;
+      font-weight: bold;
+      color: #2e7d32;
+    }
+
+    small {
+      display: block;
+      font-size: 0.85em;
+      color: #f1f1f1;
+    }
+
+    /* Rule Section Styles */
+    h1 {
+      text-align: center;
+      color: #007bff;
+    }
+
+    .rule-section {
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      margin: 20px auto;
+      max-width: 750px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    }
+
+    .rule-header {
+      font-weight: bold;
+      font-size: 18px;
+      padding: 12px 16px;
+      background: #007bff;
+      color: white;
+      cursor: pointer;
+      border-radius: 10px 10px 0 0;
+    }
+
+    .rule-body {
+      display: none;
+      padding: 16px;
+      background: #fafafa;
+    }
+
+    .rule-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 10px 0;
+    }
+
+    .rule-body th, .rule-body td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: left;
+    }
+
+    .rule-body th {
+      background-color: #e9ecef;
+    }
+
+    p {
+      margin-top: 10px;
+    }
+
+    @media screen and (max-width: 768px) {
+      table, .rule-body table {
+        font-size: 14px;
+      }
+
+      caption {
+        font-size: 1.4em;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+<nav class="navbar" role="navigation" aria-label="Main Navigation">
+  <div class="logo">Bijush Academy</div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../about.html">About</a></li>
+    <li><a href="../contact.html">Contact</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger">&#9776;</div>
+</nav>
+ 
+<!-- Back Button -->
+<a href="list-grammar.html" class="back-arrow" id="backBtn">BACK</a>
+
+
+  <!-- SUBJECTIVE VS OBJECTIVE TABLE -->
+  <table>
+    <caption>Subjective vs Objective (Used in Voice Change)</caption>
+    <thead>
+      <tr>
+        <th>Subjective Case<br><small>(Used as Subject)</small></th>
+        <th>Objective Case<br><small>(Used as Object)</small></th>
+        <th>Type / Note</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>I</td><td>me</td><td>First person singular pronoun</td></tr>
+      <tr><td>you</td><td>you</td><td>Second person (same in both)</td></tr>
+      <tr><td>he</td><td>him</td><td>Third person masculine</td></tr>
+      <tr><td>she</td><td>her</td><td>Third person feminine</td></tr>
+      <tr><td>it</td><td>it</td><td>Neuter pronoun (same)</td></tr>
+      <tr><td>we</td><td>us</td><td>First person plural</td></tr>
+      <tr><td>they</td><td>them</td><td>Third person plural</td></tr>
+      <tr><td>Ram</td><td>Ram</td><td>Proper noun (same)</td></tr>
+      <tr><td>The teacher</td><td>The teacher</td><td>Common noun</td></tr>
+      <tr><td>Someone</td><td>someone</td><td>Indefinite pronoun</td></tr>
+      <tr><td>Nobody</td><td>nobody</td><td>Negative pronoun</td></tr>
+      <tr><td>Everybody</td><td>everybody</td><td>Indefinite pronoun</td></tr>
+      <tr><td>Who</td><td>whom</td><td>Interrogative pronoun</td></tr>
+      <tr><td>This</td><td>this</td><td>Demonstrative</td></tr>
+      <tr><td>That</td><td>that</td><td>Demonstrative</td></tr>
+      <tr><td>Someone's</td><td>someone’s</td><td>Possessive noun</td></tr>
+      <tr><td colspan="3">⏰ Time Expressions (Used in Passive)</td></tr>
+      <tr><td>today</td><td>today</td><td>Time expression</td></tr>
+      <tr><td>yesterday</td><td>yesterday</td><td>Time expression</td></tr>
+      <tr><td>now</td><td>now</td><td>Time expression</td></tr>
+      <tr><td>tomorrow</td><td>tomorrow</td><td>Time expression</td></tr>
+      <tr><td colspan="3">🏠 Place Expressions (Used in Passive)</td></tr>
+      <tr><td>at home</td><td>at home</td><td>Place expression</td></tr>
+      <tr><td>in the room</td><td>in the room</td><td>Place expression</td></tr>
+    </tbody>
+  </table>
+
+  <!-- VOICE CHANGE RULES -->
+  <h1>Voice Change – Full Rules</h1>
+
+  <div class="rule-section">
+    <div class="rule-header" onclick="toggle(this)">Simple Present</div>
+    <div class="rule-body">
+      <table>
+        <tr><th>Active</th><th>Passive</th></tr>
+        <tr><td>He writes a letter.</td><td>A letter is written by him.</td></tr>
+      </table>
+      <p><strong>Rule:</strong> S + V1 + O → O + is/am/are + V3 + (by + S)</p>
+    </div>
+  </div>
+
+  <div class="rule-section">
+    <div class="rule-header" onclick="toggle(this)">Present Continuous</div>
+    <div class="rule-body">
+      <table>
+        <tr><td>She is reading a book.</td><td>A book is being read by her.</td></tr>
+      </table>
+      <p><strong>Rule:</strong> S + is/am/are + V1+ing → O+ is/am/are + being + V3</p>
+    </div>
+  </div>
+
+  <div class="rule-section">
+    <div class="rule-header" onclick="toggle(this)">Simple Past</div>
+    <div class="rule-body">
+      <table>
+        <tr><td>They played cricket.</td><td>Cricket was played by them.</td></tr>
+      </table>
+      <p><strong>Rule:</strong> V2 → was/were + V3</p>
+    </div>
+  </div>
+
+  <div class="rule-section">
+    <div class="rule-header" onclick="toggle(this)">Present Perfect</div>
+    <div class="rule-body">
+      <table>
+        <tr><td>I have done my homework.</td><td>My homework has been done by me.</td></tr>
+      </table>
+      <p><strong>Rule:</strong> has/have + V3 → has/have + been + V3</p>
+    </div>
+  </div>
+
+  <div class="rule-section">
+    <div class="rule-header" onclick="toggle(this)">Modal Verbs</div>
+    <div class="rule-body">
+      <table>
+        <tr><td>You can open the door.</td><td>The door can be opened by you.</td></tr>
+      </table>
+      <p><strong>Rule:</strong> modal + V1 → modal + be + V3</p>
+    </div>
+  </div>
+
+  <div class="rule-section">
+    <div class="rule-header" onclick="toggle(this)">Imperative Sentences</div>
+    <div class="rule-body">
+      <table>
+        <tr><td>Close the door.</td><td>Let the door be closed.</td></tr>
+        <tr><td>Do not waste time.</td><td>Let time not be wasted.</td></tr>
+      </table>
+      <p><strong>Rule:</strong> Let + object + be + V3</p>
+    </div>
+  </div>
+
+  <div class="rule-section">
+    <div class="rule-header" onclick="toggle(this)">Interrogative (Yes/No)</div>
+    <div class="rule-body">
+      <table>
+        <tr><td>Did she sing a song?</td><td>Was a song sung by her?</td></tr>
+        <tr><td>Does he write letters?</td><td>Are letters written by him?</td></tr>
+      </table>
+      <p><strong>Rule:</strong> Do/Does/Did + S + V1 + O → Is/Are/Was/Were + O + V3 + (by + S)?</p>
+    </div>
+  </div>
+
+  <div class="rule-section">
+    <div class="rule-header" onclick="toggle(this)">Interrogative (WH-type)</div>
+    <div class="rule-body">
+      <table>
+        <tr><td>Who wrote this book?</td><td>By whom was this book written?</td></tr>
+        <tr><td>When did he complete the work?</td><td>When was the work completed by him?</td></tr>
+      </table>
+      <p><strong>Rule:</strong> WH-word + V → WH-word + be verb + V3 + (by + S)?</p>
+    </div>
+  </div>
+
+  <div class="rule-section">
+    <div class="rule-header" onclick="toggle(this)">Exclamatory Sentences</div>
+    <div class="rule-body">
+      <table>
+        <tr><td>What a beautiful painting she made!</td><td>What a beautiful painting was made by her!</td></tr>
+        <tr><td>How sweetly he sings!</td><td>How sweetly the song is sung by him!</td></tr>
+      </table>
+      <p><strong>Note:</strong> Keep the exclamatory expression intact, just change the voice of the main clause.</p>
+    </div>
+  </div>
+
+  <script> 
+
+document.getElementById('hamburger');
+  const navLinks = document.getElementById('navLinks');
+  hamburger.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+  });
+
+    function toggle(header) {
+      const body = header.nextElementSibling;
+      body.style.display = body.style.display === 'block' ? 'none' : 'block';
+    }
+  </script>
+<footer>
+  <p>&copy; 2025 Bijush Academy. All rights reserved.</p>
+</footer>
+</body>
+</html>
